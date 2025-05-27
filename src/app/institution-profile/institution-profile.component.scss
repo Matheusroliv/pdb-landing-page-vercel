@@ -1,0 +1,27 @@
+section#computer {
+  width: 599px;
+}
+
+.bg-light-gray {
+  background-color: #d9d9d966;
+}
+
+.bolsa {
+  margin-top: 5px;
+}
+
+.bolsa-estudo {
+  width: 98%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.borda-1 {
+  padding-right: 5px;
+}
+
+.borda-3 {
+  margin-right: 15px;
+}

@@ -1,0 +1,1550 @@
+<section class="toComputer">
+
+    <!--primeiro retângulo-->
+    <div class="bg-white position-relative">
+
+        <img src="./assets/imgs/detail-know-more1.svg" class="position-absolute detail-know-more1"
+            style="top: 20px; opacity: 0.7;">
+
+        <div class="container position-relative" style="z-index: 10;">
+
+            <p class="m-0 mark-text fw-500 f-size-30px py-4">Transforme seu futuro com educação</p>
+
+            <div class="d-flex gap-4">
+
+                <div class="d-flex width1">
+
+                    <div>
+
+                        <span class="fw-400 f-size-20px secondary-color">
+                            As bolsas de estudo são uma poderosa ferramenta para transformar vidas, proporcionando
+                            acesso
+                            a uma educação de qualidade e abrindo portas para inúmeras oportunidades. Em um cenário de
+                            desigualdade social e educacional no Brasil, as bolsas oferecem uma chance única de superar
+                            barreiras
+                            financeiras e acessar instituições de ensino particulares. Se você é um estudante em busca
+                            de melhores
+                            oportunidades acadêmicas e profissionais, as bolsas de estudo podem ser o caminho para
+                            alcançar seus
+                            sonhos. Encontre sua bolsa
+                        </span>
+
+                        <span class="fw-400 f-size-20px text-decoration-underline link-color cursor-pointer"
+                            [routerLink]="['/map']">aqui.</span>
+
+                    </div>
+
+                </div>
+
+                <div class="pt-2 width2">
+
+                    <img src="./assets/imgs/know-more1.svg">
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <div (click)="changeinformationBox1(0)" class="cursor-pointer">
+
+                    <!--information-box1 está fechado-->
+                    <div *ngIf="!informationBoxes[0]"
+                        class="height40px radius12px d-flex align-items-center justify-content-between px-3"
+                        style="background: #FEBB4E">
+
+                        <span class="fw-400 f-size-20px mark-text">Benefícios das Bolsas de Estudo</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" width="40px" height="38px">
+
+                    </div>
+
+                    <!--information-box1 está aberto-->
+                    <div *ngIf="informationBoxes[0]"
+                        class="radius12px position-relative d-flex align-items-center gap-3 pt-3"
+                        style="background: #FEBB4E; height: 354px;">
+
+                        <img src="./assets/imgs/detail-know-more2.svg" class="position-absolute"
+                            style="bottom: 0; left: 15px; opacity: 0.7;">
+
+                        <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                            style="top: 0">
+
+                            <span class="fw-700 f-size-20px mark-text">Benefícios das Bolsas de Estudo</span>
+                            <img src="./assets/icons/arrow-bottom-blue.svg" width="40px" height="38px"
+                                class="rotation-to-top">
+
+                        </div>
+
+                        <div class="box-inside ms-4 px-3" style="z-index: 10;">
+
+                            <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-18px mark-text">Acesso à educação
+                            </p>
+                            <p class="m-0 f-size-14px fw-400 text-justify primary-text">Permitem estudar em instituições
+                                particulares, cobrindo parcial ou totalmente mensalidades e custos, dando acesso a uma
+                                oportunidade que pode mudar sua vida.</p>
+
+                        </div>
+
+                        <div class="box-inside px-3" style="z-index: 10;">
+
+                            <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-18px mark-text">Inclusão e Redução
+                                de Desigualdades</p>
+                            <p class="m-0 f-size-14px fw-400 text-justify primary-text">Bolsas promovem acesso ao ensino
+                                particular para estudantes pobres, negros e indigenas, diminuindo desigualdades
+                                educacionais e ampliando oportunidades em vestibulares, mercado de trabalho e na vida
+                            </p>
+
+                        </div>
+
+                        <div class="box-inside px-3" style="z-index: 10;">
+
+                            <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-18px mark-text">Enriquecimento
+                                acadêmico</p>
+                            <p class="m-0 f-size-14px fw-400 text-justify primary-text">Proporcionam educação de
+                                qualidade em instituições renomadas, enriquecendo seu currículo e ampliando suas
+                                oportunidades profissionais.</p>
+
+                        </div>
+
+                        <div class="box-inside me-4 px-3" style="z-index: 10;">
+
+                            <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-18px mark-text">Networking</p>
+                            <p class="m-0 f-size-14px fw-400 text-justify primary-text">Oferecem acesso a redes valiosas
+                                de contatos, incluindo colegas, professores e ex-alunos, criando oportunidades de
+                                estágio, mentoria e parcerias profissionais para o sucesso na carreira</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div (click)="changeinformationBox1(1)" class="cursor-pointer" style="margin-top: 12px;">
+
+                    <!--information-box2 está fechado-->
+                    <div *ngIf="!informationBoxes[1]"
+                        class="height40px radius12px d-flex align-items-center justify-content-between px-3"
+                        style="background: #AFC441">
+
+                        <span class="fw-400 f-size-20px mark-text">Cuidados necessários</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" width="40px" height="38px">
+
+                    </div>
+
+                    <!--information-box2 está aberto-->
+                    <div *ngIf="informationBoxes[1]" class="radius12px position-relative gap-3 pt-3 information-box2"
+                        style="background: #AFC441;">
+
+                        <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                            style="top: 0">
+
+                            <span class="fw-700 f-size-20px mark-text">Cuidados necessários</span>
+                            <img src="./assets/icons/arrow-bottom-blue.svg" width="40px" height="38px"
+                                class="rotation-to-top">
+
+                        </div>
+
+                        <div class="d-flex w-100 ps-3 position-relative" style="margin-top: 40px;">
+
+                            <img src="./assets/imgs/detail-know-more3.svg" class="position-absolute"
+                                style="bottom: -81px; right: 99px;">
+
+                            <div class="position-relative" style="width: 66%; z-index: 10;">
+
+                                <ul class="mb-1" style="padding-left: 29px;">
+                                    <li class="f-size-20px mark-text fw-400">Ambiente Familiar:</li>
+                                </ul>
+
+                                <span class="fw-400 primary-text f-size-20px">É extremamente importante que o bolsista
+                                    tenha condições familiares e domiciliares de se concentrar nos estudos. Muitas vezes
+                                    a alta carga de estudo, a distância da escola e possíveis defasagens exigem que o
+                                    bolsista tenha dedicação máxima à seus estudos.</span>
+
+                                <ul class="mb-1 mt-2" style="padding-left: 29px;">
+                                    <li class="f-size-20px mark-text fw-400">Saúde Mental:</li>
+                                </ul>
+
+                                <span class="fw-400 primary-text f-size-20px">A jornada do bolsista é exaustiva, e
+                                    muitas vezes podem ter problemas de inclusão, aceitação e socialização, é
+                                    imprescindível que a família, comunidade e o próprio aluno acompanhem a saúde mental
+                                    do bolsista e busquem canais de suporte.</span>
+
+                                <ul class="mb-1 mt-2" style="padding-left: 29px;">
+                                    <li class="f-size-20px mark-text fw-400">Continue Sonhando:</li>
+                                </ul>
+
+                                <span class="fw-400 primary-text f-size-20px">O sonho é o grande motor do bolsista.
+                                    Muitas vezes não será fácil conviver com pessoas de uma realidade social tão
+                                    diferente, com acessos a bens e serviços elitizados. Mantenha-se firme, e lembre-se
+                                    de seus objetivos.</span>
+
+                                <ul class="mb-1 mt-2" style="padding-left: 29px;">
+                                    <li class="f-size-20px mark-text fw-400">Utilize o Portal:</li>
+                                </ul>
+
+                                <span class="fw-400 primary-text f-size-20px">Nenhum caso de preconceito, bullying ou
+                                    segregação são toleráveis, o Portal do Bolsista será sua plataforma de apoio e
+                                    suporte para garantir a melhor jornada possível. Faça uma denúncia através do
+                                    Portal.</span>
+
+                            </div>
+
+                            <div style="width: 34%; z-index: 10;">
+
+                                <div class="d-flex justify-content-center">
+
+                                    <img src="./assets/imgs/iphone-full.svg" width="194px" height="421px">
+
+                                </div>
+
+                                <!-- <div class="d-flex justify-content-center mt-4">
+
+                                    <div class="make-complaint d-flex justify-content-center align-items-center">
+
+                                        <span class="f-size-16px fw-600 white">Faça uma denúncia</span>
+
+                                    </div>
+
+                                </div> -->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div (click)="changeinformationBox1(2)" class="cursor-pointer" class="pb-5" style="margin-top: 12px;">
+
+                    <!--information-box3 está fechado-->
+                    <div *ngIf="!informationBoxes[2]"
+                        class="height40px radius12px d-flex align-items-center justify-content-between px-3 cursor-pointer"
+                        style="background: #F46F0BBF;">
+
+                        <span class="fw-400 f-size-20px mark-text">Como funcionam as Bolsas de Estudo?</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" width="40px" height="38px">
+
+                    </div>
+
+                    <!--information-box3 está aberto-->
+                    <div *ngIf="informationBoxes[2]"
+                        class="radius12px position-relative gap-3 pt-3 information-box3 cursor-pointer"
+                        style="background: #F46F0BBF;">
+
+                        <img src="./assets/imgs/detail-know-more4.svg" class="position-absolute"
+                            style="bottom: 30px; right: 30px; opacity: 0.7;">
+
+                        <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                            style="top: 0">
+
+                            <span class="fw-700 f-size-20px mark-text">Como funcionam as Bolsas de Estudo?</span>
+                            <img src="./assets/icons/arrow-bottom-blue.svg" width="40px" height="38px"
+                                class="rotation-to-top">
+
+                        </div>
+
+                        <div class="position-relative" style="z-index: 10;">
+
+                            <div class="px-3" style="margin-top: 40px;">
+
+                                <span class="fw-700 mark-text f-size-20px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-20px">Programas de bolsas: </span>
+                                <span class="fw-500 primary-text f-size-20px">No Brasil grande parte das bolsas de
+                                    estudos socioeconômicas são financiadas por políticas públicas de acesso a educação
+                                    como a CEBAS Educação e o ProUni. Além disso, há bolsas de livre provimento da
+                                    instituição, bolsas financiadas por programas como Ismarti e Somos Educação e,
+                                    pipipipopopó</span>
+
+                            </div>
+
+                            <div class="px-3 mt-2">
+
+                                <span class="fw-700 mark-text f-size-20px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-20px">Critérios de Seleção: </span>
+                                <span class="fw-500 primary-text f-size-20px">Cada programa de bolsa tem critérios
+                                    específicos, como necessidade financeira, desempenho acadêmico, talentos especiais,
+                                    entre outros. É importante verificar os requisitos de cada programa.</span>
+
+                            </div>
+
+                            <div class="px-3 mt-2">
+
+                                <span class="fw-700 mark-text f-size-20px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-20px">Processo de Aplicação: </span>
+                                <span class="fw-500 primary-text f-size-20px">Normalmente, o processo inclui o
+                                    preenchimento de formulários, redação de cartas de motivação e, em alguns casos,
+                                    entrevistas e provas. Prepare-se bem para cada etapa.</span>
+
+                            </div>
+
+                            <div class="px-3 mt-2">
+
+                                <span class="fw-700 mark-text f-size-20px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-20px">Renovação e Manutenção: </span>
+                                <span class="fw-500 primary-text f-size-20px">Algumas bolsas exigem que você participe
+                                    de atividades extracurriculares para continuar recebendo o benefício ou mantenha um
+                                    desempenho acadêmico satisfatório, igual ao exigido dos estudantes pagantes. Fique
+                                    atento às condições para manter sua bolsa.</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--segundo retângulo-->
+    <div class="bg-brand-primary position-relative" style="padding-top: 40px; padding-bottom: 66px;">
+
+        <img src="./assets/imgs/detail-know-more5.svg" class="position-absolute" style="top: 0; left: 0; opacity: 0.7;">
+        <img src="./assets/imgs/detail-know-more6.svg" class="position-absolute"
+            style="bottom: 0; right: 0; opacity: 0.7;">
+        <img src="./assets/imgs/detail-know-more7.svg" class="position-absolute"
+            style="bottom: 33%; right: 3%; opacity: 9;">
+
+        <div class="container">
+
+            <p class="fw-500 white-secundary f-size-30px m-0 position-relative" style="z-index: 10 !important;">Bolsas
+                CEBAS Educação </p>
+
+            <div style="margin-top: 44px;">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-20px support-gray">O que é a CEBAS Educação?</span>
+
+                </div>
+
+                <p class="pt-2 fw-400 f-size-20px white-secundary mb-0">A Certificação de Entidades Beneficentes de
+                    Assistência Social na Área de Educação (CEBAS Educação) é concedida a instituições de ensino que
+                    oferecem bolsas de estudos integrais ou parciais, promovendo a inclusão social.</p>
+
+            </div>
+
+            <div class="mt-5">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-20px support-gray">Como funciona?</span>
+
+                </div>
+
+                <p class="pt-2 fw-400 f-size-20px white-secundary mb-0">As instituições certificadas pela CEBAS Educação
+                    recebem isenções fiscais do Governo Federal e em contrapartida oferecem bolsas de estudo integrais
+                    ou parciais para estudantes de baixa renda, conforme determinado pela Lei Complementar 187/2021.</p>
+
+                <div class="d-flex justify-content-between explanation" style="margin-top: 34px;">
+
+                    <div class="bg-white box-each-explanation px-2" style="width: 160px; height: 180px;">
+
+                        <div class="d-flex justify-content-center pb-3" style="padding-top: 32px;">
+
+                            <img src="./assets/icons/government.svg">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+
+                            <span class="fw-400 f-size-16px mark-text text-center">Governo Federal</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-center" style="width: 110px; height: 180px;">
+
+                        <div>
+
+                            <img class="" src="./assets/imgs/arrow3.svg">
+                            <span class="white-secundary fw-400 f-size-16px position-relative"
+                                style="bottom: 30px;">Isenções fiscais</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white box-each-explanation px-2" style="width: 160px; height: 180px;">
+
+                        <div class="d-flex justify-content-center pb-3" style="padding-top: 32px;">
+
+                            <img src="./assets/icons/school.svg">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+
+                            <span class="fw-400 f-size-16px mark-text text-center">Instituições Certificadas</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-center" style="width: 110px; height: 180px;">
+
+                        <div class="text-center">
+
+                            <img class="" src="./assets/imgs/arrow3.svg">
+                            <span class="white-secundary fw-400 f-size-16px position-relative"
+                                style="bottom: 30px;">Bolsas de estudo</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white box-each-explanation px-2" style="width: 160px; height: 180px;">
+
+                        <div class="d-flex justify-content-center pb-3" style="padding-top: 32px;">
+
+                            <img src="./assets/icons/student.svg">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+
+                            <span class="fw-400 f-size-16px mark-text text-center">Estudantes de baixa renda</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-5 d-flex justify-content-between" style="padding-left: 10%; padding-right: 10%;">
+
+                    <div class="text-justify" style="width: 75%;">
+
+                        <span class="white-secundary fw-400 f-size-20px">Além das bolsas, a CEBAS pode incluir acesso a
+                            programas de apoio e permanência, atividades extracurriculares e serviços de mentoria,
+                            proporcionando uma experiência educacional completa e inclusiva. </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end position-relative" style="width: 25%; bottom: 16px;">
+
+                        <img src="./assets/icons/know-more.svg">
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 40px;">
+
+                    <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                        <span class="fw-700 f-size-20px support-gray">Requisitos</span>
+
+                    </div>
+
+                    <p class="mt-2 fw-400 white-secundary f-size-20px mb-0">Para se qualificar para uma Bolsa CEBAS
+                        Educação você deve comprovar necessidade socioeconômica pela renda da sua família:</p>
+
+                    <div class="mt-4 d-flex gap-5 justify-content-between">
+
+                        <div class="d-flex gap-3 position-relative" style="width: 50%;">
+
+                            <img src="./assets/icons/check.svg" width="48px" height="41px">
+                            <span class="fw-400 white-secundary f-size-20px position-relative"
+                                style="bottom: 9px;">Renda familiar per capita até um salário mínimo e meio por pessoa
+                                para se qualificar para bolsas integrais</span>
+
+                        </div>
+
+                        <div class="d-flex gap-3 position-relative" style="width: 50%;">
+
+                            <img src="./assets/icons/check.svg" width="48px" height="41px">
+                            <span class="fw-400 white-secundary f-size-20px position-relative"
+                                style="bottom: 9px;">Renda familiar per capita até três salários mínimos por pessoa para
+                                se qualificar para bolsas parciais</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="w-100 d-flex justify-content-center align-items-center mt-5">
+
+                    <div class="test d-flex justify-content-center align-items-center cursor-pointer">
+
+                        <span class="brand-primary fw-500 f-size-16px letter-spacing-10"
+                            [routerLink]="['/calculator']">Teste nossa calculadora</span>
+
+                    </div>
+
+                </div>
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3"
+                    style="margin-top: 70px;">
+
+                    <span class="fw-700 f-size-20px support-gray">Números da política</span>
+
+                </div>
+
+                <div class="d-flex position-relative" style="margin-top: 42px; gap: 90px; z-index: 10;">
+
+                    <div class="d-flex gap-5" style="width: 42%;">
+
+                        <div class="d-flex align-items-center" style="height: 100%;">
+
+                            <img src="./assets/icons/dinheiro.svg">
+
+                        </div>
+
+                        <div class="box-basic p-4 text-justify h-fit-content w-100 dates-box">
+
+                            <span class="primary-text f-size-20px fw-400">O Governo Federal investiu na CEBAS Educação
+                                cerca de </span>
+                            <span class="primary-text f-size-20px fw-700">45,1 bilhões</span>
+                            <span class="primary-text f-size-20px fw-400"> de reais nos últimos 6 anos, sendo mais de
+                            </span>
+                            <span class="primary-text f-size-20px fw-700">10 bilhões</span>
+                            <span class="primary-text f-size-20px fw-400"> em 2024</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex gap-5" style="width: 58%;">
+
+                        <div class="d-flex align-items-center" style="height: 100%;">
+
+                            <img src="./assets/icons/scholarship.svg">
+
+                        </div>
+
+                        <div class="box-basic p-4 text-justify h-fit-content w-100 dates-box text-justify">
+
+                            <span class="f-size-20px fw-400 primary-text">Esse valor corresponde a oferta de mais
+                                de</span>
+
+                            <div class="d-flex gap-4 margin-dates-box align-items-center">
+
+                                <span class="orange-color fw-700 f-size-38px">700 mil</span>
+                                <p class="m-0 primary-text fw-400 f-size-20px">bolsas de estudo socioeconômicas</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex mt-2" style="gap: 90px;">
+
+                    <div class="d-flex justify-content-end font-width">
+
+                        <div>
+
+                            <span class="fw-700 white-secundary f-size-20px">Fonte: </span>
+                            <span class="fw-400 white-secundary f-size-20px">DGT PLOA 2024</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end font-width2">
+
+                        <div>
+
+                            <span class="fw-700 white-secundary f-size-20px">Fonte: </span>
+                            <span class="fw-400 white-secundary f-size-20px">FONIF</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex mt-4" style="gap: 90px;">
+
+                    <div class="d-flex gap-5" style="width: 42%;">
+
+                        <div class="d-flex align-items-center" style="height: 100%;">
+
+                            <img src="./assets/icons/brasil.svg" width="72px" height="72px">
+
+                        </div>
+
+                        <div class="box-basic p-4 text-justify h-fit-content w-100 dates-box2">
+
+                            <span class="primary-text f-size-20px fw-400">Mais de </span>
+                            <span class="primary-text f-size-20px fw-700">16 mil</span>
+                            <span class="primary-text f-size-20px fw-400"> instituições privadas beneficiadas em todas
+                                as 27 unidades federativas, sendo </span>
+                            <span class="primary-text f-size-20px fw-700">4 mil </span>
+                            <span class="primary-text f-size-20px fw-400">matrizes e 12 mil filiais. Apenas 0,6% prestam
+                                contas regularmente</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex gap-5" style="width: 58%;">
+
+                        <div class="d-flex align-items-center" style="height: 100%;">
+
+                            <img src="./assets/icons/exclamacao.svg" width="91px" height="64px">
+
+                        </div>
+
+                        <div class="box-basic p-4 text-justify h-fit-content w-100 dates-box2 text-justify">
+
+                            <span class="f-size-20px fw-700 primary-text">92% </span>
+                            <span class="f-size-20px fw-400 primary-text">das vagas CEBAS apresentam </span>
+                            <span class="f-size-20px fw-700 primary-text">irregularidades:</span>
+
+                            <ul class="px-4 mt-2">
+
+                                <li class="primary-text f-size-20px fw-400">Bolsas disponibilizadas de forma
+                                    segregatória</li>
+                                <li class="primary-text f-size-20px fw-400">Vagas não ofertadas, ou preenchidas por
+                                    pessoas sem perfil socioeconômico adequado, incluindo empresários, proprietários de
+                                    aeronaves, embarcações e carros de luxo</li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex mt-3" style="gap: 90px;">
+
+                    <div class="d-flex justify-content-end font-width">
+
+                        <div>
+
+                            <span class="fw-700 white-secundary font-of-font">Fonte: </span>
+                            <span class="fw-400 white-secundary font-of-font">SisCEBAS + CNPJ.biz</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end font-width2">
+
+                        <div>
+
+                            <span class="fw-700 white-secundary font-of-font">Fonte: </span>
+                            <span class="fw-400 white-secundary font-of-font">Relatórios do TCU, CGU, CMAP</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="w-100 d-flex justify-content-center align-items-center" style="margin-top: 60px;">
+
+                    <div class="test d-flex justify-content-center align-items-center cursor-pointer">
+
+                        <span class="brand-primary fw-500 f-size-16px letter-spacing-10" (click)="downloadCebas()">Baixe o relatório CEBAS
+                            Educação</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bg-white position-relative pb-5" style="padding-top: 80px;">
+
+        <img src="./assets/imgs/detail-know-more8.svg" class="position-absolute" style="top: -210px; left: -32px;">
+
+        <div class="container">
+
+            <div class="d-flex justify-content-end">
+
+                <span class="fw-500 mark-text f-size-32px">Bolsas Prouni</span>
+
+            </div>
+
+            <div style="margin-top: 64px;">
+
+                <div class="d-flex gap-3">
+
+                    <img src="./assets/imgs/prouni1.svg">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">O que é o PROUNI?</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">O Programa Universidade para Todos (PROUNI)
+                            oferece bolsas de estudo integrais e parciais em instituições privadas de ensino superior,
+                            visando a inclusão social de estudantes brasileiros sem diploma de nível superior.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <img src="./assets/imgs/prouni2.svg">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">Como funciona?</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">As instituições participantes recebem
+                            isenções fiscais e, em troca, oferecem bolsas de estudo baseadas nos resultados do ENEM.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <img src="./assets/imgs/prouni3.svg">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">Requisitos</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">Para bolsas integrais, a renda familiar
+                            bruta mensal deve ser de até um salário mínimo e meio por pessoa; para bolsas parciais, até
+                            três salários mínimos por pessoa. Os candidatos devem ter no mínimo 450 pontos no ENEM e não
+                            zerar na redação. </p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <img src="./assets/imgs/prouni4.svg">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">Benefícios adicionais</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">Além das bolsas de estudo, o PROUNI pode
+                            oferecer acesso a programas de permanência, atividades extracurriculares e serviços de
+                            mentoria, garantindo um suporte educacional abrangente.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <img src="./assets/imgs/prouni5.svg">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3 mb-2">
+
+                            <span class="fw-700 f-size-20px support-gray">Números da política</span>
+
+                        </div>
+
+                        <span class="fw-400 f-size-20px support-gray">O PROUNI já beneficiou milhões de estudantes e
+                            continua ampliando o acesso ao ensino superior. Para saber mais sobre a política, clique
+                            aqui </span>
+                        <a href="https://acessounico.mec.gov.br/prouni/duvidas" target="_blank"
+                            class="fw-400 f-size-20px link-color text-decoration-underline">https://acessounico.mec.gov.br/prouni/duvidas</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mt-5 text-justify pb-4">
+
+                <span class="f-size-20px support-gray fw-400">As bolsas de estudo são uma oportunidade valiosa para
+                    transformar sua vida e alcançar seus objetivos acadêmicos e profissionais. Aproveite essa chance de
+                    acessar uma educação de qualidade e prepare-se para um futuro brilhante. Explore as opções de bolsas
+                    disponíveis e dê o primeiro passo rumo ao seu sucesso. Encontre sua bolsa </span>
+                <span class="f-size-20px link-color fw-400 text-decoration-underline cursor-pointer"
+                    [routerLink]="['/map']">aqui.</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="toCellphone" [class.noscroll]="openMenu">
+
+    <div class="d-flex justify-content-center no-show">
+
+        <div class="position-absolute" style="top: 30%">
+
+            <app-modal-download></app-modal-download>
+
+        </div>
+
+    </div>
+
+    <app-menu-mobile class="no-show"></app-menu-mobile>
+
+    <!--escurecem tela quando menu está aberto-->
+    <div *ngIf="openMenu" (click)="closeMenu(); changeModalDownloadApp(false)"
+        class="position-absolute menuIsOpen no-show" style="top:0px; left: 0px; z-index: 1000;">
+    </div>
+    <!--escurecem tela quando modal de download está aberto-->
+    <div (click)="changeModalDownloadApp(false)" *ngIf="openModalDownloadApp"
+        class="position-absolute modal-download-app w-100 no-show" style="top:0px; left: 0px; z-index: 1004;">
+    </div>
+
+    <!--primeiro retângulo-->
+    <div class="bg-white pb-5">
+
+        <div class="px-4 position-relative" style="z-index: 10;">
+
+            <p class="m-0 mark-text fw-500 f-size-22px pt-4 pb-3">Transforme seu futuro com educação</p>
+
+            <div>
+
+                <span class="fw-400 f-size-15px secondary-color">
+                    As bolsas de estudo são uma poderosa ferramenta para transformar vidas, proporcionando acesso a uma
+                    educação de qualidade e
+                    abrindo portas para inúmeras oportunidades. Em um cenário de desigualdade social e educacional no
+                    Brasil, as bolsas oferecem
+                    uma chance única de superar barreiras financeiras e acessar instituições de ensino particulares. Se
+                    você é um estudante em busca
+                    de melhores oportunidades acadêmicas e profissionais, as bolsas de estudo podem ser o caminho para
+                    alcançar seus sonhos. Encontre sua bolsa
+                </span>
+
+                <span class="fw-400 f-size-15px text-decoration-underline link-color cursor-pointer"
+                    [routerLink]="['/map']">aqui.</span>
+
+            </div>
+
+            <div class="w-100 d-flex justify-content-end position-relative" style="padding-top: 36px;">
+
+                <img src="./assets/imgs/know-more1.svg" class="position-relative" style="right: 40px; z-index: 10;"
+                    width="170px" height="102px">
+
+                <img src="./assets/imgs/detail-know-more1.svg" class="position-absolute detail-know-more1"
+                    style="top: 0; right: 0; opacity: 0.7;" width="137px" height="147px">
+
+            </div>
+
+            <div class="mt-4">
+
+                <div (click)="changeinformationBox1(0)" class="cursor-pointer">
+
+                    <div *ngIf="!informationBoxes[0]"
+                        class="height23px radius12px d-flex align-items-center justify-content-between px-3"
+                        style="background: #FEBB4E">
+
+                        <span class="fw-400 f-size-14px mark-text">Benefícios das Bolsas de Estudo</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" width="20px" height="20px">
+
+                    </div>
+
+                    <!--information-box1 está aberto-->
+                    <div *ngIf="informationBoxes[0]"
+                        class="radius12px position-relative d-flex align-items-center gap-3 py-open-box h-fit-content"
+                        style="background: #FEBB4E;">
+
+                        <img src="./assets/imgs/detail-know-more9.svg" width="326px" height="430px"
+                            class="position-absolute" style="top: 25%; left: 0px; opacity: 0.7;">
+
+                        <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                            style="top: 0">
+
+                            <span class="fw-700 f-size-14px mark-text">Benefícios das Bolsas de Estudo</span>
+                            <img src="./assets/icons/arrow-bottom-blue.svg" width="20px" height="20px"
+                                class="rotation-to-top">
+
+                        </div>
+
+                        <div class="w-100 d-flex justify-content-center position-relative" style="z-index: 11;">
+
+                            <div style="width: 72%;">
+
+                                <div class="box-inside px-3" style="z-index: 10;">
+
+                                    <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-16px mark-text">Acesso à
+                                        educação</p>
+                                    <p class="m-0 f-size-14px fw-400 text-justify primary-text">Permitem estudar em
+                                        instituições particulares, cobrindo parcial ou totalmente mensalidades e custos,
+                                        dando acesso a uma oportunidade que pode mudar sua vida.</p>
+
+                                </div>
+
+                                <div class="box-inside px-3" style="z-index: 10; margin-top: 32px;">
+
+                                    <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-16px mark-text">Inclusão e
+                                        Redução de Desigualdades</p>
+                                    <p class="m-0 f-size-14px fw-400 text-justify primary-text">Bolsas promovem acesso
+                                        ao ensino particular para estudantes pobres, negros e indigenas, diminuindo
+                                        desigualdades educacionais e ampliando oportunidades em vestibulares, mercado de
+                                        trabalho e na vida</p>
+
+                                </div>
+
+                                <div class="box-inside px-3" style="z-index: 10; margin-top: 32px;">
+
+                                    <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-18px mark-text">
+                                        Enriquecimento acadêmico</p>
+                                    <p class="m-0 f-size-14px fw-400 text-justify primary-text">Proporcionam educação de
+                                        qualidade em instituições renomadas, enriquecendo seu currículo e ampliando suas
+                                        oportunidades profissionais.</p>
+
+                                </div>
+
+                                <div class="box-inside me-4 px-3" style="z-index: 10; margin-top: 32px;">
+
+                                    <p class="m-0 w-100 text-center pt-3 pb-2 fw-400 f-size-18px mark-text">Networking
+                                    </p>
+                                    <p class="m-0 f-size-14px fw-400 text-justify primary-text">Oferecem acesso a redes
+                                        valiosas de contatos, incluindo colegas, professores e ex-alunos, criando
+                                        oportunidades de estágio, mentoria e parcerias profissionais para o sucesso na
+                                        carreira</p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div (click)="changeinformationBox1(1)" class="cursor-pointer mt-2">
+
+                    <div *ngIf="!informationBoxes[1]"
+                        class="height23px radius12px d-flex align-items-center justify-content-between px-3"
+                        style="background: #AFC441">
+
+                        <span class="fw-400 f-size-14px mark-text">Cuidados necessários</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" width="20px" height="20px">
+
+                    </div>
+
+                    <div *ngIf="informationBoxes[1]" class="radius12px position-relative gap-3 py-open-box"
+                        style="background: #AFC441;">
+
+                        <img src="./assets/imgs/detail-know-more3.svg" width="260px" height="260px"
+                            class="position-absolute" style="bottom: 50px; right: 0;">
+
+                        <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                            style="top: 0">
+
+                            <span class="fw-700 f-size-14px mark-text">Cuidados necessários</span>
+                            <img src="./assets/icons/arrow-bottom-blue.svg" width="20px" height="20px"
+                                class="rotation-to-top">
+
+                        </div>
+
+                        <div class="px-3 position-relative" style="z-index: 10;">
+
+                            <ul class="mb-1" style="padding-left: 20px;">
+                                <li class="f-size-14px mark-text fw-400">Ambiente Familiar:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-14px">É extremamente importante que o bolsista tenha
+                                condições familiares e domiciliares de se concentrar nos estudos. Muitas vezes a alta
+                                carga de estudo, a distância da escola e possíveis defasagens exigem que o bolsista
+                                tenha dedicação máxima à seus estudos.</span>
+
+                            <ul class="mb-1 mt-2" style="padding-left: 20px;">
+                                <li class="f-size-14px mark-text fw-400">Saúde Mental:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-14px">A jornada do bolsista é exaustiva, e muitas
+                                vezes podem ter problemas de inclusão, aceitação e socialização, é imprescindível que a
+                                família, comunidade e o próprio aluno acompanhem a saúde mental do bolsista e busquem
+                                canais de suporte.</span>
+
+                            <ul class="mb-1 mt-2" style="padding-left: 20px;">
+                                <li class="f-size-14px mark-text fw-400">Continue Sonhando:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-14px">O sonho é o grande motor do bolsista. Muitas
+                                vezes não será fácil conviver com pessoas de uma realidade social tão diferente, com
+                                acessos a bens e serviços elitizados. Mantenha-se firme, e lembre-se de seus
+                                objetivos.</span>
+
+                            <ul class="mb-1 mt-2" style="padding-left: 20px;">
+                                <li class="f-size-14px mark-text fw-400">Utilize o Portal:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-14px">Nenhum caso de preconceito, bullying ou
+                                segregação são toleráveis, o Portal do Bolsista será sua plataforma de apoio e suporte
+                                para garantir a melhor jornada possível. Faça uma denúncia através do Portal.</span>
+
+                        </div>
+
+                        <!-- <div class="d-flex justify-content-center mt-4 position-relative" style="z-index: 10;">
+
+                            <div class="make-complaint d-flex justify-content-center align-items-center border-brand px-5">
+
+                                <span class="f-size-15px fw-600 white">Faça uma denúncia</span>
+
+                            </div>
+
+                        </div> -->
+
+                    </div>
+
+                </div>
+
+                <div (click)="changeinformationBox1(2)" class="cursor-pointer mt-2">
+
+                    <div *ngIf="!informationBoxes[2]"
+                        class="height23px radius12px d-flex align-items-center justify-content-between px-3"
+                        style="background: #F46F0BBF">
+
+                        <span class="fw-400 f-size-14px mark-text">Como funcionam as Bolsas de Estudo?</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" width="20px" height="20px">
+
+                    </div>
+
+                    <div *ngIf="informationBoxes[2]"
+                        class="radius12px position-relative gap-3 py-open-box cursor-pointer"
+                        style="background: #F46F0BBF;">
+
+                        <img src="./assets/imgs/detail-know-more4.svg" class="position-absolute" width="250px"
+                            height="250px" style="bottom: 30px; right: 30px; opacity: 0.7;">
+
+                        <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                            style="top: 0">
+
+                            <span class="fw-700 f-size-14px mark-text">Como funcionam as Bolsas de Estudo?</span>
+                            <img src="./assets/icons/arrow-bottom-blue.svg" width="20px" height="20px"
+                                class="rotation-to-top">
+
+                        </div>
+
+                        <div class="position-relative" style="z-index: 10;">
+
+                            <div class="px-3">
+
+                                <span class="fw-700 mark-text f-size-14px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-14px">Programas de bolsas: </span>
+                                <span class="fw-500 primary-text f-size-14px">No Brasil grande parte das bolsas de
+                                    estudos socioeconômicas são financiadas por políticas públicas de acesso a educação
+                                    como a CEBAS Educação e o ProUni. Além disso, há bolsas de livre provimento da
+                                    instituição, bolsas financiadas por programas como Ismarti e Somos Educação e,
+                                    pipipipopopó</span>
+
+                            </div>
+
+                            <div class="px-3 mt-2">
+
+                                <span class="fw-700 mark-text f-size-14px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-14px">Critérios de Seleção: </span>
+                                <span class="fw-500 primary-text f-size-14px">Cada programa de bolsa tem critérios
+                                    específicos, como necessidade financeira, desempenho acadêmico, talentos especiais,
+                                    entre outros. É importante verificar os requisitos de cada programa.</span>
+
+                            </div>
+
+                            <div class="px-3 mt-2">
+
+                                <span class="fw-700 mark-text f-size-14px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-14px">Processo de Aplicação: </span>
+                                <span class="fw-500 primary-text f-size-14px">Normalmente, o processo inclui o
+                                    preenchimento de formulários, redação de cartas de motivação e, em alguns casos,
+                                    entrevistas e provas. Prepare-se bem para cada etapa.</span>
+
+                            </div>
+
+                            <div class="px-3 mt-2">
+
+                                <span class="fw-700 mark-text f-size-14px" style="padding-right: 10px;">•</span>
+                                <span class="fw-700 mark-text f-size-14px">Renovação e Manutenção: </span>
+                                <span class="fw-500 primary-text f-size-14px">Algumas bolsas exigem que você participe
+                                    de atividades extracurriculares para continuar recebendo o benefício ou mantenha um
+                                    desempenho acadêmico satisfatório, igual ao exigido dos estudantes pagantes. Fique
+                                    atento às condições para manter sua bolsa.</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--segundo retângulo-->
+    <div class="bg-brand-primary position-relative py-5">
+
+        <img src="./assets/imgs/detail-know-more10.svg" class="position-absolute" style="left: 0; top: 0; ">
+        <img src="./assets/imgs/detail-know-more11.svg" class="position-absolute" style="right: 0; bottom: 0; ">
+
+        <div class="px-4">
+
+            <span class="white f-size-20px fw-400">Bolsas CEBAS educação</span>
+
+            <div class="text-justify" style="margin-top: 32px;">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-14px support-gray">O que é a CEBAS Educação?</span>
+
+                </div>
+
+                <p class="pt-3 fw-400 f-size-14px white-secundary mb-0">A Certificação de Entidades Beneficentes de
+                    Assistência Social na Área de Educação (CEBAS Educação) é concedida a instituições de ensino que
+                    oferecem bolsas de estudos integrais ou parciais, promovendo a inclusão social.</p>
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3"
+                    style="margin-top: 32px;">
+
+                    <span class="fw-700 f-size-14px support-gray">Como funciona?</span>
+
+                </div>
+
+                <p class="pt-3 fw-400 f-size-14px white-secundary mb-0">As instituições certificadas pela CEBAS Educação
+                    recebem isenções fiscais do Governo Federal e em contrapartida oferecem bolsas de estudo integrais
+                    ou parciais para estudantes de baixa renda, conforme determinado pela Lei Complementar 187/2021.</p>
+
+                <div class="w-100 d-flex justify-content-center" style="margin-top: 32px; gap: 158px;">
+
+                    <div class="bg-white box-each-explanation px-2 width-explication">
+
+                        <div class="d-flex justify-content-center pb-2" style="padding-top: 18px;">
+
+                            <img src="./assets/icons/government.svg" width="56px" height="56px">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+
+                            <span class="fw-400 f-size-14px mark-text text-center">Governo Federal</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white box-each-explanation px-2 width-explication">
+
+                        <div class="d-flex justify-content-center pb-2" style="padding-top: 18px;">
+
+                            <img src="./assets/icons/student.svg" width="56px" height="56px">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+
+                            <span class="fw-400 f-size-14px mark-text text-center">Estudantes de baixa renda</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="w-100 d-flex justify-content-center gap-2" style="margin-top: 40px;">
+
+                    <div class="position-relative explanation2" style="bottom: 8px; left: 6 px;">
+
+                        <div class="d-flex justify-content-center align-items-center">
+
+                            <img src="./assets/imgs/arrow1.svg" width="80px" height="80px">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center pt-2 text-center">
+
+                            <p class="white-secundary f-size-14px fw-400">Isenções fiscais</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white box-each-explanation px-2 width-explication">
+
+                        <div class="d-flex justify-content-center pb-2" style="padding-top: 18px;">
+
+                            <img src="./assets/icons/school.svg" width="56px" height="56px">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+
+                            <span class="fw-400 f-size-14px mark-text text-center">Instituições certificadas</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="position-relative explanation2" style="bottom: 8px;">
+
+                        <div class="d-flex justify-content-center align-items-center">
+
+                            <img src="./assets/imgs/arrow2.svg" width="80px" height="80px">
+
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center pt-2 text-center position-relative"
+                            style="right: 4px;">
+
+                            <span class="white-secundary f-size-14px fw-400 text-center">Bolsas de estudo</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mt-3 d-flex justify-content-center gap-3">
+
+                <p class="f-size-14px fw-400 white-secundary" style="width: 70%;">Além das bolsas, a CEBAS pode incluir
+                    acesso a programas de apoio e permanência, atividades extracurriculares e serviços de mentoria,
+                    proporcionando uma experiência educacional completa e inclusiva. </p>
+                <img src="./assets/icons/know-more.svg" class="position-know-more" width="79px" height="79px">
+
+            </div>
+
+            <div class="box-subtitle d-flex justify-content-center align-items-center px-3 mt-3">
+
+                <span class="fw-700 f-size-14px support-gray">Requisitos</span>
+
+            </div>
+
+            <div class="text-justify mt-3">
+
+                <p class="m-0 fw-400 white-secundary f-size-14px">Para se qualificar para uma Bolsa CEBAS Educação você
+                    deve comprovar necessidade socioeconômica pela renda da sua família:</p>
+
+                <div class="d-flex gap-3 h-fit-content mt-3">
+
+                    <img src="./assets/icons/check.svg" width="36px" height="30px"
+                        class="position-relative position-check">
+                    <span class="fw-400 white-secundary f-size-14px position-check-text">Renda familiar per capita até
+                        um salário mínimo e meio por pessoa para se qualificar para bolsas integrais</span>
+
+                </div>
+
+                <div class="d-flex gap-3 h-fit-content mt-3">
+
+                    <img src="./assets/icons/check.svg" width="36px" height="30px"
+                        class="position-relative position-check2">
+                    <span class="fw-400 white-secundary f-size-14px position-check2-text">Renda familiar per capita até
+                        três salários mínimos por pessoa para se qualificar para bolsas parciais</span>
+
+                </div>
+
+            </div>
+
+            <div class="w-100 d-flex justify-content-center align-items-center mt-4">
+
+                <div class="test d-flex justify-content-center align-items-center cursor-pointer">
+
+                    <span class="brand-primary fw-500 f-size-16px letter-spacing-10"
+                            [routerLink]="['/calculator']">Teste nossa calculadora</span>
+                </div>
+
+            </div>
+
+            <div class="box-subtitle d-flex justify-content-center align-items-center px-3" style="margin-top: 60px;">
+
+                <span class="fw-700 f-size-14px support-gray">Números da política</span>
+
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-3 position-relative">
+
+                <img src="./assets/imgs/detail-know-more7.svg" width="103px" height="112px" class="position-absolute"
+                    style="right: 7%; top: -90px; ">
+
+                <div class="d-flex align-items-center money">
+
+                    <img src="./assets/icons/dinheiro.svg" width="48px" height="41px">
+
+                </div>
+
+                <div class="position-relative" style="z-index: 10;">
+
+                    <div class="box-basic text-justify w-100 money d-flex align-items-center" style="padding: 12px;">
+
+                        <div>
+
+                            <span class="primary-text f-size-14px fw-400">O Governo Federal investiu na CEBAS Educação
+                                cerca de </span>
+                            <span class="primary-text f-size-14px fw-700">45,1 bilhões</span>
+                            <span class="primary-text f-size-14px fw-400"> de reais nos últimos 6 anos, sendo mais de
+                            </span>
+                            <span class="primary-text f-size-14px fw-700">10 bilhões</span>
+                            <span class="primary-text f-size-14px fw-400"> em 2024</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end pre mt-2">
+
+                        <span class="fw-700 white-secundary f-size-14px">Fonte: </span>
+                        <span class="fw-400 white-secundary f-size-14px">DGT PLOA 2024</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+
+                <div class="d-flex align-items-center money">
+
+                    <img src="./assets/icons/scholarship.svg" width="48px" height="41px">
+
+                </div>
+
+                <div class="">
+
+                    <div class="box-basic w-100 money hidden-y" style="padding: 12px;">
+
+                        <div class="text-justify d-flex align-items-center" style="height: 100%;">
+
+                            <div>
+
+                                <span class="f-size-14px fw-400 primary-text">Esse valor corresponde a oferta de mais de
+                                </span>
+                                <span class="orange-color fw-700 f-size-28px">700 mil </span>
+                                <span class="f-size-14px fw-400 primary-text">bolsas de estudo socioeconômicas</span>
+
+                            </div>
+
+                        </div>
+                        <span class="f-size-14px fw-400 white">aaaaaaaaaaaaaaaaaaaaaaaaa</span>
+                        <!--importante para formatação do texto-->
+
+                    </div>
+
+                    <div class="d-flex justify-content-end pre mt-2">
+
+                        <span class="fw-700 white-secundary f-size-14px">Fonte: </span>
+                        <span class="fw-400 white-secundary f-size-14px">FONIF</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+
+                <div class="d-flex align-items-center money">
+
+                    <img src="./assets/icons/brasil.svg" width="48px" height="41px">
+
+                </div>
+
+                <div>
+
+                    <div class="box-basic text-justify w-100 money d-flex align-items-center" style="padding: 12px;">
+
+                        <div>
+
+                            <span class="primary-text f-size-14px fw-400">Mais de </span>
+                            <span class="primary-text f-size-14px fw-700">16 mil</span>
+                            <span class="primary-text f-size-14px fw-400"> instituições privadas beneficiadas em todas
+                                as 27 unidades federativas, sendo </span>
+                            <span class="primary-text f-size-14px fw-700">4 mil </span>
+                            <span class="primary-text f-size-14px fw-400">matrizes e 12 mil filiais. Apenas 0,6% prestam
+                                contas regularmente</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end pre mt-2">
+
+                        <span class="fw-700 white-secundary f-size-14px">Fonte: </span>
+                        <span class="fw-400 white-secundary f-size-14px">DGT PLOA 2024</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+
+                <div class="d-flex align-items-center exclamacao-box">
+
+                    <img src="./assets/icons/exclamacao.svg" width="48px" height="41px">
+
+                </div>
+
+                <div>
+
+                    <div class="box-basic text-justify w-100 exclamacao-box d-flex align-items-center"
+                        style="padding: 12px;">
+
+                        <div>
+
+                            <span class="f-size-14px fw-700 primary-text">92% </span>
+                            <span class="f-size-14px fw-400 primary-text">das vagas CEBAS apresentam </span>
+                            <span class="f-size-14px fw-700 primary-text">irregularidades:</span>
+
+                            <ul class="px-4 mt-1 mb-0">
+
+                                <li class="primary-text f-size-14px fw-400">Bolsas disponibilizadas de forma
+                                    segregatória</li>
+                                <li class="primary-text f-size-14px fw-400">Vagas não ofertadas, ou preenchidas por
+                                    pessoas sem perfil socioeconômico adequado, incluindo empresários, proprietários de
+                                    aeronaves, embarcações e carros de luxo</li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end pre mt-2">
+
+                        <span class="fw-700 white-secundary f-size-14px">Fonte: </span>
+                        <span class="fw-400 white-secundary f-size-14px">Relatórios do TCU, CGU e CMAP</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="w-100 d-flex justify-content-center align-items-center mt-4">
+
+                <div class="test d-flex justify-content-center align-items-center cursor-pointer text-center">
+
+                    <span class="brand-primary fw-500 f-size-15px letter-spacing-10">Baixe o relatório CEBAS educação
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--terceiro retângulo-->
+    <div class="bg-white position-relative py-5">
+
+        <img src="./assets/imgs/detail-know-more8.svg" width="122px" height="137px" class="position-absolute"
+            style="top: -58px; left: -20px">
+
+        <div class="px-4">
+
+            <div class="d-flex justify-content-end mb-4">
+
+                <span class="fw-400 mark-text f-size-20px">Bolsas Prouni</span>
+
+            </div>
+
+            <div class="text-justify">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-14px support-gray">O que é o PROUNI?</span>
+
+                </div>
+
+                <p class="fw-400 f-size-14px support-gray pt-3 m-0">O Programa Universidade para Todos (PROUNI) oferece
+                    bolsas de estudo integrais e parciais em instituições privadas de ensino superior, visando a
+                    inclusão social de estudantes brasileiros sem diploma de nível superior.</p>
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3"
+                    style="margin-top: 40px;">
+
+                    <span class="fw-700 f-size-14px support-gray">Como funciona?</span>
+
+                </div>
+
+                <p class="fw-400 f-size-14px support-gray pt-3 m-0">As instituições participantes recebem isenções
+                    fiscais e, em troca, oferecem bolsas de estudo baseadas nos resultados do ENEM.</p>
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3"
+                    style="margin-top: 40px;">
+
+                    <span class="fw-700 f-size-14px support-gray">Requisitos</span>
+
+                </div>
+
+                <p class="fw-400 f-size-14px support-gray pt-3 m-0">Para bolsas integrais, a renda familiar bruta mensal
+                    deve ser de até um salário mínimo e meio por pessoa; para bolsas parciais, até três salários mínimos
+                    por pessoa. Os candidatos devem ter no mínimo 450 pontos no ENEM e não zerar na redação. </p>
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3"
+                    style="margin-top: 40px;">
+
+                    <span class="fw-700 f-size-14px support-gray">Benefícios adicionais</span>
+
+                </div>
+
+                <p class="fw-400 f-size-14px support-gray pt-3 m-0">Além das bolsas de estudo, o PROUNI pode oferecer
+                    acesso a programas de permanência, atividades extracurriculares e serviços de mentoria, garantindo
+                    um suporte educacional abrangente.</p>
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3"
+                    style="margin-top: 40px;">
+
+                    <span class="fw-700 f-size-14px support-gray">Números da política</span>
+
+                </div>
+
+                <p class="fw-400 f-size-14px support-gray mb-0 pt-3">O PROUNI já beneficiou milhões de estudantes e
+                    continua ampliando o acesso ao ensino superior. Para saber mais sobre a política, clique aqui </p>
+                <a href="https://acessounico.mec.gov.br/prouni/duvidas" target="_blank"
+                    class="fw-400 f-size-14px support-gray text-decoration-underline">https://acessounico.mec.gov.br/prouni/duvidas</a>
+
+                <div style="margin-top: 40px;">
+
+                    <span class="fw-400 f-size-14px support-gray pt-3 mb-0">As bolsas de estudo são uma oportunidade
+                        valiosa para transformar sua vida e alcançar seus objetivos acadêmicos e profissionais.
+                        Aproveite essa chance de acessar uma educação de qualidade e prepare-se para um futuro
+                        brilhante. Explore as opções de bolsas disponíveis e dê o primeiro passo rumo ao seu sucesso.
+                        Encontre sua bolsa </span>
+                    <span class="fw-400 f-size-15px text-decoration-underline link-color cursor-pointer"
+                        [routerLink]="['/map']">aqui.</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,37 @@
+.menu {
+    top: 0px;
+    left: 49.5%;
+    height: 100vh;
+    width: 50.5%;
+    background-image: url('../../../public/assets/imgs/bg-menu-cellphone.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.install-app {
+    border-radius: 12px;
+    background-color: #afc441;
+    box-shadow: 1px 1px 4px 1px #33333329;
+}
+
+.modal-download-app {
+    opacity: 0.5;
+    background-color: #888888;
+    height: 100vh;
+}
+
+.rotation-to-top {
+    transform: rotate(180deg);
+    padding-top: 0px !important;
+    padding-bottom: 7px !important;
+}
+
+.select-saiba-mais {
+    background-color: #5893A9;
+    height: 42.5px;
+    width: 86px;
+}
+
+.position-arrow-bottom {
+    right: 0px;
+}

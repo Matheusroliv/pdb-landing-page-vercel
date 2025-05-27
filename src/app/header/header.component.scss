@@ -1,0 +1,47 @@
+.header-height {
+    height: 120px;
+}
+
+.boxes-home {
+    width: 140px;
+}
+
+.boxe-about-home {
+    width: 140px;
+}
+
+.btn-send-width {
+    width: 150px;
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .boxes-home {
+        width: 90px;
+    }
+    .boxe-about-home {
+        width: 110px;
+    }
+    .btn-send-width {
+        width: 130px;
+    }
+    .goInto {
+        margin-left: 24px !important;
+    }
+    .position-arrow-bottom {
+        right: -16px !important;
+    }
+}
+
+.header-shadow {
+    box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.select-saiba-mais {
+    background-color: #F8F8F8;
+    height: 42.5px;
+    width: 77px;
+}
+
+.position-arrow-bottom {
+    right: 0px;
+}

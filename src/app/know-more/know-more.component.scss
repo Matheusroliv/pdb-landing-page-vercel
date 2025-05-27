@@ -1,0 +1,330 @@
+.width1 {
+    width: 65%;
+}
+
+.width2 {
+    width: 35%;
+}
+
+.detail-know-more1 {
+    right: 3%;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .width1 {
+        width: 70%;
+    }
+    
+    .width2 {
+        width: 30%;
+    }
+
+    .information-box2 {
+        height: 700px !important;
+    }
+
+    .dates-box {
+        height: 196px !important;
+    }
+
+    .margin-dates-box {
+        margin-top: 24px !important;
+    }
+
+    .dates-box2 {
+        height: 328px !important;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .width1 {
+        width: 75%;
+    }
+    
+    .width2 {
+        width: 25%;
+    }
+
+    .detail-know-more1 {
+        right: 5%;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .box-inside {
+        height: 264px !important;
+    }
+
+    .information-box2 {
+        height: 750px !important;
+    }
+
+    .make-complaint {
+        width: 240px !important;
+    }
+
+    .information-box3 {
+        height: 490px !important;
+    }
+
+    .dates-box {
+        height: 256px !important;
+    }
+
+    .margin-dates-box {
+        margin-top: 40px !important;
+    }
+
+    .font-width {
+        width: 38% !important;
+    }
+
+    .font-width2 {
+        width: 53% !important;
+    }
+
+    .dates-box2 {
+        height: 390px !important;
+    }
+
+    .font-of-font {
+        font-size: 18.5px !important;
+    }
+}
+
+.rotation-to-top {
+    transform: rotate(180deg);
+}
+
+.box-inside {
+    background-color: white;
+    height: 242px;
+    width: 25%;
+    border-radius: 28px;
+    box-shadow: 4px 4px 4px 0px #00000040;
+}
+
+.information-box2 {
+    height: 636px;
+}
+
+.information-box3 {
+    height: 410px;
+}
+
+.make-complaint {
+    background-color: #ffbb4f;
+    width: 300px;
+    height: 48px;
+    border-radius: 12px;
+    letter-spacing: 0.1em;
+}
+
+.box-subtitle {
+    background-color: #ffbb4f;
+    width: fit-content;
+    height: 38px;
+    border-radius: 19px;
+}
+
+.explanation {
+    padding-left: 10%;
+    padding-right: 10%;
+    gap: 60px;
+}
+
+.box-each-explanation {
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 12px;
+}
+
+.test {
+    border-radius: 12px;
+    background-color: white;
+    width: 330px;
+    height: 48px;
+}
+
+.box-inside {
+    background-color: white;
+    height: 242px;
+    width: 25%;
+    border-radius: 28px;
+    box-shadow: 4px 4px 4px 0px #00000040;
+}
+
+.box-basic {
+    background-color: white;
+    border-radius: 28px;
+    box-shadow: 4px 4px 4px 0px #00000040;
+}
+
+.dates-box {
+    height: 168px;
+}
+
+.orange-color {
+    color: #ffbb4f;
+    white-space: nowrap;
+}
+
+.margin-dates-box {
+    margin-top: 16px;
+}
+
+.font-width {
+    width: 39%;
+}
+
+.font-width2 {
+    width: 54%;
+}
+
+.dates-box2 {
+    height: 240px;
+}
+
+.font-of-font {
+    font-size: 20px;
+}
+
+@media screen and (max-width: 991px) {
+    .box-inside {
+        height: fit-content;
+        width: 100% !important;
+        padding-bottom: 32px;
+    }
+
+    .make-complaint {
+        width: unset !important;
+    }
+
+    .box-subtitle {
+        height: 24px !important;
+    }
+
+    .test {
+        width: 80% !important;
+        max-width: 560px;
+    }
+}
+
+@media screen and (max-width: 506px) {
+    .width-explication {
+        width: 90px !important;
+    }
+}
+
+@media screen and (max-width: 386px) {
+    .width-explication {
+        width: 78px !important;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .position-know-more {
+        position: relative;
+        bottom: 10px
+    }
+}
+
+@media screen and (max-width: 441px) {
+    .position-check {
+        top: 15px
+    }
+}
+
+@media screen and (min-width: 442px) and (max-width: 754px) {
+    .position-check {
+        top: 5px
+    }
+
+    .money {
+        height: 110px !important;
+    }
+}
+
+@media screen and (min-width: 755px) and (max-width: 991px) {
+    .position-check-text {
+        top: 6px;
+        position: relative;
+    }
+
+    .money {
+        height: 100px !important;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .position-check2 {
+        top: 15px
+    }
+}
+
+@media screen and (min-width: 415px) and (max-width: 722px) {
+    .position-check2 {
+        top: 5px
+    }
+}
+
+@media screen and (min-width: 723px) and (max-width: 991px) {
+    .position-check2-text {
+        top: 6px;
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 425px) and (max-width: 468px) {
+    .exclamacao-box {
+        height: 222px !important;
+    }
+}
+
+@media screen and (min-width: 469px) and (max-width: 991px) {
+    .exclamacao-box {
+        height: 146px !important;
+    }
+}
+
+.py-open-box {
+    padding-top: 48px;
+    padding-bottom: 40px;
+}
+
+.py-open-box2 {
+    padding-top: 36px;
+    padding-bottom: 40px;
+}
+
+.explanation2 {
+    width: 170px;
+    height: 180px;
+}
+
+.width-explication {
+    width: 112px;
+    height: 156px;
+}
+
+.money {
+    height: 142px;
+    max-width: 500px;
+}
+
+.pre {
+    white-space: pre
+}
+
+.hidden-y {
+    overflow-y: hidden;
+}
+
+.exclamacao-box {
+    height: 272px;
+    max-width: 500px;
+}
+
+.noscroll {
+    overflow-y: hidden !important;
+    height: calc(100vh - 71px) !important;
+}

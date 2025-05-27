@@ -1,0 +1,915 @@
+<section
+  class="bg-white-secundary toComputer position-relative d-flex justify-content-center"
+  style="min-height: calc(100vh - 334px)"
+>
+  <app-institution-profile
+    *ngIf="openModalInstitutionProfile"
+    [@fadeInOut]
+    [institutionId]="selectedInstitutionId"
+    (closeModal)="changeModalInstitutionProfile(false)"
+    class="position-absolute"
+    style="top: 5%; z-index: 1015"
+  >
+  </app-institution-profile>
+
+  <div
+    (click)="changeModalInstitutionProfile(false)"
+    *ngIf="openModalInstitutionProfile"
+    [@fadeInOut]
+    class="position-absolute bg-modal w-100"
+    style="height: 100%; z-index: 1014"
+  ></div>
+
+  <div class="py-4 w-100">
+    <div class="container pb-5 pt-2">
+      <div class="d-flex gap-3 pb-4">
+        <div
+          class="position-relative d-flex align-items-center"
+          style="width: 60%"
+        >
+          <img
+            *ngIf="(searchText && searchText.length > 2) || hasActiveFilters()"
+            src="./assets/icons/reset_button.png"
+            class="position-absolute cursor-pointer"
+            style="left: 12px; width: 16px; height: 16px"
+            (click)="resetSearch()"
+            alt="Limpar pesquisa"
+            [ngbTooltip]="activeFilterCount + ' filtro(s) ativo(s)'"
+          />
+          <input
+            type="text"
+            class="height40px border-of-search-box w-100 ps-5"
+            [placeholder]="
+              hasActiveFilters()
+                ? activeFilterCount + ' filtro(s) ativo(s)'
+                : 'Buscar por nome ou cidade'
+            "
+            [(ngModel)]="searchText"
+            (keyup.enter)="onSearchChange()"
+          />
+          <img
+            src="./assets/icons/search.svg"
+            class="position-absolute cursor-pointer"
+            style="right: 36px"
+            (click)="onSearchChange()"
+          />
+        </div>
+
+        <div
+          (click)="showFilterModal()"
+          class="position-relative d-flex align-items-center justify-content-center height40px border-of-search-box bg-white cursor-pointer"
+          style="width: 5%"
+        >
+          <img src="./assets/icons/filter.svg" />
+        </div>
+
+        <div
+          class="position-relative d-flex align-items-center justify-content-center"
+          style="width: 23%"
+        >
+          <select
+            (change)="onSortChange($event)"
+            class="height40px border-of-search-box bg-white mark-text ps-3 w-100 f-size-14px cursor-pointer"
+          >
+            <option value="A-Z">A-Z</option>
+            <option value="Z-A">Z-A</option>
+            <option value="NEXT_LOCATION">Próximas à localização</option>
+          </select>
+          <img
+            src="./assets/icons/arrow-bottom.svg"
+            class="position-absolute"
+            style="right: 16px"
+          />
+        </div>
+
+        <div
+          [routerLink]="['/map']"
+          class="height40px radius12px bg-white d-flex justify-content-center align-items-center shadow-of-see-map cursor-pointer"
+          style="width: 11%"
+        >
+          <span class="fw-400 mark-text f-size-14px letter-spacing-3"
+            >Ver Mapa</span
+          >
+        </div>
+      </div>
+
+      <div *ngIf="institutions.length === 0" class="text-center py-4">
+        <span class="fw-400 f-size-16px support-gray"
+          >Nenhuma instituição encontrada.</span
+        >
+      </div>
+
+      <div class="d-flex gap-5 pt-4">
+        <div style="width: 31%">
+          <div
+            (click)="openInstitutionProfile(institution._id)"
+            *ngFor="
+              let institution of institutions?.slice(
+                beginOfFirstColumn,
+                endOfFirstColumn
+              )
+            "
+            class="p-2 radius10px bg-white d-flex gap-3 align-items-center mb-4 w-100 cursor-pointer"
+            style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+          >
+            <div
+              class="d-flex flex-column justify-content-center align-items-center gap-2"
+            >
+              <div
+                class="bg-yellow-text w-fit-content d-flex gap-1 radius8px justify-content-center align-items-center h-fit-content"
+                style="padding: 2px 4px"
+              >
+                <img
+                  src="./assets/icons/wheelchair-user.svg"
+                  width="9px"
+                  height="12px"
+                />
+                <img
+                  *ngIf="
+                    (institution.inep && institution.inep.length > 0) ||
+                    (institution.emec && institution.emec.length > 0)
+                  "
+                  src="./assets/imgs/book.png"
+                  width="10px"
+                  alt="ícone de livro"
+                />
+                <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+              </div>
+              <div class="random-icon-container d-flex justify-content-center">
+                <img
+                  [src]="institution.randomIcon"
+                  class="random-icon"
+                  alt="ícone aleatório da instituição"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div class="d-flex gap-2 position-relative">
+                <span class="fw-600 primary-text truncate-text">{{
+                  institution.name
+                }}</span>
+              </div>
+              <div class="" style="width: 100%">
+                <span class="fw-400 f-size-14px support-gray truncate-text">
+                  {{ institution.characteristics }}
+                </span>
+              </div>
+              <div class="" style="width: 100%">
+                <span class="fw-400 f-size-14px support-gray truncate-text">
+                  {{ institution.cleanAddress }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width: 31%">
+          <div
+            (click)="openInstitutionProfile(institution._id)"
+            *ngFor="
+              let institution of institutions?.slice(
+                endOfFirstColumn,
+                endOfSecondColumn
+              )
+            "
+            class="p-2 radius10px bg-white d-flex gap-3 align-items-center mb-4 w-100 cursor-pointer"
+            style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)"
+          >
+            <div
+              class="d-flex flex-column justify-content-center align-items-center gap-2"
+            >
+              <div
+                class="bg-yellow-text w-fit-content d-flex gap-1 radius8px justify-content-center align-items-center h-fit-content"
+                style="padding: 2px 4px"
+              >
+                <img
+                  src="./assets/icons/wheelchair-user.svg"
+                  width="9px"
+                  height="12px"
+                />
+                <img
+                  *ngIf="
+                    (institution.inep && institution.inep.length > 0) ||
+                    (institution.emec && institution.emec.length > 0)
+                  "
+                  src="./assets/imgs/book.png"
+                  width="10px"
+                  alt="ícone de livro"
+                />
+                <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+              </div>
+              <div class="random-icon-container d-flex justify-content-center">
+                <img
+                  [src]="institution.randomIcon"
+                  class="random-icon"
+                  alt="ícone aleatório da instituição"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div class="d-flex gap-2 position-relative">
+                <span class="fw-600 primary-text truncate-text">{{
+                  institution.name
+                }}</span>
+              </div>
+              <div class="" style="width: 100%">
+                <span class="fw-400 f-size-14px support-gray truncate-text">
+                  {{ institution.characteristics }}
+                </span>
+              </div>
+              <div class="" style="width: 100%">
+                <span class="fw-400 f-size-14px support-gray truncate-text">
+                  {{ institution.cleanAddress }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width: 31%">
+          <div
+            (click)="openInstitutionProfile(institution._id)"
+            *ngFor="
+              let institution of institutions?.slice(
+                endOfSecondColumn,
+                endOfThirdColumn
+              )
+            "
+            class="p-2 radius10px bg-white d-flex gap-3 align-items-center mb-4 w-100 cursor-pointer"
+            style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)"
+          >
+            <div
+              class="d-flex flex-column justify-content-center align-items-center gap-2"
+            >
+              <div
+                class="bg-yellow-text w-fit-content d-flex gap-1 radius8px justify-content-center align-items-center h-fit-content"
+                style="padding: 2px 4px"
+              >
+                <img
+                  src="./assets/icons/wheelchair-user.svg"
+                  width="9px"
+                  height="12px"
+                />
+                <img
+                  *ngIf="
+                    (institution.inep && institution.inep.length > 0) ||
+                    (institution.emec && institution.emec.length > 0)
+                  "
+                  src="./assets/imgs/book.png"
+                  width="10px"
+                  alt="ícone de livro"
+                />
+                <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+              </div>
+              <div class="random-icon-container d-flex justify-content-center">
+                <img
+                  [src]="institution.randomIcon"
+                  class="random-icon"
+                  alt="ícone aleatório da instituição"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div class="d-flex gap-2 position-relative">
+                <span class="fw-600 primary-text truncate-text">{{
+                  institution.name
+                }}</span>
+              </div>
+              <div class="" style="width: 100%">
+                <span class="fw-400 f-size-14px support-gray truncate-text">
+                  {{ institution.characteristics }}
+                </span>
+              </div>
+              <div class="" style="width: 100%">
+                <span class="fw-400 f-size-14px support-gray truncate-text">
+                  {{ institution.cleanAddress }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--paginator-->
+      <div
+        *ngIf="institutions && institutions.length >= 2"
+        class="d-flex gap-2 justify-content-end"
+      >
+        <button
+          (click)="backOnePage()"
+          class="radius8px d-flex justify-content-center align-items-center arrows-box box40x40"
+          [disabled]="currentPaginator == 1"
+          [class.cursor-pointer]="currentPaginator != 1"
+        >
+          <img src="./assets/icons/arrow-left-gray.svg" />
+        </button>
+
+        <!-- paginator quando a qtd de páginas é menor que 7 e maior que 1 -->
+        <div *ngIf="totalPaginators < 7 && totalPaginators > 1">
+          <div class="d-flex">
+            <div
+              (click)="goToPage(1)"
+              class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != 1"
+              [class.bg-brand-primary]="currentPaginator == 1"
+            >
+              <span [class.white]="currentPaginator == 1">1</span>
+            </div>
+
+            <div
+              (click)="goToPage(page)"
+              *ngFor="let page of pagesOfMiddle"
+              class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != page"
+              [class.bg-brand-primary]="currentPaginator == page"
+            >
+              <span [class.white]="currentPaginator == page">{{ page }}</span>
+            </div>
+
+            <div
+              (click)="goToPage(totalPaginators)"
+              class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != totalPaginators"
+              [class.bg-brand-primary]="currentPaginator == totalPaginators"
+            >
+              <span [class.white]="currentPaginator == totalPaginators">{{
+                totalPaginators
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- paginator quando a qtd de páginas é exatamente 1 -->
+        <div *ngIf="totalPaginators == 1">
+          <div class="d-flex">
+            <div
+              (click)="goToPage(1)"
+              class="box40x40 first-last-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != 1"
+              [class.bg-brand-primary]="currentPaginator == 1"
+            >
+              <span [class.white]="currentPaginator == 1">1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- paginator quando a qtd de páginas é maior ou igual que 7 e a página atual é a primeira ou segunda -->
+        <div
+          *ngIf="
+            totalPaginators >= 7 &&
+            (currentPaginator == 1 || currentPaginator == 2)
+          "
+        >
+          <div class="d-flex">
+            <div
+              (click)="goToPage(1)"
+              class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != 1"
+              [class.bg-brand-primary]="currentPaginator == 1"
+            >
+              <span [class.white]="currentPaginator == 1">1</span>
+            </div>
+
+            <div
+              (click)="goToPage(page)"
+              *ngFor="let page of pagesOfMiddle"
+              class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != page"
+              [class.bg-brand-primary]="currentPaginator == page"
+              [class.no-display]="page >= 6"
+            >
+              <span [class.white]="currentPaginator == page">{{ page }}</span>
+            </div>
+
+            <div
+              (click)="walkOnePage()"
+              class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+            >
+              <span>...</span>
+            </div>
+
+            <div
+              (click)="goToPage(totalPaginators)"
+              class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != totalPaginators"
+              [class.bg-brand-primary]="currentPaginator == totalPaginators"
+            >
+              <span [class.white]="currentPaginator == totalPaginators">{{
+                totalPaginators
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!--paginator quando a qtd de páginas é maior ou igual a 7 e a página atual está no meio-->
+        <div *ngIf="showPaginatorMiddle()">
+          <div class="d-flex">
+            <div
+              (click)="goToPage(1)"
+              class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != 1"
+              [class.bg-brand-primary]="currentPaginator == 1"
+            >
+              <span [class.white]="currentPaginator == 1">1</span>
+            </div>
+
+            <div
+              (click)="backOnePage()"
+              class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+            >
+              <span>...</span>
+            </div>
+
+            <div
+              (click)="goToPage(page)"
+              *ngFor="let page of pagesOfMiddle"
+              class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != page"
+              [class.bg-brand-primary]="currentPaginator == page"
+              [class.no-display]="!showThisPaginator(page)"
+            >
+              <span [class.white]="currentPaginator == page">{{ page }}</span>
+            </div>
+
+            <div
+              (click)="walkOnePage()"
+              class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+            >
+              <span>...</span>
+            </div>
+
+            <div
+              (click)="goToPage(totalPaginators)"
+              class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != totalPaginators"
+              [class.bg-brand-primary]="currentPaginator == totalPaginators"
+            >
+              <span [class.white]="currentPaginator == totalPaginators">{{
+                totalPaginators
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- paginator quando a qtd de páginas é maior ou igual que 7 e a página atual é a última ou penúltima -->
+        <div
+          *ngIf="
+            totalPaginators >= 7 &&
+            (currentPaginator == totalPaginators ||
+              currentPaginator == totalPaginators - 1)
+          "
+        >
+          <div class="d-flex">
+            <div
+              (click)="goToPage(1)"
+              class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != 1"
+              [class.bg-brand-primary]="currentPaginator == 1"
+            >
+              <span [class.white]="currentPaginator == 1">1</span>
+            </div>
+
+            <div
+              (click)="backOnePage()"
+              class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+            >
+              <span>...</span>
+            </div>
+
+            <div
+              (click)="goToPage(page)"
+              *ngFor="let page of pagesOfMiddle"
+              class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != page"
+              [class.bg-brand-primary]="currentPaginator == page"
+              [class.no-display]="!showThisPaginatorLast(page)"
+            >
+              <span [class.white]="currentPaginator == page">{{ page }}</span>
+            </div>
+
+            <div
+              (click)="goToPage(totalPaginators)"
+              class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+              [class.bg-white]="currentPaginator != totalPaginators"
+              [class.bg-brand-primary]="currentPaginator == totalPaginators"
+            >
+              <span [class.white]="currentPaginator == totalPaginators">{{
+                totalPaginators
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          (click)="walkOnePage()"
+          class="radius8px d-flex justify-content-center align-items-center arrows-box box40x40"
+          [disabled]="currentPaginator == totalPaginators"
+          [class.cursor-pointer]="currentPaginator != totalPaginators"
+        >
+          <img src="./assets/icons/arrow-right-gray.svg" />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white-secundary toCellphone position-relative">
+  <div class="d-flex justify-content-center">
+    <div class="position-absolute" style="top: 30%">
+      <app-modal-download></app-modal-download>
+    </div>
+  </div>
+
+  <app-menu-mobile></app-menu-mobile>
+
+  <div
+    *ngIf="openMenu"
+    (click)="closeMenu(); changeModalDownloadApp(false)"
+    class="position-absolute menuIsOpen"
+    style="top: 0px; left: 0px; z-index: 1000"
+  ></div>
+  <div
+    (click)="changeModalDownloadApp(false)"
+    *ngIf="openModalDownloadApp"
+    class="position-absolute modal-download-app w-100"
+    style="top: 0px; left: 0px; z-index: 1004"
+  ></div>
+
+  <app-institution-profile
+    *ngIf="openModalInstitutionProfile"
+    [@fadeInOut]
+    [institutionId]="selectedInstitutionId"
+    (closeModal)="changeModalInstitutionProfile(false)"
+    class="position-absolute"
+    style="top: 5%; z-index: 1015; width: 100%"
+  ></app-institution-profile>
+
+  <div
+    (click)="changeModalInstitutionProfile(false)"
+    *ngIf="openModalInstitutionProfile"
+    [@fadeInOut]
+    class="position-absolute bg-modal w-100"
+    style="height: 100%; z-index: 1014"
+  ></div>
+
+  <div (click)="closeMenu()" class="py-4 px-4">
+    <div class="d-flex gap-2 pb-2">
+      <div
+        class="position-relative d-flex align-items-center"
+        style="width: 60%"
+      >
+        <img
+          *ngIf="(searchText && searchText.length > 2) || hasActiveFilters()"
+          src="./assets/icons/reset_button.png"
+          class="position-absolute cursor-pointer"
+          style="left: 12px; width: 16px; height: 16px"
+          (click)="resetSearch()"
+          alt="Limpar pesquisa"
+          [ngbTooltip]="activeFilterCount + ' filtro(s) ativo(s)'"
+        />
+        <input
+          type="text"
+          class="height40px border-of-search-box w-100 ps-5"
+          [placeholder]="
+            hasActiveFilters()
+              ? activeFilterCount + ' filtro(s) ativo(s)'
+              : 'Buscar por nome ou cidade'
+          "
+          [(ngModel)]="searchText"
+          (keyup.enter)="onSearchChange()"
+        />
+        <img
+          src="./assets/icons/search.svg"
+          class="position-absolute cursor-pointer"
+          style="right: 36px"
+          (click)="onSearchChange()"
+        />
+      </div>
+
+      <div
+        (click)="showFilterModal()"
+        class="position-relative d-flex align-items-center justify-content-center height40px border-of-search-box bg-white cursor-pointer"
+        style="width: 10%"
+      >
+        <img src="./assets/icons/filter.svg" />
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 pb-4">
+      <div
+        class="position-relative d-flex align-items-center justify-content-center"
+        style="width: 65%"
+      >
+        <select
+          (change)="onSortChange($event)"
+          class="height40px border-of-search-box bg-white mark-text ps-3 w-100 f-size-14px cursor-pointer"
+        >
+          <option value="A-Z">A-Z</option>
+          <option value="Z-A">Z-A</option>
+          <option value="NEXT_LOCATION">Próximas à localização</option>
+        </select>
+
+        <img
+          src="./assets/icons/arrow-bottom.svg"
+          class="position-absolute"
+          style="right: 16px"
+        />
+      </div>
+
+      <div
+        [routerLink]="['/map']"
+        class="height40px radius12px bg-white d-flex justify-content-center align-items-center shadow-of-see-map cursor-pointer"
+        style="width: 35%"
+      >
+        <span class="fw-400 mark-text f-size-14px letter-spacing-3"
+          >Ver Mapa</span
+        >
+      </div>
+    </div>
+
+    <div
+      (click)="openInstitutionProfile(institution._id)"
+      *ngFor="
+        let institution of institutions?.slice(
+          beginOfFirstColumn,
+          endOfThirdColumn
+        )
+      "
+      class="p-2 radius10px bg-white d-flex gap-3 align-items-center mb-4 w-100 cursor-pointer"
+      style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+    >
+      <div
+        class="d-flex flex-column justify-content-center align-items-center gap-2"
+      >
+        <div
+          class="bg-yellow-text w-fit-content d-flex gap-1 radius8px justify-content-center align-items-center h-fit-content"
+          style="padding: 2px 4px"
+        >
+          <img
+            src="./assets/icons/wheelchair-user.svg"
+            width="9px"
+            height="12px"
+          />
+          <img
+            *ngIf="
+              (institution.inep && institution.inep.length > 0) ||
+              (institution.emec && institution.emec.length > 0)
+            "
+            src="./assets/imgs/book.png"
+            width="10px"
+            alt="ícone de livro"
+          />
+          <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+        </div>
+        <div class="random-icon-container d-flex justify-content-center">
+          <img
+            [src]="institution.randomIcon"
+            class="random-icon"
+            alt="ícone aleatório da instituição"
+          />
+        </div>
+      </div>
+
+      <div>
+        <div class="d-flex gap-2 position-relative">
+          <span class="fw-600 primary-text truncate-text">{{
+            institution.name
+          }}</span>
+        </div>
+        <div class="" style="width: 100%">
+          <span class="fw-400 f-size-14px support-gray truncate-text">
+            {{ institution.characteristics }}
+          </span>
+        </div>
+        <div class="" style="width: 100%">
+          <span class="fw-400 f-size-14px support-gray truncate-text">
+            {{ institution.cleanAddress }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!--paginator-->
+    <div
+      *ngIf="institutions && institutions.length >= 2"
+      class="d-flex gap-2 justify-content-end"
+    >
+      <button
+        (click)="backOnePage()"
+        class="radius8px d-flex justify-content-center align-items-center arrows-box box40x40"
+        [disabled]="currentPaginator == 1"
+        [class.cursor-pointer]="currentPaginator != 1"
+      >
+        <img src="./assets/icons/arrow-left-gray.svg" />
+      </button>
+
+      <!-- paginator quando a qtd de páginas é menor que 7 -->
+      <div *ngIf="totalPaginators < 7 && totalPaginators > 1">
+        <div class="d-flex">
+          <div
+            (click)="goToPage(1)"
+            class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != 1"
+            [class.bg-brand-primary]="currentPaginator == 1"
+          >
+            <span [class.white]="currentPaginator == 1">1</span>
+          </div>
+
+          <div
+            (click)="goToPage(page)"
+            *ngFor="let page of pagesOfMiddle"
+            class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != page"
+            [class.bg-brand-primary]="currentPaginator == page"
+          >
+            <span [class.white]="currentPaginator == page">{{ page }}</span>
+          </div>
+
+          <div
+            (click)="goToPage(totalPaginators)"
+            class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != totalPaginators"
+            [class.bg-brand-primary]="currentPaginator == totalPaginators"
+          >
+            <span [class.white]="currentPaginator == totalPaginators">{{
+              totalPaginators
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- paginator quando a qtd de páginas é exatamente 1 -->
+      <div *ngIf="totalPaginators == 1">
+        <div class="d-flex">
+          <div
+            (click)="goToPage(1)"
+            class="box40x40 first-last-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != 1"
+            [class.bg-brand-primary]="currentPaginator == 1"
+          >
+            <span [class.white]="currentPaginator == 1">1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- paginator quando a qtd de páginas é maior ou igual que 7 e a página atual é a primeira ou segunda -->
+      <div
+        *ngIf="
+          totalPaginators >= 7 &&
+          (currentPaginator == 1 || currentPaginator == 2)
+        "
+      >
+        <div class="d-flex">
+          <div
+            (click)="goToPage(1)"
+            class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != 1"
+            [class.bg-brand-primary]="currentPaginator == 1"
+          >
+            <span [class.white]="currentPaginator == 1">1</span>
+          </div>
+
+          <div
+            (click)="goToPage(page)"
+            *ngFor="let page of pagesOfMiddle"
+            class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != page"
+            [class.bg-brand-primary]="currentPaginator == page"
+            [class.no-display]="page >= 6"
+          >
+            <span [class.white]="currentPaginator == page">{{ page }}</span>
+          </div>
+
+          <div
+            (click)="walkOnePage()"
+            class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+          >
+            <span>...</span>
+          </div>
+
+          <div
+            (click)="goToPage(totalPaginators)"
+            class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != totalPaginators"
+            [class.bg-brand-primary]="currentPaginator == totalPaginators"
+          >
+            <span [class.white]="currentPaginator == totalPaginators">{{
+              totalPaginators
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!--paginator quando a qtd de páginas é maior ou igual a 7 e a página atual está no meio-->
+      <div *ngIf="showPaginatorMiddle()">
+        <div class="d-flex">
+          <div
+            (click)="goToPage(1)"
+            class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != 1"
+            [class.bg-brand-primary]="currentPaginator == 1"
+          >
+            <span [class.white]="currentPaginator == 1">1</span>
+          </div>
+
+          <div
+            (click)="backOnePage()"
+            class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+          >
+            <span>...</span>
+          </div>
+
+          <div
+            (click)="goToPage(page)"
+            *ngFor="let page of pagesOfMiddle"
+            class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != page"
+            [class.bg-brand-primary]="currentPaginator == page"
+            [class.no-display]="!showThisPaginator(page)"
+          >
+            <span [class.white]="currentPaginator == page">{{ page }}</span>
+          </div>
+
+          <div
+            (click)="walkOnePage()"
+            class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+          >
+            <span>...</span>
+          </div>
+
+          <div
+            (click)="goToPage(totalPaginators)"
+            class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != totalPaginators"
+            [class.bg-brand-primary]="currentPaginator == totalPaginators"
+          >
+            <span [class.white]="currentPaginator == totalPaginators">{{
+              totalPaginators
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- paginator quando a qtd de páginas é maior ou igual que 7 e a página atual é a última ou penúltima -->
+      <div
+        *ngIf="
+          totalPaginators >= 7 &&
+          (currentPaginator == totalPaginators ||
+            currentPaginator == totalPaginators - 1)
+        "
+      >
+        <div class="d-flex">
+          <div
+            (click)="goToPage(1)"
+            class="box40x40 first-arrow d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != 1"
+            [class.bg-brand-primary]="currentPaginator == 1"
+          >
+            <span [class.white]="currentPaginator == 1">1</span>
+          </div>
+
+          <div
+            (click)="backOnePage()"
+            class="box40x40 half-border d-flex justify-content-center align-items-center cursor-pointer bg-white"
+          >
+            <span>...</span>
+          </div>
+
+          <div
+            (click)="goToPage(page)"
+            *ngFor="let page of pagesOfMiddle"
+            class="box40x40 d-flex justify-content-center align-items-center half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != page"
+            [class.bg-brand-primary]="currentPaginator == page"
+            [class.no-display]="!showThisPaginatorLast(page)"
+          >
+            <span [class.white]="currentPaginator == page">{{ page }}</span>
+          </div>
+
+          <div
+            (click)="goToPage(totalPaginators)"
+            class="last-arrow d-flex justify-content-center align-items-center box40x40 half-border cursor-pointer"
+            [class.bg-white]="currentPaginator != totalPaginators"
+            [class.bg-brand-primary]="currentPaginator == totalPaginators"
+          >
+            <span [class.white]="currentPaginator == totalPaginators">{{
+              totalPaginators
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button
+        (click)="walkOnePage()"
+        class="radius8px d-flex justify-content-center align-items-center arrows-box box40x40"
+        [disabled]="currentPaginator == totalPaginators"
+        [class.cursor-pointer]="currentPaginator != totalPaginators"
+      >
+        <img src="./assets/icons/arrow-right-gray.svg" />
+      </button>
+    </div>
+  </div>
+</section>

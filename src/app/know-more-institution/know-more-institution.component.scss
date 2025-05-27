@@ -1,0 +1,237 @@
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .photo {
+        width: 310px;
+        left: 8px;
+        bottom: 24px
+    }
+
+    .detail1 {
+        width: 256px;
+        height: 230px;
+        bottom: 80px !important;
+    }
+
+    .box-inside {
+        height: 265px !important;
+    }
+
+    .make-complaint {
+        width: 240px !important;
+    }
+
+    .detail-know-more-institution2 {
+        width: 120px;
+        height: 120px;
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .photo {
+        width: 171px;
+        height: 110px;
+        position: relative;
+        right: 45px;
+        margin-top: 32px;
+    }
+
+    .container {
+        max-width: unset !important;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .f-size-32px {
+        font-size: 24px;
+    }
+
+    .f-size-30px {
+        font-size: 22px;
+    }
+
+    .f-size-20px {
+        font-size: 15.6px;
+    }
+
+    .detail1 {
+        width: 137px;
+        height: 147px;
+        bottom: unset !important;
+        right: 10px;
+    }
+
+    .box-inside {
+        height: fit-content !important;
+        width: 80% !important;
+    }
+
+    .information1-box {
+        height: fit-content !important;
+    }
+
+    .mb-16px {
+        margin-bottom: 16px;
+    }
+
+    .height40px {
+        height: 23px !important;
+    }
+
+    .make-complaint {
+        width: unset !important;
+    }
+
+    .margin-top-information2 {
+        margin-top: 25px !important;
+    }
+
+    .arrow-bottom {
+        width: 20px !important;
+        height: 16px !important;
+    }
+
+    .box-subtitle {
+        height: 24px !important;
+    }
+
+    .detail-know-more-institution2 {
+        width: 65px;
+        height: 65px;
+    }
+
+    .margin-equal-treatment {
+        margin-top: 28px !important;
+    }
+
+    .detail-information3 {
+        width: 46px !important;
+        height: 46px !important;
+    } 
+
+    .detail-top-left {
+        width: 76.5px !important;
+        height: 125px !important;
+    }
+
+    .detail-four-squares {
+        width: 91.8px !important;
+        height: 150px !important;
+        bottom: 42% !important
+    }
+
+    .detail-top-left2 {
+        width: 160px;
+        height: 185px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .equal-treatment {
+        padding-top: 24px !important;
+        padding-bottom: 24px !important;
+    }
+}
+
+.detail1 {
+    bottom: 20px;
+    opacity: 0.7;
+}
+
+.box-inside {
+    background-color: white;
+    height: 242px;
+    width: 47%;
+    border-radius: 28px;
+    box-shadow: 4px 4px 4px 0px #00000040;
+}
+
+.information1-box {
+    min-height: 342px;
+}
+
+.detail-information1 {
+    max-height: 310px;
+    max-width: 500px;
+}
+
+.make-complaint {
+    background-color: #ffbb4f;
+    width: 300px;
+    height: 48px;
+    border-radius: 12px;
+    letter-spacing: 0.1em;
+}
+
+.margin-top-information2 {
+    margin-top: 40px;
+}
+
+.detail-information2 {
+    max-width: 158px;
+    max-height: 159px;
+}
+
+.arrow-bottom {
+    width: 38px;
+    height: 40px;
+}
+
+.box-subtitle {
+    background-color: #ffbb4f;
+    width: fit-content;
+    height: 38px;
+    border-radius: 19px;
+}
+
+.equal-treatment {
+    background-color: white;
+    border-radius: 28px;
+}
+
+.margin-equal-treatment {
+    margin-top: 34px;
+}
+
+.detail-information3 {
+    width: 100px;
+    height: 100px;
+} 
+
+.detail-four-squares {
+    bottom: 33%
+}
+
+.box-financial-impact {
+    background: #5994A933;
+    border-radius: 10px;
+    width: 175px !important;
+    min-width: 175px !important;
+    height: 148px;
+}
+
+.noscroll {
+    overflow-y: hidden !important;
+    height: calc(100vh - 71px) !important;
+}
+
+@media screen and (max-width: 483px) {
+    .box-subtitle {
+        height: fit-content !important;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+}
+
+@media screen and (max-width: 465px) {
+    .box-subtitle2 {
+        height: fit-content !important;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+}
+.test{
+    border-radius: 12px;
+    background-color: white;
+    width: 330px;
+    height: 48px;
+}

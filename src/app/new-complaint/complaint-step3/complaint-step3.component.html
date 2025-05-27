@@ -1,0 +1,61 @@
+<div class="fade-in bg-white" style="min-height: calc(100vh - 334px);">
+  <header class="container">
+    <div class="d-flex justify-content-between align-items-center pt-5 pb-4">
+      <img [routerLink]="['/new-complaint-step2']" class="cursor-pointer" src="./assets/icons/arrow-back.svg">
+      <h6 class="fw-400 text-primary1 font-size-21">
+        Nova denúncia
+      </h6>
+      <div></div>
+    </div>
+    <div class="w-100 d-flex container p-0 mb-4">
+      <div style="width: 100%; height: 4px; background-color: #5994a9;">
+
+      </div>
+    </div>
+  </header>
+  
+    <div class="container mt-3">
+      <form id="form" class="pb-5">
+        <p class="fw-400 font-size-14 text-secondary">
+          <b>Muito obrigado por sua colaboração.</b> <br>
+          Suas respostas serão analisadas cuidadosamente e entraremos em contato com você por e-mail o mais rápido
+          possível. <br>
+          Ao preencher este formulário, você está compartilhando informações importantes conosco. Queremos assegurar-lhe
+          que todas as informações fornecidas serão tratadas com o mais alto grau de confidencialidade e segurança, em
+          conformidade com a <b>Lei Geral de Proteção de Dados (LGPD).</b> Seus dados pessoais serão utilizados
+          exclusivamente para fins de averiguação das denúncias e para contato, se necessário. Em nenhuma hipótese suas
+          informações serão compartilhadas com terceiros sem seu consentimento prévio. Para mais detalhes, consulte nossa
+          <a href="#" class="link-color">política de privacidade.</a> <br> Agradecemos a dedicação para preencher este
+          formulário. Sua contribuição é fundamental para promover a justiça social na educação. Ao compartilhar suas
+          experiências e preocupações, você nos ajuda a garantir que os direitos de todos os estudantes sejam respeitados
+          e que as bolsas de estudo sejam distribuídas de forma justa e transparente. Juntos, podemos construir um sistema
+          educacional mais equitativo e inclusivo. <br> Qualquer dúvida, seguimos à disposição.
+        </p>
+  
+        <div class="d-flex gap-2">
+    
+          <div (click)="changeRadio()" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+
+            <div *ngIf="radio == true" class="rounded-circle input-radio-in"></div>
+
+          </div>
+
+          <span class="w-fit-content">Declaro estar ciente e de acordo com as informações expostas acima</span>
+
+        </div>
+  
+        <div *ngIf="!radio" class="walk d-flex align-items-center justify-content-center w-100 mt-4">
+  
+          <span class="white fw-600 f-size-16px letter-spacing-10">Avançar</span>
+  
+        </div>
+  
+        <div [routerLink]="['/home']" *ngIf="radio" class="walk ok d-flex align-items-center justify-content-center w-100 mt-4 cursor-pointer">
+  
+          <span class="white fw-600 f-size-16px letter-spacing-10">Avançar</span>
+  
+        </div>
+
+      </form>
+    </div>
+  </div>

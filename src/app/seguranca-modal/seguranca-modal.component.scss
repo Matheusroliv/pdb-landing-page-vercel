@@ -1,0 +1,28 @@
+.modal-size {
+    width: 350px;
+    // height: 400px;
+    border-radius: 10px !important;
+    background-color: #f8f8f8;
+    box-shadow: 0px 4px 4px 0px hsla(0, 0%, 0%, 0.251);
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.modal-size::-webkit-scrollbar {
+    // background-color:  ;
+    border-radius: 10px;
+    width: 7px !important;
+}
+
+.modal-size::-webkit-scrollbar-thumb {
+    background-color: gray ;
+    border-radius: 10px;
+    width: 7px !important;
+}
+
+
+@media screen and (max-width: 991px){
+    .modal-size {
+        width: 330px !important;
+    }
+}

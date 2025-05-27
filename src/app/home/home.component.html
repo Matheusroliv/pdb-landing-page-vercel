@@ -1,0 +1,754 @@
+<section>
+  <div class="position-relative">
+    <div [class.noscroll]="openMenu || openModalDownloadApp">
+      <div>
+        <div
+          (click)="changeModalDownloadApp(false)"
+          *ngIf="openModalDownloadApp"
+          class="position-absolute modal-download-app w-100"
+          style="top: 0px; left: 0px; z-index: 1004"
+        ></div>
+
+        <app-modal-download></app-modal-download>
+      </div>
+
+      <div
+        *ngIf="openMenu"
+        (click)="changeMenu(false)"
+        class="position-absolute menuIsOpen"
+        style="top: 0px; left: 0px; z-index: 1001 !important"
+      ></div>
+
+      <div class="bg-first" style="height: 520px; padding-top: 34px">
+        <div class="container px-4">
+          <div
+            class="d-flex align-items-center justify-content-between toComputer"
+            style="padding-right: 0px"
+          >
+            <div (click)="reloadHome()" class="cursor-pointer">
+              <img src="./assets/imgs/logo.svg" alt="logo" />
+            </div>
+
+            <div class="d-flex gap-3">
+              <div
+                (click)="reloadHome()"
+                class="boxes-home d-flex align-items-center justify-content-center"
+                style="margin-right: -10px"
+              >
+                <span
+                  class="fw-400 f-size-16px white text-decoration-underline cursor-pointer"
+                  >Home</span
+                >
+              </div>
+
+              <div
+                [routerLink]="['/map']"
+                class="boxes-home d-flex align-items-center justify-content-center"
+              >
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                  >Mapa</span
+                >
+              </div>
+
+              <div
+                (click)="changeOpenKnowMore()"
+                class="d-flex align-items-center justify-content-center position-relative boxes-home cursor-pointer"
+              >
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                  >Saiba mais</span
+                >
+
+                <img
+                  class="position-absolute position-arrow-bottom"
+                  [class.rotation-to-top]="openKnowMore"
+                  src="./assets/icons/arrow-bottom-white.svg"
+                />
+
+                <div
+                  *ngIf="openKnowMore"
+                  class="select-saiba-mais position-absolute shadow4px"
+                  style="bottom: -35px"
+                >
+                  <div
+                    (click)="goToKnowMore('Estudantes')"
+                    class="d-flex align-items-center justify-content-center cursor-pointer"
+                    style="height: 21px"
+                  >
+                    <span class="white fw-400 f-size-12px">Estudantes</span>
+                  </div>
+
+                  <div
+                    class="w-100 d-flex justify-content-center"
+                    style="height: 0.5px"
+                  >
+                    <div
+                      class="h-100"
+                      style="background-color: white; width: 88%"
+                    ></div>
+                  </div>
+
+                  <div
+                    (click)="goToKnowMore('Instituições')"
+                    class="d-flex align-items-center justify-content-center cursor-pointer"
+                    style="height: 21px"
+                  >
+                    <span class="white fw-400 f-size-12px">Instituições</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                [routerLink]="['/about']"
+                class="boxe-about-home d-flex align-items-center justify-content-center"
+              >
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                  >Sobre o Portal</span
+                >
+              </div>
+
+              <div
+                class="goInto d-flex align-items-center justify-content-center py-2 ms-5 btn-send-width cursor-pointer"
+                (click)="openModal()"
+              >
+                <span class="fw-600 brand-primary letter-spacing-10"
+                  >Pré-cadastro</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="toCellphone">
+            <div class="d-flex justify-content-between align-items-center">
+              <img
+                (click)="reloadHome()"
+                src="./assets/imgs/logo.svg"
+                width="158px"
+                alt="logo"
+              />
+              <img (click)="changeMenu(true)" src="./assets/icons/menu.svg" />
+            </div>
+          </div>
+
+          <div class="fw-700 f-size-first-phrase white pt-first-phrase">
+            <p class="m-0">Apoiando o estudante bolsista</p>
+            <p class="m-0">Do acesso à permanência</p>
+          </div>
+
+          <div class="mx-0 row w-100 g-3 position-form z-index-1000">
+            <div class="col-lg-3 ps-0 phorizontal-0">
+              <p class="m-0 f-size-16 fw-400 pb-1 white-secundary">
+                Escolha uma cidade:
+              </p>
+
+              <div class="position-relative">
+                <input
+                  type="text"
+                  [formControl]="cityControl"
+                  [ngbTypeahead]="searchCities"
+                  (selectItem)="onCitySelect($event)"
+                  placeholder="Digite uma cidade"
+                  class="ps-3 select-home w-100 height48px fw-400 black input-home"
+                  [inputFormatter]="cityFormatter"
+                  [resultFormatter]="cityFormatter"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-3 phorizontal-0">
+              <p class="m-0 f-size-16 fw-400 pb-1 white-secundary">
+                Selecione o nível de ensino:
+              </p>
+
+              <div class="position-relative">
+                <select
+                  (change)="onEducationLevelChange($event)"
+                  class="ps-3 select-home w-100 height48px fw-400"
+                  [class.placeholder-color]="!selectWasChanged"
+                >
+                  <option
+                    value=""
+                    [class.display-none]="selectWasChanged"
+                  >
+                    Selecione
+                  </option>
+                  <option value="INFANT">Educação Infantil</option>
+                  <option value="PRIMARY">Ensino Fundamental</option>
+                  <option value="SECONDARY">Ensino Médio</option>
+                  <option value="YOUNG_ADULTS">
+                    Educação de Jovens e Adultos
+                  </option>
+                  <option value="PROFESSIONAL">Educação Profissional</option>
+                  <option value="GRADUATION">Graduação</option>
+                </select>
+
+                <img
+                  src="./assets/icons/arrow-bottom.svg"
+                  class="position-absolute"
+                  style="top: 36%; right: 5%"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-3 position-relative bottom-12px phorizontal-0">
+              <p class="m-0 f-size-16 fw-400 pb-1 white-secundary">
+                Busque por uma instituição de ensino:
+              </p>
+
+              <div class="position-relative">
+                <input
+                  type="text"
+                  placeholder="Buscar"
+                  class="ps-3 select-home w-100 height48px fw-400 input-home"
+                  [(ngModel)]="searchText"
+                  (keyup.enter)="goToList()"
+                />
+                <img
+                  src="./assets/icons/search.svg"
+                  class="position-absolute cursor-pointer"
+                  style="top: 36%; right: 5%"
+                  (click)="goToList()"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-3 pe-0 phorizontal-0">
+              <div
+                (click)="goToList()"
+                class="d-flex justify-content-center align-items-center bg-white search-box height48px position-relative cursor-pointer top-search-scholarships"
+              >
+                <span class="brand-primary fw-600 letter-spacing-10 text-center"
+                  >Buscar bolsas</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="secundary-section position-relative">
+        <div class="container px-4">
+          <img
+            src="./assets/imgs/detail-home-1.svg"
+            class="position-absolute"
+            style="left: 0px; top: 0px"
+          />
+
+          <div class="d-flex">
+            <div class="pt-70px d-flex justify-content-end text-end">
+              <div class="position-relative" style="z-index: 2">
+                <div class="row mx-0">
+                  <div class="col-lg-2"></div>
+
+                  <div class="col-lg-10 px-0">
+                    <p
+                      class="mark-text f-size-30px position-relative m-0 z-index-1000 fw-500"
+                    >
+                      A maior base de informações sobre bolsas socioeconômicas
+                      do país
+                    </p>
+                  </div>
+                </div>
+
+                <div class="row mx-0 pb-5 padding-bottom-26px">
+                  <div class="col-lg-3"></div>
+
+                  <div class="col-lg-9 px-0">
+                    <p
+                      class="f-size-20px primary-text pt-2 m-0 position-relative z-index-1000"
+                    >
+                      Explore nossa base de dados construída com informações
+                      públicas, abrangendo mais de 12 mil instituições de ensino
+                      e mais de 700 mil bolsas de estudo disponíveis em todos os
+                      estados do Brasil. Você certamente encontrará a
+                      oportunidade ideal para transformar seu futuro com
+                      segurança e clareza.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <img
+            src="./assets/imgs/detail-home-2.svg"
+            class="position-absolute"
+            style="right: 0px; top: 0px; z-index: 1"
+          />
+
+          <div class="position-relative z-index-1000" style="top: 34px">
+            <img
+              (click)="backOnePhoto()"
+              src="./assets/icons/arrow-left.svg"
+              width="89px"
+              height="180px"
+              class="position-absolute cursor-pointer toComputer"
+              style="left: 15%; top: 25%; opacity: 0.7"
+            />
+            <img
+              (click)="walkOnePhoto()"
+              src="./assets/icons/arrow-right.svg"
+              width="89px"
+              height="180px"
+              class="position-absolute cursor-pointer toComputer"
+              style="right: 15%; top: 25%; opacity: 0.7"
+            />
+            <div
+              class="w-100 d-flex align-items-center justify-content-center box-photos"
+            >
+              <div>
+                <div>
+                  <!-- Dynamic banner images -->
+                  <ng-container
+                    *ngIf="landingBanners.length > 0"
+                    class="shadow"
+                  >
+                    <a
+                      *ngFor="let banner of landingBanners; let i = index"
+                      [href]="banner.link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      [ngStyle]="{
+                        display: currentPhoto === i ? 'block' : 'none'
+                      }"
+                    >
+                      <img
+                        [class.radius-31px]="true"
+                        [class.width-height-photo]="true"
+                        [src]="banner.photo"
+                        [ngStyle]="{ objectFit: 'cover' }"
+                        width="895px"
+                        height="338px"
+                        alt="Landing Banner"
+                        class="shadow"
+                      />
+                    </a>
+                  </ng-container>
+                  <!-- Fallback if no banners are loaded -->
+                  <img
+                    *ngIf="landingBanners.length === 0 || !landingBanners"
+                    class="radius-31px width-height-photo"
+                    src="./assets/imgs/default-banner.svg"
+                    width="895px"
+                    alt="Default Banner"
+                  />
+                </div>
+
+                <!-- Dynamic navigation dots -->
+                <div
+                  class="d-flex justify-content-center align-items-center pt-3 gap-3"
+                >
+                  <div
+                    *ngFor="let banner of landingBanners; let i = index"
+                    (click)="walkToThisPhoto(i)"
+                    [class.circle-current-photo]="currentPhoto === i"
+                    [class.circle-nocurrent-photo]="currentPhoto !== i"
+                    class="rounded-circle cursor-pointer"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="position-relative w-100 bg-brand-primary pb-5 margin-top-third-section"
+        style="z-index: 2"
+      >
+        <img
+          src="./assets/imgs/detail-home-3.svg"
+          class="position-absolute"
+          style="top: 0px; left: 0px"
+        />
+
+        <div class="container px-4 pt-to-third-section">
+          <div class="row mx-0">
+            <div class="col-lg-6 mt-3">
+              <p class="white-secundary f-size-32px fw-500">
+                Vagas públicas em instituições privadas
+              </p>
+
+              <p class="white-secundary f-size-20px fw-400 mt-4">
+                Acesse vagas públicas em instituições privadas de ensino
+                superior, garantidas por programas como Prouni e CEBAS Educação,
+                e também em instituições de ensino básico e profissional,
+                garantidas por programas como CEBAS Educação e outras
+                iniciativas locais e regionais. Essas bolsas são um direito
+                assegurado pelo Governo Federal, que financia as vagas por meio
+                de renúncias fiscais, permitindo que pessoas de baixa renda
+                estudem em instituições particulares de qualidade. Conheça os
+                requisitos, processos seletivos e como garantir sua vaga em uma
+                instituição de qualidade.
+              </p>
+
+              <div
+                (click)="goToMap()"
+                class="scholarships-map py-2 px-30px d-flex justify-content-center align-items-center w-fit-content cursor-pointer"
+                style="margin-top: 32px; width: 300px"
+              >
+                <span class="brand-primary f-size-16px letter-spacing-10 fw-600"
+                  >Conheça nosso mapa de bolsas</span
+                >
+              </div>
+            </div>
+
+            <div class="col-lg-1 mt-3"></div>
+
+            <div
+              class="col-lg-5 col-12 d-flex justify-content-center mt-3 pe-0"
+            >
+              <div style="width: 500px">
+                <div
+                  class="d-flex justify-content-between align-items-center mt-4"
+                >
+                  <div
+                    class="bg-white radius12px d-flex justify-content-center align-items-center shadow4px explanation"
+                  >
+                    <div class="">
+                      <img src="./assets/icons/government.svg" />
+                      <div class="pt-2">
+                        <p
+                          class="fw-400 f-size-16px mark-text d-flex mb-0"
+                          style="padding-left: 1px"
+                        >
+                          Governo
+                        </p>
+                        <p
+                          class="fw-400 f-size-16px mark-text d-flex mb-0"
+                          style="padding-left: 4px"
+                        >
+                          Federal
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white radius12px d-flex justify-content-center align-items-center shadow4px explanation"
+                  >
+                    <div>
+                      <div
+                        class="d-flex justify-content-center align-items-center"
+                      >
+                        <img src="./assets/icons/student.svg" />
+                      </div>
+
+                      <div
+                        class="d-flex justify-content-center align-items-center"
+                      >
+                        <div class="pt-2">
+                          <p
+                            class="fw-400 f-size-16px mark-text d-flex mb-0"
+                            style="padding-left: 1px"
+                          >
+                            Estudantes de
+                          </p>
+                          <p
+                            class="fw-400 f-size-16px mark-text d-flex mb-0"
+                            style="padding-left: 10px"
+                          >
+                            baixa renda
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="d-flex justify-content-between align-items-center mt-3"
+                >
+                  <div
+                    class="position-relative explanation"
+                    style="bottom: 8px"
+                  >
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                    >
+                      <img src="./assets/imgs/arrow1.svg" />
+                    </div>
+
+                    <div
+                      class="d-flex justify-content-center align-items-center text-center pt-2 px-2"
+                    >
+                      <p class="white-secundary f-size-16px fw-400">
+                        Isenções fiscais
+                      </p>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white radius12px d-flex justify-content-center align-items-center shadow4px mt-3 explanation"
+                  >
+                    <div>
+                      <div
+                        class="d-flex justify-content-center align-items-center"
+                      >
+                        <img src="./assets/icons/school.svg" />
+                      </div>
+
+                      <div
+                        class="d-flex justify-content-center align-items-center"
+                      >
+                        <div class="pt-2 text-center">
+                          <p
+                            class="fw-400 f-size-16px mark-text d-flex mb-0 ps-1"
+                          >
+                            Instituições Certificadas
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="position-relative explanation z-index-1000"
+                    style="bottom: 28px"
+                  >
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                    >
+                      <img src="./assets/imgs/arrow2.svg" />
+                    </div>
+
+                    <div
+                      class="d-flex justify-content-center align-items-center text-center pt-2 px-1"
+                    >
+                      <p class="white-secundary f-size-16px fw-400">
+                        Bolsas de estudo
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <img
+          src="./assets/imgs/detail-home-4-cellphone.svg"
+          class="position-absolute"
+          style="bottom: 0px; right: 0px; opacity: 0.65"
+        />
+      </div>
+
+      <div class="position-relative">
+        <div class="w-100 bg-white position-relative py-5">
+          <img
+            src="./assets/imgs/detail-home-5.svg"
+            class="position-absolute"
+            style="top: -180px; left: 0px; z-index: 1; opacity: 0.7"
+          />
+
+          <div
+            class="container px-4 d-flex justify-content-end mb-iphone position-relative"
+          >
+            <div class="d-flex w-100 justify-content-start toComputer">
+              <img
+                src="./assets/imgs/iphone-full.svg"
+                class="position-absolute top-iphone"
+                style="z-index: 3"
+              />
+            </div>
+            <div class="text-end row pe-3">
+              <div class="col-lg-5 col-0"></div>
+
+              <div class="col-lg-7 col-12 position-relative z-index-1000 p-0">
+                <p class="mark-text fw-500 f-size-32px mb-3">
+                  Mais do que uma oportunidade, seu direito!
+                </p>
+
+                <p class="fw-400 f-size-22px primary-text">
+                  Os estudantes bolsistas têm direitos garantidos por lei.
+                  Acesse o nosso app para denunciar irregularidades, como a não
+                  oferta de bolsas, segregação ou diferença de tratamento entre
+                  bolsistas e pagantes, dentre outras que possam comprometer seu
+                  acesso à educação de qualidade e ajude a garantir que esses
+                  direitos sejam respeitados.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-iphone ps-iphone toCellphone">
+          <img
+            src="./assets/imgs/iphone-full.svg"
+            class="position-absolute position-iphone width-height-iphone"
+            style="z-index: 3"
+          />
+        </div>
+
+        <div class="position-relative bg-yellow pt-iphone" style="z-index: 1">
+          <img
+            src="./assets/imgs/detail-home-7.svg"
+            class="position-absolute detail-home-7"
+            style="top: 0px; right: 0px"
+          />
+
+          <div class="container px-4 pt-5 pb-5 pb-victoria">
+            <div class="row mx-0">
+              <div class="col-lg-5 col-0"></div>
+
+              <div
+                class="text-center col-lg-4 col-12 position-relative z-index-1000"
+              >
+                <p class="fw-500 primary-text f-size-32px">
+                  Informação é poder
+                </p>
+
+                <p class="primary-text fw-400 f-size-22px mt-4">
+                  As bolsas oferecidas na nossa plataforma não são caridade, mas
+                  sim um direito financiado pelo poder público. Crie uma conta
+                  para tirar suas dúvidas e saber mais sobre seus direitos com o
+                  auxílio da Vitória, nosso chatbot.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <img
+            src="./assets/imgs/vitoria.svg"
+            class="position-absolute vitoria-width"
+            style="bottom: 0px; right: 0px"
+          />
+
+          <img
+            src="./assets/imgs/detail-home-6.svg"
+            class="position-absolute detail-home-6"
+            style="bottom: -40px; left: 0px"
+          />
+        </div>
+      </div>
+
+      <div
+        class="bg-white-secundary w-100 position-relative"
+        style="margin-bottom: -18px"
+      >
+        <img
+          src="./assets/imgs/detail-home-8.svg"
+          class="position-absolute detail-home-8"
+          style="top: -135px; right: 0px"
+        />
+
+        <div class="container px-4 py-5">
+          <div class="position-relative z-index-1000">
+            <p class="mark-text fw-500 f-size-32px mb-4">
+              De estudantes para estudantes
+            </p>
+
+            <div class="row mb-5">
+              <div class="col-8">
+                <p class="primary-text fw-400 f-size-22px">
+                  Uma rede de apoio feita por quem já esteve no seu lugar.
+                  Conheça histórias inspiradoras, dicas e orientações de outros
+                  bolsistas que venceram desafios e hoje ajudam a construir um
+                  futuro melhor para todos.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center w-100 position-relative z-index-1000"
+          >
+            <div class="w-fit-content d-flex gap-3 position-relative">
+              <img
+                (click)="backOneStudent()"
+                src="./assets/icons/arrow-left-yellow.svg"
+                width="89px"
+                height="180px"
+                class="position-absolute cursor-pointer"
+                [class.disabled]="
+                  studentsHistories.length <= maxStudentsPerPage
+                "
+                style="top: 200px; left: -23px"
+              />
+              <img
+                (click)="walkOneStudent()"
+                src="./assets/icons/arrow-right-yellow.svg"
+                width="89px"
+                height="180px"
+                class="position-absolute cursor-pointer"
+                [class.disabled]="
+                  studentsHistories.length <= maxStudentsPerPage
+                "
+                style="top: 200px; right: -23px"
+              />
+
+              <div
+                *ngFor="let student of studentsOnScreen"
+                style="width: 300px"
+              >
+                <div
+                  class="bg-white d-flex justify-content-center align-items-center mb-3 position-relative"
+                  style="width: 300px; height: 247px"
+                >
+                  <div
+                    [class.bg-student-brand-primary]="
+                      student.backgroundColor == 'blue'
+                    "
+                    [class.bg-student-green]="
+                      student.backgroundColor == 'green'
+                    "
+                    [class.bg-student-photo-orange]="
+                      student.backgroundColor == 'orange'
+                    "
+                    [class.bg-student-dark-green]="
+                      student.backgroundColor == 'dark-green'
+                    "
+                    class="d-flex justify-content-center align-items-center position-relative"
+                    style="width: 264px; height: 237px; z-index: 10 !important"
+                  ></div>
+                  <img
+                    [src]="student.photo || './assets/imgs/default-student.svg'"
+                    [class.rotation-right]="student.rotation == 'right'"
+                    [class.rotation-left]="student.rotation == 'left'"
+                    width="249px"
+                    height="227px"
+                    class="position-absolute"
+                  />
+                </div>
+
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="width: 300px"
+                >
+                  <div class="w-fit-content">
+                    <p class="mark-text fw-500 f-size-24px mb-1 text-center">
+                      {{ student.name }}
+                    </p>
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                    >
+                      <small class="primary-text fw-400">{{
+                        student.city
+                      }}</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="history h-fit-content p-2 mt-3"
+                  style="width: 300px"
+                >
+                  <span class="fw-400 primary-text f-size-16px black">{{
+                    student.message
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <img
+          src="./assets/imgs/detail-home-9.svg"
+          class="position-absolute"
+          style="bottom: -5px; left: 0px; z-index: 0; opacity: 0.7"
+        />
+      </div>
+    </div>
+  </div>
+
+  <app-menu-mobile></app-menu-mobile>
+</section>

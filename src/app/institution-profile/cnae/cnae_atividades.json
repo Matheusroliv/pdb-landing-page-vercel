@@ -1,0 +1,711 @@
+[
+  { "CNAE": "3250706", "Atividade": "Serviços de prótese dentária" },
+  { "CNAE": "3250709", "Atividade": "Serviço de laboratório óptico" },
+  { "CNAE": "4399101", "Atividade": "Administração de obras" },
+  {
+    "CNAE": "4512901",
+    "Atividade": "Representantes comerciais e agentes do comércio de veículos automotores"
+  },
+  {
+    "CNAE": "4530702",
+    "Atividade": "Comércio por atacado de pneumáticos e câmaras-de-ar"
+  },
+  {
+    "CNAE": "4530703",
+    "Atividade": "Comércio a varejo de peças e acessórios para veículos"
+  },
+  {
+    "CNAE": "4530704",
+    "Atividade": "Comércio a varejo de peças e acessórios para veículos"
+  },
+  {
+    "CNAE": "4530705",
+    "Atividade": "Comércio a varejo de pneumáticos e câmaras-de-ar"
+  },
+  { "CNAE": "4530706", "Atividade": "Representantes e agentes do comércio" },
+  {
+    "CNAE": "4541202",
+    "Atividade": "Comércio de peças e acessórios para motocicletas e motonetas"
+  },
+  {
+    "CNAE": "4541206",
+    "Atividade": "Comércio de peças e acessórios novos para motocicletas e motonetas"
+  },
+  {
+    "CNAE": "4541207",
+    "Atividade": "Comércio de peças e acessórios usados para motocicletas e motonetas"
+  },
+  { "CNAE": "4542101", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4611700", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4612500", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4613300", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4614100", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4615000", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4616800", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4617600", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4618401", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4618402", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4618403", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4618499", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4619200", "Atividade": "Representantes e agentes do comércio" },
+  { "CNAE": "4711301", "Atividade": "Hipermercados" },
+  { "CNAE": "4711302", "Atividade": "Supermercados" },
+  { "CNAE": "4712100", "Atividade": "Minimercados, mercearias e armazéns" },
+  { "CNAE": "4713002", "Atividade": "Lojas de variedades" },
+  { "CNAE": "4713004", "Atividade": "Lojas de departamentos ou magazines" },
+  { "CNAE": "4721102", "Atividade": "Padaria e confeitaria" },
+  { "CNAE": "4721103", "Atividade": "Comércio varejista" },
+  { "CNAE": "4721104", "Atividade": "Comércio varejista" },
+  { "CNAE": "4723700", "Atividade": "Comércio varejista" },
+  { "CNAE": "4724500", "Atividade": "Comércio varejista" },
+  { "CNAE": "4729601", "Atividade": "Tabacaria" },
+  { "CNAE": "4729699", "Atividade": "Comércio varejista" },
+  { "CNAE": "4743100", "Atividade": "Comércio varejista" },
+  { "CNAE": "4744002", "Atividade": "Comércio varejista" },
+  { "CNAE": "4751201", "Atividade": "Comércio varejista" },
+  { "CNAE": "4751202", "Atividade": "Comércio varejista" },
+  { "CNAE": "4752100", "Atividade": "Comércio varejista" },
+  { "CNAE": "4753900", "Atividade": "Comércio varejista" },
+  { "CNAE": "4754701", "Atividade": "Comércio varejista" },
+  { "CNAE": "4754702", "Atividade": "Comércio varejista" },
+  { "CNAE": "4754703", "Atividade": "Comércio varejista" },
+  { "CNAE": "4755501", "Atividade": "Comércio varejista" },
+  { "CNAE": "4755502", "Atividade": "Comércio varejista" },
+  { "CNAE": "4755503", "Atividade": "Comércio varejista" },
+  { "CNAE": "4756300", "Atividade": "Comércio varejista" },
+  { "CNAE": "4757100", "Atividade": "Comércio varejista" },
+  { "CNAE": "4759801", "Atividade": "Comércio varejista" },
+  { "CNAE": "4759899", "Atividade": "Comércio varejista" },
+  { "CNAE": "4761001", "Atividade": "Comércio varejista" },
+  { "CNAE": "4761002", "Atividade": "Comércio varejista" },
+  { "CNAE": "4761003", "Atividade": "Comércio varejista" },
+  { "CNAE": "4762800", "Atividade": "Comércio varejista" },
+  { "CNAE": "4763601", "Atividade": "Comércio varejista" },
+  { "CNAE": "4763602", "Atividade": "Comércio varejista" },
+  { "CNAE": "4763603", "Atividade": "Comércio varejista" },
+  { "CNAE": "4763604", "Atividade": "Comércio varejista" },
+  { "CNAE": "4772500", "Atividade": "Comércio varejista" },
+  { "CNAE": "4774100", "Atividade": "Comércio varejista" },
+  { "CNAE": "4781400", "Atividade": "Comércio varejista" },
+  { "CNAE": "4782201", "Atividade": "Comércio varejista" },
+  { "CNAE": "4782202", "Atividade": "Comércio varejista" },
+  { "CNAE": "4783102", "Atividade": "Comércio varejista" },
+  { "CNAE": "4785701", "Atividade": "Comércio varejista" },
+  { "CNAE": "4785799", "Atividade": "Comércio varejista" },
+  { "CNAE": "4789001", "Atividade": "Comércio varejista" },
+  { "CNAE": "4789002", "Atividade": "Comércio varejista" },
+  { "CNAE": "4789003", "Atividade": "Comércio varejista" },
+  { "CNAE": "4789007", "Atividade": "Comércio varejista" },
+  { "CNAE": "4789008", "Atividade": "Comércio varejista" },
+  { "CNAE": "4789099", "Atividade": "Comércio varejista" },
+  { "CNAE": "5611201", "Atividade": "Restaurantes e similares" },
+  {
+    "CNAE": "5611203",
+    "Atividade": "Lanchonetes, casas de chá, de sucos e similares"
+  },
+  { "CNAE": "5611204", "Atividade": "Bares" },
+  { "CNAE": "5620101", "Atividade": "Fornecimento de alimentos" },
+  { "CNAE": "5620103", "Atividade": "Cantinas" },
+  { "CNAE": "5620104", "Atividade": "Fornecimento de alimentos" },
+  { "CNAE": "5911101", "Atividade": "Estúdios cinematográficos" },
+  { "CNAE": "5911102", "Atividade": "Produção de filmes para publicidade" },
+  { "CNAE": "5911199", "Atividade": "Atividades de produção cinematográfica" },
+  { "CNAE": "5912001", "Atividade": "Serviços de dublagem" },
+  {
+    "CNAE": "5912002",
+    "Atividade": "Serviços de mixagem sonora em produção audiovisual"
+  },
+  {
+    "CNAE": "5912099",
+    "Atividade": "Atividades de pós-produção cinematográfica"
+  },
+  { "CNAE": "5913800", "Atividade": "Distribuição cinematográfica" },
+  { "CNAE": "5914600", "Atividade": "Atividades de exibição cinematográfica" },
+  {
+    "CNAE": "5920100",
+    "Atividade": "Atividades de gravação de som e de edição de música"
+  },
+  {
+    "CNAE": "6201501",
+    "Atividade": "Desenvolvimento de programas de computador"
+  },
+  { "CNAE": "6201502", "Atividade": "Web design" },
+  {
+    "CNAE": "6202300",
+    "Atividade": "Desenvolvimento e licenciamento de programas de computador"
+  },
+  {
+    "CNAE": "6203100",
+    "Atividade": "Desenvolvimento e licenciamento de programas de computador"
+  },
+  { "CNAE": "6204000", "Atividade": "Consultoria em tecnologia da informação" },
+  { "CNAE": "6209100", "Atividade": "Suporte em tecnologia da informação" },
+  {
+    "CNAE": "6311900",
+    "Atividade": "Tratamento de dados e serviços de hospedagem na internet"
+  },
+  { "CNAE": "6319400", "Atividade": "Serviços de informação" },
+  { "CNAE": "6391700", "Atividade": "Agências de notícias" },
+  { "CNAE": "6399200", "Atividade": "Serviços de informação" },
+  {
+    "CNAE": "6619302",
+    "Atividade": "Correspondentes de instituições financeiras"
+  },
+  { "CNAE": "6621501", "Atividade": "Peritos e avaliadores de seguros" },
+  { "CNAE": "6621502", "Atividade": "Auditoria e consultoria atuarial" },
+  { "CNAE": "6622300", "Atividade": "Corretores e agentes de seguros" },
+  { "CNAE": "6629100", "Atividade": "Atividades auxiliares dos seguros" },
+  {
+    "CNAE": "6821801",
+    "Atividade": "Corretagem na compra e venda e avaliação de imóveis"
+  },
+  { "CNAE": "6821802", "Atividade": "Corretagem no aluguel de imóveis" },
+  { "CNAE": "6911701", "Atividade": "Serviços advocatícios" },
+  { "CNAE": "6911703", "Atividade": "Agente de propriedade industrial" },
+  {
+    "CNAE": "7020400",
+    "Atividade": "Atividades de consultoria em gestão empresarial"
+  },
+  { "CNAE": "7111100", "Atividade": "Serviços de arquitetura" },
+  { "CNAE": "7112000", "Atividade": "Serviços de engenharia" },
+  { "CNAE": "7119701", "Atividade": "Serviços de cartografia" },
+  { "CNAE": "7119702", "Atividade": "Atividades de estudos geológicos" },
+  { "CNAE": "7119703", "Atividade": "Serviços de desenho técnico" },
+  { "CNAE": "7119704", "Atividade": "Serviços de perícia técnica" },
+  {
+    "CNAE": "7119799",
+    "Atividade": "Atividades técnicas relacionadas à engenharia e arquitetura"
+  },
+  { "CNAE": "7120100", "Atividade": "Testes e análises técnicas" },
+  {
+    "CNAE": "7210000",
+    "Atividade": "Pesquisa e desenvolvimento experimental em ciências"
+  },
+  {
+    "CNAE": "7220700",
+    "Atividade": "Pesquisa e desenvolvimento experimental em ciências"
+  },
+  { "CNAE": "7311400", "Atividade": "Agências de publicidade" },
+  {
+    "CNAE": "7312200",
+    "Atividade": "Agenciamento de espaços para publicidade"
+  },
+  {
+    "CNAE": "7319001",
+    "Atividade": "Criação de estandes para feiras e exposições"
+  },
+  { "CNAE": "7319002", "Atividade": "Promoção de vendas" },
+  { "CNAE": "7319003", "Atividade": "Marketing direto" },
+  { "CNAE": "7319004", "Atividade": "Consultoria em publicidade" },
+  { "CNAE": "7319099", "Atividade": "Outras atividades de publicidade" },
+  {
+    "CNAE": "7320300",
+    "Atividade": "Pesquisas de mercado e de opinião pública"
+  },
+  { "CNAE": "7410202", "Atividade": "Design de interiores" },
+  { "CNAE": "7410203", "Atividade": "Design de produto" },
+  {
+    "CNAE": "7410299",
+    "Atividade": "Atividades de design não especificadas anteriormente"
+  },
+  { "CNAE": "7420001", "Atividade": "Atividades de produção de fotografias" },
+  { "CNAE": "7420002", "Atividade": "Atividades de produção de fotografias" },
+  { "CNAE": "7420003", "Atividade": "Laboratórios fotográficos" },
+  { "CNAE": "7420004", "Atividade": "Filmagem de festas e eventos" },
+  { "CNAE": "7420005", "Atividade": "Serviços de microfilmagem" },
+  {
+    "CNAE": "7490101",
+    "Atividade": "Serviços de tradução, interpretação e similares"
+  },
+  { "CNAE": "7490102", "Atividade": "Escafandria e mergulho" },
+  {
+    "CNAE": "7490103",
+    "Atividade": "Serviços de agronomia e de consultoria às atividades agrícolas e pecuárias"
+  },
+  {
+    "CNAE": "7490104",
+    "Atividade": "Atividades de intermediação e agenciamento de serviços"
+  },
+  { "CNAE": "7490105", "Atividade": "Agenciamento de profissionais" },
+  { "CNAE": "7490199", "Atividade": "Outras atividades profissionais" },
+  { "CNAE": "7500100", "Atividade": "Atividades veterinárias" },
+  {
+    "CNAE": "7721700",
+    "Atividade": "Aluguel de equipamentos recreativos e esportivos"
+  },
+  {
+    "CNAE": "7722500",
+    "Atividade": "Aluguel de fitas de vídeo, DVDs e similares"
+  },
+  {
+    "CNAE": "7723300",
+    "Atividade": "Aluguel de objetos do vestuário, jóias e acessórios"
+  },
+  {
+    "CNAE": "7729201",
+    "Atividade": "Aluguel de aparelhos de jogos eletrônicos"
+  },
+  {
+    "CNAE": "7729202",
+    "Atividade": "Aluguel de objetos de uso doméstico e pessoal"
+  },
+  { "CNAE": "7729203", "Atividade": "Aluguel de material médico" },
+  {
+    "CNAE": "7729299",
+    "Atividade": "Aluguel de objetos de uso doméstico e pessoal"
+  },
+  { "CNAE": "7731400", "Atividade": "Aluguel de máquinas e equipamentos" },
+  { "CNAE": "7732201", "Atividade": "Aluguel de máquinas e equipamentos" },
+  { "CNAE": "7732202", "Atividade": "Aluguel de andaimes" },
+  { "CNAE": "7733100", "Atividade": "Aluguel de máquinas e equipamentos" },
+  { "CNAE": "7739001", "Atividade": "Aluguel de máquinas e equipamentos" },
+  { "CNAE": "7739002", "Atividade": "Aluguel de equipamentos científicos" },
+  {
+    "CNAE": "7739003",
+    "Atividade": "Aluguel de palcos, coberturas e outras estruturas"
+  },
+  { "CNAE": "7739099", "Atividade": "Aluguel de máquinas e equipamentos" },
+  {
+    "CNAE": "7740300",
+    "Atividade": "Gestão de ativos intangíveis não-financeiros"
+  },
+  { "CNAE": "7911200", "Atividade": "Agências de viagens" },
+  { "CNAE": "7912100", "Atividade": "Operadores turísticos" },
+  { "CNAE": "7990200", "Atividade": "Serviços de reservas e turismo" },
+  {
+    "CNAE": "8011102",
+    "Atividade": "Serviços de adestramento de cães de guarda"
+  },
+  { "CNAE": "8030700", "Atividade": "Atividades de investigação particular" },
+  { "CNAE": "8121400", "Atividade": "Limpeza em prédios e em domicílios" },
+  { "CNAE": "8122200", "Atividade": "Imunização e controle de pragas urbanas" },
+  { "CNAE": "8129000", "Atividade": "Atividades de limpeza" },
+  { "CNAE": "8130300", "Atividade": "Atividades paisagísticas" },
+  {
+    "CNAE": "8211300",
+    "Atividade": "Serviços combinados de escritório e apoio administrativo"
+  },
+  {
+    "CNAE": "8219999",
+    "Atividade": "Preparação de documentos e serviços de apoio administrativo"
+  },
+  { "CNAE": "8220200", "Atividade": "Atividades de teleatendimento" },
+  {
+    "CNAE": "8230001",
+    "Atividade": "Serviços de organização de feiras e congressos"
+  },
+  { "CNAE": "8230002", "Atividade": "Casas de festas e eventos" },
+  {
+    "CNAE": "8291100",
+    "Atividade": "Atividades de cobrança e informações cadastrais"
+  },
+  {
+    "CNAE": "8299701",
+    "Atividade": "Medição de consumo de energia elétrica, gás e água"
+  },
+  {
+    "CNAE": "8299703",
+    "Atividade": "Serviços de gravação de carimbos, exceto confecção"
+  },
+  { "CNAE": "8299707", "Atividade": "Salas de acesso à internet" },
+  {
+    "CNAE": "8299799",
+    "Atividade": "Outras atividades de serviços prestados principalmente às empresas não especificadas anteriormente"
+  },
+  { "CNAE": "8511200", "Atividade": "Creche" },
+  { "CNAE": "8512100", "Atividade": "Pré-escola" },
+  { "CNAE": "8513900", "Atividade": "Ensino fundamental" },
+  { "CNAE": "8520100", "Atividade": "Ensino médio" },
+  { "CNAE": "8531700", "Atividade": "Graduação" },
+  { "CNAE": "8532500", "Atividade": "Graduação e pós-graduação" },
+  { "CNAE": "8533300", "Atividade": "Pós-graduação e extensão" },
+  { "CNAE": "8541400", "Atividade": "Ensino técnico" },
+  { "CNAE": "8542200", "Atividade": "Ensino tecnológico" },
+  { "CNAE": "8550302", "Atividade": "Apoio à educação" },
+  { "CNAE": "8591100", "Atividade": "Ensino de esportes" },
+  { "CNAE": "8592901", "Atividade": "Ensino de dança" },
+  { "CNAE": "8592902", "Atividade": "Ensino de artes cênicas" },
+  { "CNAE": "8592903", "Atividade": "Ensino de música" },
+  { "CNAE": "8592999", "Atividade": "Ensino de arte e cultura" },
+  { "CNAE": "8593700", "Atividade": "Ensino de idiomas" },
+  { "CNAE": "8599603", "Atividade": "Treinamento em informática" },
+  {
+    "CNAE": "8599604",
+    "Atividade": "Treinamento em desenvolvimento profissional"
+  },
+  { "CNAE": "8599605", "Atividade": "Cursos preparatórios para concursos" },
+  { "CNAE": "8599699", "Atividade": "Outras atividades de ensino" },
+  { "CNAE": "8610101", "Atividade": "Atividades de atendimento hospitalar" },
+  { "CNAE": "8630501", "Atividade": "Atividade médica ambulatorial" },
+  { "CNAE": "8630502", "Atividade": "Atividade médica ambulatorial" },
+  { "CNAE": "8630503", "Atividade": "Atividade médica ambulatorial" },
+  { "CNAE": "8630504", "Atividade": "Atividade odontológica" },
+  {
+    "CNAE": "8630506",
+    "Atividade": "Serviços de vacinação e imunização humana"
+  },
+  {
+    "CNAE": "8630507",
+    "Atividade": "Atividades de reprodução humana assistida"
+  },
+  { "CNAE": "8630599", "Atividade": "Atividades de atenção ambulatorial" },
+  {
+    "CNAE": "8640201",
+    "Atividade": "Laboratórios de anatomia patológica e citológica"
+  },
+  { "CNAE": "8640202", "Atividade": "Laboratórios clínicos" },
+  { "CNAE": "8640203", "Atividade": "Serviços de diálise e nefrologia" },
+  { "CNAE": "8640204", "Atividade": "Serviços de tomografia" },
+  { "CNAE": "8640205", "Atividade": "Serviços de diagnóstico por imagem" },
+  { "CNAE": "8640206", "Atividade": "Serviços de ressonância magnética" },
+  { "CNAE": "8640207", "Atividade": "Serviços de diagnóstico por imagem" },
+  {
+    "CNAE": "8640208",
+    "Atividade": "Serviços de diagnóstico por registro gráfico"
+  },
+  {
+    "CNAE": "8640209",
+    "Atividade": "Serviços de diagnóstico por métodos ópticos"
+  },
+  { "CNAE": "8640210", "Atividade": "Serviços de quimioterapia" },
+  { "CNAE": "8640211", "Atividade": "Serviços de radioterapia" },
+  { "CNAE": "8640212", "Atividade": "Serviços de hemoterapia" },
+  { "CNAE": "8640213", "Atividade": "Serviços de litotripsia" },
+  {
+    "CNAE": "8640214",
+    "Atividade": "Serviços de bancos de células e tecidos humanos"
+  },
+  {
+    "CNAE": "8640299",
+    "Atividade": "Atividades de serviços de complementação diagnóstica e terapêutica"
+  },
+  { "CNAE": "8650001", "Atividade": "Atividades de enfermagem" },
+  { "CNAE": "8650002", "Atividade": "Atividades de profissionais da nutrição" },
+  { "CNAE": "8650003", "Atividade": "Atividades de psicologia e psicanálise" },
+  { "CNAE": "8650004", "Atividade": "Atividades de fisioterapia" },
+  { "CNAE": "8650005", "Atividade": "Atividades de terapia ocupacional" },
+  { "CNAE": "8650006", "Atividade": "Atividades de fonoaudiologia" },
+  {
+    "CNAE": "8650007",
+    "Atividade": "Atividades de terapia de nutrição enteral e parenteral"
+  },
+  {
+    "CNAE": "8650099",
+    "Atividade": "Atividades de profissionais da área de saúde"
+  },
+  { "CNAE": "8660700", "Atividade": "Atividades de apoio à gestão de saúde" },
+  {
+    "CNAE": "8690901",
+    "Atividade": "Atividades de práticas integrativas e complementares em saúde humana"
+  },
+  { "CNAE": "8690903", "Atividade": "Atividades de acupuntura" },
+  { "CNAE": "8690904", "Atividade": "Atividades de podologia" },
+  {
+    "CNAE": "8690999",
+    "Atividade": "Outras atividades de atenção à saúde humana"
+  },
+  { "CNAE": "9001901", "Atividade": "Produção teatral" },
+  { "CNAE": "9001902", "Atividade": "Produção musical" },
+  { "CNAE": "9001903", "Atividade": "Produção de espetáculos de dança" },
+  { "CNAE": "9001904", "Atividade": "Produção de espetáculos circenses" },
+  { "CNAE": "9001905", "Atividade": "Produção de espetáculos de rodeios" },
+  {
+    "CNAE": "9001906",
+    "Atividade": "Atividades de sonorização e de iluminação"
+  },
+  { "CNAE": "9001999", "Atividade": "Artes cênicas" },
+  {
+    "CNAE": "9002701",
+    "Atividade": "Atividades de artistas plásticos, jornalistas independentes e escritores"
+  },
+  { "CNAE": "9002702", "Atividade": "Restauração de obras de arte" },
+  { "CNAE": "9311500", "Atividade": "Gestão de instalações de esportes" },
+  { "CNAE": "9313100", "Atividade": "Atividades de condicionamento físico" },
+  {
+    "CNAE": "9319101",
+    "Atividade": "Produção e promoção de eventos esportivos"
+  },
+  {
+    "CNAE": "9319199",
+    "Atividade": "Outras atividades esportivas não especificadas anteriormente"
+  },
+  { "CNAE": "9329802", "Atividade": "Exploração de boliches" },
+  {
+    "CNAE": "9329803",
+    "Atividade": "Exploração de jogos de sinuca, bilhar e similares"
+  },
+  {
+    "CNAE": "9329804",
+    "Atividade": "Exploração de jogos eletrônicos recreativos"
+  },
+  {
+    "CNAE": "9329899",
+    "Atividade": "Outras atividades de recreação e lazer não especificadas anteriormente"
+  },
+  { "CNAE": "9511800", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "9512600", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "9521500", "Atividade": "Reparação e manutenção" },
+  {
+    "CNAE": "9529101",
+    "Atividade": "Reparação de calçados, bolsas e artigos de viagem"
+  },
+  { "CNAE": "9529102", "Atividade": "Chaveiros" },
+  { "CNAE": "9529103", "Atividade": "Reparação de relógios" },
+  {
+    "CNAE": "9529104",
+    "Atividade": "Reparação de bicicletas, triciclos e outros veículos não-motorizados"
+  },
+  { "CNAE": "9529105", "Atividade": "Reparação de artigos do mobiliário" },
+  { "CNAE": "9529106", "Atividade": "Reparação de jóias" },
+  { "CNAE": "9529199", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "9601701", "Atividade": "Lavanderias" },
+  { "CNAE": "9601702", "Atividade": "Tinturarias" },
+  { "CNAE": "9601703", "Atividade": "Toalheiros" },
+  { "CNAE": "9602501", "Atividade": "Cabeleireiros, manicure e pedicure" },
+  { "CNAE": "9602502", "Atividade": "Atividades de Estética" },
+  { "CNAE": "9609202", "Atividade": "Agências matrimoniais" },
+  { "CNAE": "9609205", "Atividade": "Atividades de sauna e banhos" },
+  {
+    "CNAE": "9609206",
+    "Atividade": "Serviços de tatuagem e colocação de piercing"
+  },
+  { "CNAE": "9609207", "Atividade": "Alojamento de animais domésticos" },
+  {
+    "CNAE": "9609208",
+    "Atividade": "Higiene e embelezamento de animais domésticos"
+  },
+  { "CNAE": "9609299", "Atividade": "Outras atividades de serviços pessoais" },
+  {
+    "CNAE": "161003",
+    "Atividade": "Serviço de preparação de terreno, cultivo e colheita"
+  },
+  { "CNAE": "162803", "Atividade": "Serviço de manejo de animais" },
+  {
+    "CNAE": "322107",
+    "Atividade": "Atividades de apoio à aqüicultura em água doce"
+  },
+  { "CNAE": "1099604", "Atividade": "Fabricação de gelo comum" },
+  { "CNAE": "3312102", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3312103", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3312104", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3313901", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3313902", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3313999", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314701", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314702", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314703", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314704", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314705", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314706", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314707", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314708", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314709", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314710", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314711", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314712", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314713", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314714", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314715", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314716", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314717", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314718", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314719", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314720", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314721", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314722", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3314799", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3315500", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3316301", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3316302", "Atividade": "Manutenção de aeronaves na pista" },
+  { "CNAE": "3317101", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3317102", "Atividade": "Reparação e manutenção" },
+  { "CNAE": "3319800", "Atividade": "Reparação e manutenção" },
+  {
+    "CNAE": "3321000",
+    "Atividade": "Instalação de máquinas e equipamentos industriais"
+  },
+  {
+    "CNAE": "4211102",
+    "Atividade": "Pintura para sinalização em pistas rodoviárias e aeroportos"
+  },
+  {
+    "CNAE": "4221903",
+    "Atividade": "Manutenção de redes de distribuição de energia elétrica"
+  },
+  {
+    "CNAE": "4221905",
+    "Atividade": "Manutenção de estações e redes de telecomunicações"
+  },
+  { "CNAE": "4313400", "Atividade": "Obras de terraplenagem" },
+  { "CNAE": "4321500", "Atividade": "Instalação e manutenção elétrica" },
+  {
+    "CNAE": "4322301",
+    "Atividade": "Instalações hidráulicas, sanitárias e de gás"
+  },
+  {
+    "CNAE": "4322302",
+    "Atividade": "Instalação e manutenção de sistemas centrais"
+  },
+  {
+    "CNAE": "4322303",
+    "Atividade": "Instalações de sistema de prevenção contra incêndio"
+  },
+  { "CNAE": "4329101", "Atividade": "Instalação de painéis publicitários" },
+  {
+    "CNAE": "4329102",
+    "Atividade": "Instalação de equipamentos para orientação à navegação"
+  },
+  {
+    "CNAE": "4329103",
+    "Atividade": "Instalação, manutenção e reparação de elevadores, escadas e esteiras rolantes"
+  },
+  {
+    "CNAE": "4329104",
+    "Atividade": "Montagem e instalação de sistemas e equipamentos de iluminação e sinalização"
+  },
+  {
+    "CNAE": "4329105",
+    "Atividade": "Tratamentos térmicos, acústicos ou de vibração"
+  },
+  { "CNAE": "4399102", "Atividade": "Montagem e desmontagem de andaimes" },
+  {
+    "CNAE": "4511101",
+    "Atividade": "Comércio a varejo de automóveis, camionetas e utilitários novos"
+  },
+  { "CNAE": "4520001", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520002", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520003", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520004", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520005", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520006", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520007", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4520008", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4530701", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4541203", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4541204", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4543900", "Atividade": "Serviços para veículos automotores" },
+  { "CNAE": "4722902", "Atividade": "Peixaria" },
+  { "CNAE": "4729602", "Atividade": "Comércio varejista" },
+  { "CNAE": "4741500", "Atividade": "Comércio varejista" },
+  { "CNAE": "4742300", "Atividade": "Comércio varejista" },
+  {
+    "CNAE": "4744001",
+    "Atividade": "Comércio varejista de ferragens e ferramentas"
+  },
+  {
+    "CNAE": "4744003",
+    "Atividade": "Comércio varejista de materiais hidráulicos"
+  },
+  {
+    "CNAE": "4744004",
+    "Atividade": "Comércio varejista de cal, areia, pedra britada, tijolos e telhas"
+  },
+  {
+    "CNAE": "4744005",
+    "Atividade": "Comércio varejista de materiais de construção não especificados anteriormente"
+  },
+  {
+    "CNAE": "4744006",
+    "Atividade": "Comércio varejista de pedras para revestimento"
+  },
+  {
+    "CNAE": "4744099",
+    "Atividade": "Comércio varejista de materiais de construção em geral"
+  },
+  {
+    "CNAE": "4763605",
+    "Atividade": "Comércio varejista de embarcações e outros veículos recreativos peças e acessórios"
+  },
+  {
+    "CNAE": "4771704",
+    "Atividade": "Comércio varejista de medicamentos veterinários"
+  },
+  {
+    "CNAE": "4773300",
+    "Atividade": "Comércio varejista de artigos médicos e ortopédicos"
+  },
+  {
+    "CNAE": "4789005",
+    "Atividade": "Comércio varejista de produtos saneantes domissanitários"
+  },
+  {
+    "CNAE": "4789006",
+    "Atividade": "Comércio varejista de fogos de artifício e artigos pirotécnicos"
+  },
+  { "CNAE": "4789009", "Atividade": "Comércio varejista de armas e munições" },
+  { "CNAE": "5211702", "Atividade": "Guarda-móveis" },
+  { "CNAE": "5320201", "Atividade": "Serviços de malote" },
+  { "CNAE": "5320202", "Atividade": "Serviços de entrega rápida" },
+  { "CNAE": "5510801", "Atividade": "Hotéis" },
+  { "CNAE": "5510802", "Atividade": "Apart-hotéis" },
+  { "CNAE": "5510803", "Atividade": "Motéis" },
+  { "CNAE": "5590601", "Atividade": "Albergues, exceto assistenciais" },
+  { "CNAE": "5590602", "Atividade": "Campings" },
+  { "CNAE": "5590603", "Atividade": "Pensões (alojamento)" },
+  {
+    "CNAE": "5590699",
+    "Atividade": "Outros alojamentos não especificados anteriormente"
+  },
+  { "CNAE": "5620102", "Atividade": "Bufê" },
+  { "CNAE": "5811500", "Atividade": "Edição de livros" },
+  { "CNAE": "5812301", "Atividade": "Edição de jornais diários" },
+  { "CNAE": "5812302", "Atividade": "Edição de jornais não diários" },
+  { "CNAE": "5813100", "Atividade": "Edição de revistas" },
+  {
+    "CNAE": "5819100",
+    "Atividade": "Edição de cadastros, listas e outros produtos gráficos"
+  },
+  {
+    "CNAE": "6822600",
+    "Atividade": "Gestão e administração da propriedade imobiliária"
+  },
+  { "CNAE": "7711000", "Atividade": "Locação de automóveis sem condutor" },
+  {
+    "CNAE": "8020001",
+    "Atividade": "Atividades de monitoramento de sistemas de segurança eletrônico"
+  },
+  { "CNAE": "8219901", "Atividade": "Fotocópias" },
+  { "CNAE": "8599601", "Atividade": "Formação de condutores" },
+  { "CNAE": "8599602", "Atividade": "Cursos de pilotagem" },
+  {
+    "CNAE": "8610102",
+    "Atividade": "Atividades de atendimento em pronto-socorro e unidades hospitalares para atendimento a urgências"
+  },
+  { "CNAE": "8621601", "Atividade": "UTI móvel" },
+  {
+    "CNAE": "8621602",
+    "Atividade": "Serviços móveis de atendimento a urgências, exceto por UTI móvel"
+  },
+  {
+    "CNAE": "8622400",
+    "Atividade": "Serviços de remoção de pacientes, exceto os serviços móveis de atendimento a urgências"
+  },
+  { "CNAE": "8690902", "Atividade": "Atividades de banco de leite humano" },
+  { "CNAE": "8711501", "Atividade": "Clínicas e residências geriátricas" },
+  {
+    "CNAE": "8711502",
+    "Atividade": "Instituições de longa permanência para idosos"
+  },
+  {
+    "CNAE": "8712300",
+    "Atividade": "Atividades de fornecimento de infra-estrutura de apoio e assistência a paciente no domicílio"
+  },
+  {
+    "CNAE": "9003500",
+    "Atividade": "Gestão de espaços para artes cênicas, espetáculos e outras atividades artísticas"
+  },
+  { "CNAE": "9101500", "Atividade": "Atividades de bibliotecas e arquivos" },
+  {
+    "CNAE": "9102301",
+    "Atividade": "Atividades de museus e de exploração de lugares e prédios históricos e atrações similares"
+  },
+  {
+    "CNAE": "9102302",
+    "Atividade": "Restauração e conservação de lugares e prédios históricos"
+  },
+  {
+    "CNAE": "6612605",
+    "Atividade": "Agentes de investimentos em aplicações financeiras"
+  },
+  { "CNAE": "6911702", "Atividade": "Atividades auxiliares da justiça" }
+]

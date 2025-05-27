@@ -1,0 +1,99 @@
+<div *ngIf="openMenu == true" class="toCellphone position-absolute menu" style="z-index: 1004;">
+
+    <div (click)="changeModalDownloadApp(false)" *ngIf="openModalDownload" class="position-absolute modal-download-app w-100" style="top:0px; left: 0px; z-index: 1005;">
+    </div>
+
+    <div *ngIf="showModal" (click)="changeMenu(false)" class="position-absolute registerIsOpen" style="top: 0; right: 0;"></div>
+
+    <div class="pt-3 pe-3 d-flex justify-content-end align-items-center">
+
+        <img (click)="changeMenu(false)" src="./assets/icons/x.svg">
+
+    </div>
+
+    <div class="w-100" style="padding-top: 60px;">
+
+        <div (click)="reloadHome()" class="w-100 d-flex align-items-center justify-content-center mb-5">
+
+            <span class="fw-400 f-size-18px white cursor-pointer" [class.text-decoration-underline]="currentPage == 'home'">Home</span>
+
+        </div>
+
+        <div [routerLink]="['/map']" class="w-100 d-flex align-items-center justify-content-center mb-5">
+
+            <span class="fw-400 f-size-18px white cursor-pointer" [class.text-decoration-underline]="currentPage == 'map' || currentPage == 'list'">Mapa</span>
+
+        </div>
+
+        <div class="d-flex align-items-center ms-2 justify-content-center">
+
+            <div (click)="changeOpenKnowMore()" class="position-relative d-flex">
+
+                <span class="fw-400 f-size-18px white cursor-pointer"
+                [class.text-decoration-underline]="currentPage == 'know more'">Saiba mais</span>
+
+                <img class="position-absolute position-arrow-bottom" [class.rotation-to-top]="openKnowMore" style="right: -24px; padding-top: 6px;"
+                src="./assets/icons/arrow-bottom-white.svg">
+
+                <div *ngIf="openKnowMore" class="select-saiba-mais position-absolute shadow4px" style="bottom:-40px;">
+
+                    <div (click)="goToKnowMore('Estudantes')" class="d-flex align-items-center justify-content-center cursor-pointer"
+                    style="height: 21px;">
+
+                        <span class="white fw-400 f-size-12px">Estudantes</span>
+
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-center" style="height: 0.5px;">
+                    
+                        <div class="h-100" style="background-color: white; width: 88%;"></div>
+                        
+                    </div>
+
+                    <div (click)="goToKnowMore('Instituições')" class="d-flex align-items-center justify-content-center cursor-pointer"
+                    style="height: 21px;">
+
+                        <span class="white fw-400 f-size-12px">Instituições</span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div [routerLink]="['/about']" class="w-100 d-flex align-items-center justify-content-center mt-5 mb-5">
+
+            <span class="fw-400 f-size-18px white cursor-pointer" [class.text-decoration-underline]="currentPage == 'about'">Sobre o Portal</span>
+
+        </div>
+
+    </div>
+
+    <div style="margin-top: 68px;">
+
+        <div class="d-flex justify-content-center align-items-center">
+
+            <div class="goInto d-flex align-items-center justify-content-center py-2 px-3 cursor-pointer" style="width: calc(50vw - 38px)"
+            (click)="openModal()">
+
+                <span class="fw-600 brand-primary letter-spacing-10">Pré-cadastro</span>
+
+            </div>
+
+        </div>
+
+        <!-- <div class="d-flex justify-content-center align-items-center mt-3">
+
+            <div (click)="changeModalDownloadApp(true)" class="install-app d-flex align-items-center justify-content-center py-2 px-3 cursor-pointer" style="width: calc(50vw - 38px)">
+
+                <span class="fw-600 white letter-spacing-10">Baixe o app</span>
+
+            </div>
+
+        </div> -->
+
+    </div>
+
+</div>

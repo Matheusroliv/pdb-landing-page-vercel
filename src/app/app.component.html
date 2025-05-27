@@ -1,0 +1,12 @@
+<app-header *ngIf="currentPage != 'home'" class="z-index-1000 position-relative"></app-header>
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  [fullScreen]="true"
+>
+</ngx-spinner>
+
+<router-outlet></router-outlet>
+<app-footer *ngIf="!mustHidefooter" class="position-relative" style="z-index: 1010"></app-footer>

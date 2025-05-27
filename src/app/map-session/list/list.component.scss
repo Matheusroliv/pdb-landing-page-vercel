@@ -1,0 +1,100 @@
+.border-of-search-box {
+  border: 1px solid #d4cec6;
+  border-radius: 12px;
+}
+
+input::placeholder {
+  color: #adadad;
+}
+
+.shadow-of-see-map {
+  box-shadow: 0px 4px 5px 0px #0000005a;
+}
+
+.arrows-box {
+  border: 1px solid #ededed;
+}
+
+.half-border {
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+  border-left: 0.5px solid #ededed;
+  border-right: 0.5px solid #ededed;
+}
+
+.box40x40 {
+  height: 40px;
+  width: 40px;
+}
+
+.first-arrow {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.last-arrow {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.first-last-arrow {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+button {
+  background-color: transparent !important;
+}
+
+button:disabled {
+  opacity: 50%;
+}
+
+.no-display {
+  display: none !important;
+}
+
+@media screen and (max-width: 385px) {
+  .box40x40 {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media screen and (min-width: 386px) and (max-width: 409px) {
+  .box40x40 {
+    height: 37px;
+    width: 37px;
+  }
+}
+
+.noscroll {
+  overflow-y: hidden !important;
+  height: calc(100vh - 71px) !important;
+}
+
+.random-icon {
+  opacity: 0.5 !important;
+  width: 54px !important;
+  height: 54px !important;
+}
+
+.random-icon-container {
+  padding: 6px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+}
+
+.truncate-text {
+  display: inline-block;
+  max-width: 290px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-open {
+  overflow: hidden;
+}

@@ -1,0 +1,576 @@
+<section class="bg-white" [class.noscroll]="openMenu">
+
+    <div class="d-flex justify-content-center no-show toCellphone">
+
+        <div class="position-absolute" style="top: 30%">
+
+            <app-modal-download></app-modal-download>
+
+        </div>
+
+    </div>
+
+    <app-menu-mobile class="no-show toCellphone"></app-menu-mobile>
+
+    <!--escurecem tela quando menu está aberto-->
+    <div *ngIf="openMenu" (click)="closeMenu(); changeModalDownloadApp(false)"
+        class="position-absolute menuIsOpen no-show toCellphone" style="top:0px; left: 0px; z-index: 1000;">
+    </div>
+    <!--escurecem tela quando modal de download está aberto-->
+    <div (click)="changeModalDownloadApp(false)" *ngIf="openModalDownloadApp"
+        class="position-absolute modal-download-app w-100 no-show toCellphone"
+        style="top:0px; left: 0px; z-index: 1004;">
+    </div>
+
+    <div class="container position-relative" style="z-index: 10;">
+
+        <p class="m-0 mark-text fw-500 f-size-30px py-4">Impulsione a Diversidade e a Excelência Acadêmica</p>
+
+        <div class="row m-0">
+
+            <div class="col-lg-8 d-flex" style="padding-left: 0px;">
+
+                <div>
+
+                    <span class="fw-400 f-size-20px secondary-color">
+                        As políticas de bolsas de estudo são essenciais para instituições de ensino que desejam promover
+                        a diversidade, inclusão e excelência acadêmica. A certificação CEBAS oferece diversos benefícios
+                        tributários que não apenas melhoram a saúde financeira das instituições, mas também fortalecem
+                        seu compromisso social e educacional.
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 d-flex justify-content-end pt-2 position-relative" style="padding-right: 0px;">
+
+                <img src="./assets/imgs/detail-know-more1.svg" class="position-absolute detail1">
+
+                <img src="./assets/imgs/know-more-institution1.svg" class="photo position-relative"
+                    style="z-index: 10;">
+
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+
+            <div (click)="changeinformationBox1(0)" class="cursor-pointer">
+
+                <!--information-box1 está fechado-->
+                <div *ngIf="!informationBoxes[0]"
+                    class="height40px radius12px d-flex align-items-center justify-content-between px-3"
+                    style="background: #FEBB4E">
+
+                    <span class="fw-400 f-size-20px mark-text">Benefícios PROUNI</span>
+                    <img src="./assets/icons/arrow-bottom-blue.svg" class="arrow-bottom">
+
+                </div>
+
+                <!--information-box1 está aberto-->
+                <div *ngIf="informationBoxes[0]"
+                    class="radius12px position-relative row ms-0 me-0 justify-content-center align-items-center gap-3 py-5 information1-box"
+                    style="background: #FEBB4E;">
+
+                    <img src="./assets/imgs/detail-know-more-institution1.svg"
+                        class="position-absolute detail-information1" style="bottom: 0; left: 15px;">
+
+                    <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3 pt-3"
+                        style="top: 0">
+
+                        <span class="fw-700 f-size-20px mark-text">Benefícios PROUNI</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" class="rotation-to-top arrow-bottom">
+
+                    </div>
+
+                    <div class="box-inside d-flex align-items-center py-3 px-4 mt-4" style="z-index: 10;">
+
+                        <div>
+
+                            <p class="m-0 w-100 text-center pb-2 fw-400 f-size-18px mark-text">Contexto Legal</p>
+                            <div class="text-justify">
+
+                                <span class="f-size-14px fw-400 primary-text">O Programa Universidade para Todos </span>
+                                <span class="f-size-14px fw-700 primary-text">(PROUNI) </span>
+                                <span class="f-size-14px fw-400 primary-text">é uma iniciativa do Governo Federal
+                                    destinada a aumentar o acesso ao ensino superior para estudantes de baixa renda,
+                                    oferecendo bolsas de estudo integrais e parciais em instituições privadas de ensino
+                                    superior. Instituições participantes recebem incentivos fiscais em troca de
+                                    oferecerem essas bolsas, ajudando a promover a inclusão social e educacional.</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-inside d-flex align-items-center py-3 px-4 mt-4" style="z-index: 10;">
+
+                        <div>
+
+                            <p class="m-0 w-100 text-center pb-2 fw-400 f-size-18px mark-text">Isenção de Impostos</p>
+                            <div class="text-justify">
+
+                                <span class="f-size-14px fw-400 primary-text">As instituições participantes do </span>
+                                <span class="f-size-14px fw-700 primary-text">PROUNI </span>
+                                <span class="f-size-14px fw-400 primary-text">recebem isenções fiscais significativas,
+                                    incluindo isenções de </span>
+                                <span class="f-size-14px fw-700 primary-text">Imposto de Renda de Pessoa Jurídica
+                                    (IRPJ), Contribuição Social sobre o Lucro Líquido (CSLL), Contribuição para o
+                                    Financiamento da Seguridade Social (COFINS) e Programa de Integração Social (PIS).
+                                </span>
+                                <span class="f-size-14px fw-400 primary-text">Esses incentivos fiscais permitem que as
+                                    instituições invistam mais recursos na qualidade de ensino e na
+                                    infraestrutura.</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div (click)="changeinformationBox1(1)" class="cursor-pointer" style="margin-top: 12px;">
+
+                <!--information-box2 está fechado-->
+                <div *ngIf="!informationBoxes[1]"
+                    class="height40px radius12px d-flex align-items-center justify-content-between px-3"
+                    style="background: #AFC441">
+
+                    <span class="fw-400 f-size-20px mark-text">Benefícios da Certificação CEBAS</span>
+                    <img src="./assets/icons/arrow-bottom-blue.svg" class="arrow-bottom">
+
+                </div>
+
+                <!--information-box2 está aberto-->
+                <div *ngIf="informationBoxes[1]" class="radius12px position-relative gap-3 pt-3 pb-4 information-box2"
+                    style="background: #AFC441;">
+
+                    <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 pt-3 px-3"
+                        style="top: 0">
+
+                        <span class="fw-700 f-size-20px mark-text">Benefícios da Certificação CEBAS</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" class="rotation-to-top arrow-bottom">
+
+                    </div>
+
+                    <div class="d-flex w-100 px-2 position-relative row ms-0 me-0 margin-top-information2">
+
+                        <img src="./assets/imgs/detail-know-more3.svg" class="position-absolute detail-information2"
+                            style="bottom: -21px; right: 20px;">
+
+                        <div class="position-relative" style="z-index: 10;">
+
+                            <ul class="mb-1" style="padding-left: 29px;">
+                                <li class="f-size-20px mark-text fw-400">Contexto Legal:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-20px">A Lei Complementar 187/2021, que regula a
+                                certificação das entidades beneficentes, oferece imunidades tributárias específicas,
+                                conforme o § 7º do art. 195 da Constituição Federal. A CEBAS Educação beneficia cerca de
+                                4 mil instituições de ensino, com R$ 10 bilhões em incentivos fiscais, que possibilitam
+                                a oferta de mais de 700 mil bolsas de estudo.</span>
+
+                            <ul class="mb-1 mt-3" style="padding-left: 29px;">
+                                <li class="f-size-20px mark-text fw-400">Imunidade sobre Contribuições à Seguridade
+                                    Social (INSS):</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-20px">A certificação CEBAS isenta as instituições da
+                                alíquota de até 20% sobre a folha de pagamento, liberando recursos significativos para
+                                outras necessidades.</span>
+
+                            <ul class="mb-1 mt-3" style="padding-left: 29px;">
+                                <li class="f-size-20px mark-text fw-400">Isenção de PIS/PASEP e COFINS:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-20px">Instituições certificadas são isentas dessas
+                                contribuições, economizando até 9,25% sobre a receita bruta, o que melhora a liquidez
+                                financeira.</span>
+
+                            <ul class="mb-1 mt-3" style="padding-left: 29px;">
+                                <li class="f-size-20px mark-text fw-400">Isenção de CSLL e IRPJ:</li>
+                            </ul>
+
+                            <span class="fw-400 primary-text f-size-20px">A imunidade sobre esses impostos reduz a carga
+                                tributária sobre os lucros, contribuindo para um melhor desempenho financeiro.</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div (click)="changeinformationBox1(2)" class="cursor-pointer" class="pb-5" style="margin-top: 12px;">
+
+                <!--information-box3 está fechado-->
+                <div *ngIf="!informationBoxes[2]"
+                    class="height40px radius12px d-flex align-items-center justify-content-between px-3 cursor-pointer"
+                    style="background: #F46F0BBF;">
+
+                    <span class="fw-400 f-size-20px mark-text">Aplicação dos Benefícios</span>
+                    <img src="./assets/icons/arrow-bottom-blue.svg" class="arrow-bottom">
+
+                </div>
+
+                <!--information-box3 está aberto-->
+                <div *ngIf="informationBoxes[2]"
+                    class="radius12px position-relative gap-3 pt-3 pb-4 information-box3 cursor-pointer"
+                    style="background: #F46F0BBF;">
+
+                    <img src="./assets/imgs/detail-know-more4.svg" width="200px" height="200px"
+                        class="position-absolute" style="bottom: 0px; right: 30px; opacity: 0.7;">
+
+                    <div class="d-flex align-items-center justify-content-between height40px position-absolute w-100 px-3"
+                        style="top: 9px">
+
+                        <span class="fw-700 f-size-20px mark-text">Aplicação dos Benefícios</span>
+                        <img src="./assets/icons/arrow-bottom-blue.svg" class="rotation-to-top arrow-bottom">
+
+                    </div>
+
+                    <div class="position-relative row me-0 ms-0" style="z-index: 10;">
+
+                        <div class="px-3 margin-top-information2">
+
+                            <span class="fw-700 mark-text f-size-20px" style="padding-right: 10px;">•</span>
+                            <span class="fw-700 mark-text f-size-20px">Apoio à Missão Educacional: </span>
+                            <span class="fw-500 primary-text f-size-20px">Os benefícios tributários devem ser
+                                direcionados para bolsas de estudo para estudantes de baixa renda e apoiar a provisão de
+                                materiais didáticos, uniformes, transporte, dentre outros mecanismos de garantir a
+                                permanência dos estudantes bolsistas.</span>
+
+                        </div>
+
+                        <div class="px-3 mt-2">
+
+                            <span class="fw-700 mark-text f-size-20px" style="padding-right: 10px;">•</span>
+                            <span class="fw-700 mark-text f-size-20px">Melhoria da Infraestrutura: </span>
+                            <span class="fw-500 primary-text f-size-20px">Facilita o acesso a créditos e programas de
+                                incentivo governamentais, ampliando a capacidade de investimento em inclusão e
+                                diversidade e melhorando a infraestrutura das instituições de ensino.</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bg-brand-primary position-relative" style="padding-top: 40px; padding-bottom: 66px; ">
+
+        <img src="./assets/imgs/detail-know-more5.svg" class="position-absolute detail-top-left"
+            style="top: 0; left: 0; opacity: 0.7;">
+        <img src="./assets/imgs/detail-know-more6.svg" class="position-absolute detail-top-left"
+            style="bottom: 0; right: 0; opacity: 0.7;">
+        <img src="./assets/imgs/detail-know-more7.svg" class="position-absolute detail-four-squares"
+            style="right: 3%; opacity: 9;">
+
+        <div class="container position-relative">
+
+            <p class="fw-500 white-secundary f-size-30px m-0 position-relative" style="z-index: 10 !important;">
+                Diversidade como Pilar Central</p>
+
+            <div class="text-justify" style="margin-top: 44px;">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-20px support-gray">Promovendo Igualdade</span>
+
+                </div>
+
+                <p class="pt-3 fw-400 f-size-20px white-secundary mb-0">A inclusão de estudantes de diferentes raças,
+                    classes sociais e culturas enriquece significativamente o processo educacional e promove um ambiente
+                    mais empático e produtivo.</p>
+
+            </div>
+
+            <div class="text-justify" style="margin-top: 38px;">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-20px support-gray">Preparação para o futuro</span>
+
+                </div>
+
+                <p class="pt-3 fw-400 f-size-20px white-secundary mb-0">A educação inclusiva prepara os alunos para um
+                    mundo multicultural, desenvolvendo habilidades essenciais como soft skills, trabalho em equipe e
+                    visão crítica sobre as desigualdades estruturais.</p>
+
+            </div>
+
+            <div class="text-justify row ms-0 me-0" style="margin-top: 38px;">
+
+                <div class="col-lg-10 ps-0 pe-0">
+
+                    <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                        <span class="fw-700 f-size-20px support-gray">Impacto social</span>
+
+                    </div>
+
+                    <p class="pt-3 fw-400 f-size-20px white-secundary mb-0">Instituições que promovem a diversidade
+                        contribuem para a construção de uma sociedade mais justa e equitativa.</p>
+
+                </div>
+
+                <div class="col-lg-2 d-flex justify-content-end position-relative pe-0 toComputer" style="bottom: 14px">
+
+                    <img src="assets/imgs/detail-know-more-institution2.svg"
+                        class="detail-know-more-institution2 position-absolute" style="right: 0;">
+
+                </div>
+
+            </div>
+
+            <div class="text-justify" style="margin-top: 38px;">
+
+                <div class="w-100 position-relative">
+
+                    <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                        <span class="fw-700 f-size-20px support-gray">Acreditação Internacional</span>
+
+                    </div>
+
+                    <img src="assets/imgs/detail-know-more-institution2.svg"
+                        class="detail-know-more-institution2 position-absolute toCellphone"
+                        style="right: 0px; bottom: 0px">
+
+                </div>
+
+                <p class="pt-3 fw-400 f-size-20px white-secundary mb-0">Instituições como a ONU, Harvard, MIT e muitas
+                    outras defendem a diversidade como propulsor de uma educação produtiva e alinhada com os desafios do
+                    século XXI.</p>
+
+            </div>
+
+            <div class="text-justify" style="margin-top: 38px;">
+
+                <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                    <span class="fw-700 f-size-20px support-gray">Cotas Raciais</span>
+
+                </div>
+
+                <p class="pt-3 fw-400 f-size-20px white-secundary mb-0">A inclusão de cotas raciais no processo seletivo
+                    de estudantes bolsistas é permitida por lei e representa uma prática de justiça social e
+                    restaurativa. As cotas raciais ajudam a corrigir desigualdades históricas e a promover a inclusão de
+                    grupos marginalizados, contribuindo para um ambiente acadêmico mais representativo e justo.</p>
+
+            </div>
+
+            <div class="box-subtitle d-flex justify-content-center align-items-center px-4 box-subtitle2"
+                style="margin-top: 38px;">
+
+                <span class="fw-700 f-size-20px support-gray">Igualdade de tratamento entre Bolsistas e Pagantes</span>
+
+            </div>
+
+            <div class="margin-equal-treatment">
+
+                <div class="d-flex align-items-center gap-4">
+
+                    <img src="assets/imgs/detail-know-more-institution3.svg" class="detail-information3">
+
+                    <div class="equal-treatment d-flex align-items-center px-4 py-2">
+
+                        <span class="fw-400 f-size-20px primary-text">Implementar políticas de inclusão e permanência,
+                            como programas de letramento racial, assegura que todos os alunos, independentemente de sua
+                            origem, tenham acesso às mesmas oportunidades e recursos.</span>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-center gap-4 margin-equal-treatment">
+
+                    <img src="assets/imgs/detail-know-more-institution4.svg" class="detail-information3">
+
+                    <div class="equal-treatment d-flex align-items-center px-4 py-2">
+
+                        <span class="fw-400 f-size-20px primary-text">As políticas de bolsas como a CEBAS Educação,
+                            permitem a destinação de recursos para garantir que os estudantes bolsistas tenham condições
+                            materiais de arcar com todo o processo formativo, como material didático, uniforme,
+                            transporte e etc. Esses fatores muitas vezes são impeditivos para que os estudantes consigam
+                            permanecer na escola.</span>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-center gap-4 margin-equal-treatment position-relative"
+                    style="z-index: 10;">
+
+                    <img src="assets/imgs/detail-know-more-institution5.svg" class="detail-information3">
+
+                    <div class="equal-treatment d-flex align-items-center px-4 py-2">
+
+                        <div>
+
+                            <span class="fw-400 f-size-20px primary-text">A separação entre bolsistas e pagantes em
+                                prédios, salas e/ou turnos diferentes é caracterizado como segregação e não é permitido
+                                pelas políticas de bolsas de estudo fomentadas pelo Governo Federal, além de contrariar
+                                diversas legislações e tratados internacionais dos quais o Brasil é signatário. </span>
+                            <span class="fw-400 f-size-20px primary-text text-decoration-underline">Clique aqui para
+                                saber mais.</span>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="w-100 d-flex justify-content-center align-items-center" style="margin-top: 60px;">
+
+                <div class="test d-flex justify-content-center align-items-center cursor-pointer">
+
+                    <span class="brand-primary fw-500 f-size-16px letter-spacing-10" (click)="downloadCartilha()">Baixe a Cartilha de Boas Práticas</span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="bg-white position-relative pb-5" style="padding-top: 80px;">
+
+        <img src="./assets/imgs/detail-know-more8.svg" class="position-absolute detail-top-left2"
+            style="top: -76px; left: -32px;">
+
+        <div class="container">
+
+            <div class="d-flex justify-content-end">
+
+                <span class="fw-500 mark-text f-size-32px">Impacto Financeiro</span>
+
+            </div>
+
+            <div style="margin-top: 64px;">
+
+                <div class="d-flex gap-3">
+
+                    <img src="./assets/imgs/financial-impact1.svg" class="toComputer">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">Redução de custos operacionais</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">As imunidades podem reduzir a estrutura de
+                            custos em até 40%, alterando significativamente a sustentabilidade financeira das
+                            instituições de ensino.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <img src="./assets/imgs/financial-impact2.svg" class="toComputer">
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">Facilidade de acesso a créditos e programas de
+                                incentivo</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">A certificação facilita o acesso a recursos
+                            adicionais, melhorando a infraestrutura e a qualidade do ensino.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <div class="d-flex justify-content-center align-items-center box-financial-impact toComputer">
+
+                        <img src="./assets/imgs/financial-impact4.svg">
+
+                    </div>
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3">
+
+                            <span class="fw-700 f-size-20px support-gray">Aumento de doações</span>
+
+                        </div>
+
+                        <p class="fw-400 f-size-20px support-gray pt-2 m-0">A transformação de uma escola particular em
+                            uma instituição sem fins lucrativos pode aumentar significativamente as doações
+                            empresariais, devido à possibilidade de renúncia fiscal. </p>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3" style="margin-top: 34px;">
+
+                    <div class="d-flex justify-content-center align-items-center box-financial-impact toComputer">
+
+                        <img src="./assets/imgs/financial-impact5.svg">
+
+                    </div>
+
+                    <div class="text-justify">
+
+                        <div class="box-subtitle d-flex justify-content-center align-items-center px-3 mb-2">
+
+                            <span class="fw-700 f-size-20px support-gray">Incentivos fiscais para empresas</span>
+
+                        </div>
+
+                        <span class="fw-400 f-size-20px support-gray">Empresas que optam por doar podem se beneficiar de
+                            incentivos fiscais, como deduções no Imposto de Renda, tornando as doações uma alternativa
+                            economicamente atraente. </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="text-justify pb-4" style="margin-top: 66px;">
+
+                <span class="f-size-20px support-gray fw-400">Implementar políticas de bolsas de estudo e obter a
+                    certificação CEBAS oferece uma série de benefícios financeiros e sociais para as instituições de
+                    ensino. Além de promover a inclusão e diversidade, essas políticas fortalecem a missão educacional e
+                    contribuem para a construção de uma sociedade mais justa e equitativa. Ao adotar essas práticas, sua
+                    instituição não apenas melhora seu desempenho financeiro, mas também faz uma diferença significativa
+                    na vida de milhares de estudantes. </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

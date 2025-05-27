@@ -1,0 +1,289 @@
+<div id="modal-filter" class="bg-white py-3 px-3">
+  <div class="d-flex justify-content-between">
+    <img
+      src="./assets/icons/x-red.svg"
+      width="16px"
+      height="24px"
+      style="opacity: 0"
+    />
+    <p class="f-size-20px primary-text mb-0">Filtros</p>
+    <img
+      (click)="closeModal()"
+      src="./assets/icons/x-red.svg"
+      width="16px"
+      height="24px"
+      class="position-relative cursor-pointer"
+      style="top: 4px"
+    />
+  </div>
+
+  <div class="mt-3">
+    <div
+      (click)="openFilter('location')"
+      class="d-flex justify-content-between cursor-pointer"
+    >
+      <span class="f-size-16px primary-text fw-600">Filtro de localização</span>
+      <img
+        [class.rotation-to-top]="locationFilter"
+        src="./assets/icons/arrow-bottom-gray.svg"
+      />
+    </div>
+
+    <form [formGroup]="formLocation" *ngIf="locationFilter" class="mt-3">
+      <p class="f-size-14px primary-text fw-600 mb-0">CEP</p>
+      <input
+        type="text"
+        class="mt-2 w-100 px-2"
+        placeholder="Digite"
+        formControlName="zipCode"
+      />
+
+      <div class="mt-3 row">
+        <div class="col-5 pe-0">
+          <p class="f-size-14px primary-text fw-600 mb-0">Estado</p>
+          <input
+            type="text"
+            class="mt-2 w-100 px-2"
+            placeholder="Digite"
+            formControlName="state"
+            (input)="updateShowSelectPlaceholder1()"
+          />
+        </div>
+
+        <div class="col-7 ps-2">
+          <p class="f-size-14px primary-text fw-600 mb-0">Cidade</p>
+          <input
+            type="text"
+            class="mt-2 w-100 px-2"
+            placeholder="Digite"
+            formControlName="city"
+            (input)="updateShowSelectPlaceholder1()"
+          />
+        </div>
+      </div>
+
+      <p class="f-size-14px primary-text fw-600 mb-0 mt-3">Endereço</p>
+      <input
+        type="text"
+        class="mt-2 w-100 px-2"
+        placeholder="Digite"
+        formControlName="address"
+        (input)="updateShowSelectPlaceholder1()"
+      />
+    </form>
+  </div>
+
+  <div class="mt-3">
+    <div
+      (click)="openFilter('institution')"
+      class="d-flex justify-content-between cursor-pointer"
+    >
+      <span class="f-size-16px primary-text fw-600">Filtro de instituição</span>
+      <img
+        [class.rotation-to-top]="institutionFilter"
+        src="./assets/icons/arrow-bottom-gray.svg"
+      />
+    </div>
+
+    <form [formGroup]="formInstitution" *ngIf="institutionFilter" class="mt-3">
+      <div class="mt-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">Nível de ensino</p>
+        <div
+          class="w-100 position-relative d-flex justify-content-end align-items-center"
+        >
+          <select
+            (change)="updateShowSelectPlaceholder2()"
+            class="mt-2 w-100 px-2 cursor-pointer"
+            [class.placeholder-color]="!showSelectPlaceholder2"
+            formControlName="educationLevel"
+          >
+            <option value="" [class.d-none]="showSelectPlaceholder2">
+              Selecione
+            </option>
+            <option value="INFANT">Ensino Infantil</option>
+            <option value="PRIMARY">Ensino Fundamental</option>
+            <option value="YOUNG_ADULTS">Educação de Jovens e Adultos</option>
+            <option value="SECONDARY">Ensino Médio</option>
+            <option value="PROFESSIONAL">Educação Profissional</option>
+            <option value="GRADUATION">Graduação</option>
+          </select>
+          <img
+            src="./assets/icons/arrow-bottom-gray.svg"
+            class="position-absolute pt-2"
+            style="right: 10px"
+          />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">Natureza jurídica</p>
+        <div
+          class="w-100 position-relative d-flex justify-content-end align-items-center"
+        >
+          <select
+            (change)="updateShowSelectPlaceholder3()"
+            class="mt-2 w-100 px-2 cursor-pointer"
+            [class.placeholder-color]="!showSelectPlaceholder3"
+            formControlName="juridicName"
+          >
+            <option value="" [class.d-none]="showSelectPlaceholder3">
+              Selecione
+            </option>
+            <option>Associação Privada</option>
+            <option>Organização Religiosa</option>
+            <option>Fundação Privada</option>
+            <option>Organização Social (OS)</option>
+            <option>Sociedade Empresária Limitada</option>
+          </select>
+          <img
+            src="./assets/icons/arrow-bottom-gray.svg"
+            class="position-absolute pt-2"
+            style="right: 10px"
+          />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">Tipo de instituição</p>
+        <div
+          class="w-100 position-relative d-flex justify-content-end align-items-center"
+        >
+          <select
+            (change)="updateShowSelectPlaceholder3()"
+            class="mt-2 w-100 px-2 cursor-pointer"
+            [class.placeholder-color]="!showSelectPlaceholder3"
+            formControlName="institutionType"
+          >
+            <option value="" [class.d-none]="showSelectPlaceholder3">
+              Selecione
+            </option>
+            <option value="Matriz">Matriz</option>
+            <option value="Filial">Filial</option>
+          </select>
+          <img
+            src="./assets/icons/arrow-bottom-gray.svg"
+            class="position-absolute pt-2"
+            style="right: 10px"
+          />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">
+          Organização acadêmica
+        </p>
+        <div
+          class="w-100 position-relative d-flex justify-content-end align-items-center"
+        >
+          <select
+            (change)="updateShowSelectPlaceholder3()"
+            class="mt-2 w-100 px-2 cursor-pointer"
+            [class.placeholder-color]="!showSelectPlaceholder3"
+            formControlName="academicOrganization"
+          >
+            <option value="" [class.d-none]="showSelectPlaceholder3">
+              Selecione
+            </option>
+            <option value="Escola Comunitária">Escola Comunitária</option>
+            <option value="Escola Filantrópica">Escola Filantrópica</option>
+            <option value="Escola Particular">Escola Particular</option>
+            <option value="Faculdade">Faculdade</option>
+            <option value="Centro Universitário">Centro Universitário</option>
+            <option value="Universidade">Universidade</option>
+          </select>
+          <img
+            src="./assets/icons/arrow-bottom-gray.svg"
+            class="position-absolute pt-2"
+            style="right: 10px"
+          />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">Data de abertura</p>
+        <div class="mt-2 d-flex gap-2 w-100">
+          <div class="d-flex gap-2 align-items-center" style="width: 50%">
+            <span class="fw-400 f-size-14px primary-text">De:</span>
+            <div
+              class="data d-flex align-items-center justify-content-end position-relative"
+            >
+              <input
+                mask="00/00/0000"
+                formControlName="dataBegin"
+                (input)="formatDateInput($event, 'dataBegin')"
+                class="w-100 h-100 px-2 f-size-data"
+              />
+              <img
+                src="./assets/icons/calendar.svg"
+                class="position-absolute pe-2"
+                alt="Calendário"
+              />
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 align-items-center" style="width: 50%">
+            <span class="fw-400 f-size-14px primary-text">Até:</span>
+            <div
+              class="data d-flex align-items-center justify-content-end position-relative"
+            >
+              <input
+                mask="00/00/0000"
+                formControlName="dataEnd"
+                (input)="formatDateInput($event, 'dataEnd')"
+                class="w-100 h-100 px-2 f-size-data"
+              />
+              <img
+                src="./assets/icons/calendar.svg"
+                class="position-absolute pe-2"
+                alt="Calendário"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">Avaliação</p>
+        <div
+          class="mt-3 d-flex w-100 position-relative align-items-center cursor-pointer"
+          style="height: 2.5px"
+          (click)="changeAvaliacao($event)"
+        >
+          <div
+            class="rounded-circle position-absolute d-flex align-items-center justify-content-center"
+            style="width: 19px; height: 19px; background-color: #5994a9"
+            [class.position-avaliacao0]="avaliacao == 0"
+            [class.position-avaliacao1]="avaliacao == 1"
+            [class.position-avaliacao2]="avaliacao == 2"
+            [class.position-avaliacao3]="avaliacao == 3"
+            [class.position-avaliacao4]="avaliacao == 4"
+            [class.position-avaliacao5]="avaliacao == 5"
+          >
+            <span class="f-size-14px white fw-400">{{ avaliacao }}</span>
+          </div>
+          <div class="barra-cinza"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-azul" data-value="1"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-azul" data-value="2"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-azul" data-value="3"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-azul" data-value="4"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-cinza"></div>
+          <div class="barra-azul" data-value="5"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div
+    class="mt-4 button d-flex align-items-center justify-content-center w-100 cursor-pointer"
+    (click)="apply()"
+  >
+    <span class="white fw-600 f-size-16px">Aplicar</span>
+  </div>
+</div>

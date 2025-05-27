@@ -1,0 +1,33 @@
+select {
+    border-radius: 16px;
+    border: 1px solid #D4CEC6;
+    height: 48px;
+}
+
+input[type='text'] {
+    border-radius: 16px;
+    border: 1px solid #D4CEC6;
+    height: 40px;
+    width: 176px !important;
+}
+
+.button {
+    border: none;
+    height: 52px;
+    background-color: #5994A9;
+    box-shadow: 1px 1px 4px 1px #33333329;
+    border-radius: 12px;
+    letter-spacing: 0.1em;
+
+    &:disabled {
+        background-color: #CCCCCC !important;
+    }
+}
+
+.special-color {
+    color: #FFBB4F
+}
+
+.min-height {
+    min-height: calc(100vh - 71px);
+}

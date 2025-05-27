@@ -1,0 +1,82 @@
+<div class="modal-container px-5 py-4 position-relative">
+  <div class="modal-header">
+    <div></div>
+    <h2 class="modal-title">Pré-cadastro</h2>
+    <img class="modal-close" src="./assets/icons/x-close.svg" alt="Ícone de fechar modal" (click)="close()" />
+  </div>
+
+  <form *ngIf="step1" [formGroup]="formModalRespond" (ngSubmit)="onSubmit($event)" class="modal-body mt-3">
+    <div class="form-group">
+      <label class="label-text" for="email">E-mail</label>
+      <div class="input-wrapper">
+        <input id="email" type="email" formControlName="email" placeholder="Digite" />
+        <img class="input-icon" src="./assets/icons/email-icon.svg" alt="Ícone de e-mail" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="label-text" for="telefone">Telefone</label>
+      <div class="input-wrapper">
+        <input id="telefone" type="text" formControlName="telefone" placeholder="(   )     -     " mask="(00) 00000-0000" />
+        <img class="input-icon" src="./assets/icons/phone-icon.svg" alt="Ícone de telefone" />
+      </div>
+    </div>
+
+    <div class="checkbox-group">
+      <input (change)="teste()" id="aceito" type="checkbox" formControlName="acceptUpdates" />
+      <label class="label-text" for="aceito">Aceito receber atualizações sobre o Portal do Bolsista</label>
+    </div>
+
+    <button type="submit" [disabled]="formModalRespond.invalid" class="btn-enviar position-relative" style="z-index: 1;">Enviar</button>
+  </form>
+
+  <div *ngIf="step2" class="modal-body">
+    <div class="text-group">
+      <p class="m-0 socials-text">
+        Obrigado por fazer seu pré-cadastro!
+      </p>
+      <p class="m-0 socials-text">
+        Fique de olho na sua caixa de entrada
+      </p>
+      <p class="socials-text">
+        Em breve entraremos em contato com novidades.
+      </p>
+      <p class="text-end socials-text mb-5">
+        Equipe Portal do Bolsista
+      </p>
+    </div>
+
+    <div class="socials-group">
+      <p class="text-center socials-text">
+        Acompanhe o Portal nas redes sociais
+      </p>
+      <div class="d-flex justify-content-center gap-2">
+          <a href="https://x.com/PortalBolsista?t=LZkhq6ILQyB-bi4VhnHg4A&s=09" target="_blank">
+            <div class="socials-border d-flex justify-content-center align-items-center p-2">
+              <img class="social-icons" src="./assets/icons/social-x-icon.svg" alt="Ícone do twitter" />
+            </div>
+          </a>
+          <a href="https://www.tiktok.com/@portaldobolsista?_t=ZM-8tJFm9sGwek&_r=1" target="_blank">
+            <div class="socials-border d-flex justify-content-center align-items-center p-2">
+              <img class="social-icons" src="./assets/icons/social-tiktok-icon.svg" alt="Ícone do tiktok" />
+            </div>
+          </a>
+          <a href="https://www.instagram.com/portaldobolsista/" target="_blank">
+            <div class="socials-border d-flex justify-content-center align-items-center p-2">
+              <img class="social-icons" src="./assets/icons/social-instagram-icon.svg" alt="Ícone do instagram" />
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/company/75012636/" target="_blank">
+            <div class="socials-border d-flex justify-content-center align-items-center p-2">
+              <img class="social-icons" src="./assets/icons/social-linkedin-icon.svg" alt="Ícone do linkedin" />
+            </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <img src="./assets/icons/detail-up-modal.svg" class="position-absolute img-fluid detail-img"
+    style="top: 0px; left: 0px;" />
+  <img src="./assets/icons/detail-down-modal.svg" class="position-absolute img-fluid detail-img"
+    style="bottom: 0px; right: 0px;" />
+</div>

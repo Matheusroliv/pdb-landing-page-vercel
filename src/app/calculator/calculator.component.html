@@ -1,0 +1,103 @@
+<div class="fade-in bg-white min-height">
+
+    <div class="toCellphone">
+        <div class="d-flex justify-content-center">
+          <div class="position-absolute" style="top: 30%">
+            <app-modal-download></app-modal-download>
+          </div>
+        </div>
+        <app-menu-mobile></app-menu-mobile>
+        <div
+          *ngIf="openMenu"
+          (click)="closeMenu()"
+          class="position-absolute menuIsOpen"
+          style="top: 0px; left: 0px; z-index: 1000"
+        ></div>
+        <div
+          (click)="changeModalDownloadApp(false)"
+          *ngIf="openModalDownloadApp"
+          class="position-absolute modal-download-app w-100"
+          style="top: 0px; left: 0px; z-index: 1004"
+        ></div>
+    </div>
+
+    <div class="container">
+        <div class="w-100 d-flex justify-content-between pt-4">
+
+            <img src="./assets/icons/arrow-back.svg" routerLink="/know-more" class="cursor-pointer">
+            <p class="mb-0 text-primary1 fw-400 font-size-21">Calculadora de renda</p>
+            <img src="./assets/icons/arrow-back.svg" style="opacity: 0;">
+    
+        </div>
+
+        <div class="container py-4">
+            <form [formGroup]="form">
+                <div class="mb-3">
+                    <label for="totalPeople" class="form-label fw-700 f-size14px text-primary1">
+                        Total de pessoas que moram na sua casa (incluindo você):
+                    </label>
+                    <select (change)="changeSelectWasChanged()" class="form-select" formControlName="totalPeople"
+                        [class.placeholder-color]="!selectWasChanged">
+                        <option [class.d-none]="selectWasChanged" value="">Selecione</option>
+                        <option *ngFor="let number of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="number">
+                            {{ number }}
+                        </option>
+                    </select>
+                </div>
+
+                <hr class="mb-3" />
+
+                <div formArrayName="incomes">
+                    <div *ngFor="let incomeControl of incomes.controls; let i = index" [formGroupName]="i"
+                        class="d-flex justify-content-between align-items-center mb-3">
+                        <label *ngIf="i === 0" class="form-label fw-400 f-size-14px text-primary1 mb-0">Sua
+                            Renda</label>
+                        <label *ngIf="i >= 1" class="form-label fw-400 f-size-14px text-primary1 mb-0">Renda {{ i + 1
+                            }}</label>
+                        <div class="position-relative w-fit-content h-fit-content d-flex align-items-center">
+
+                            <input type="text" class="form-control ms-3" placeholder="Digite" formControlName="income"
+                                mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="form.controls['totalPeople'].value">
+                    <hr class="mb-3" />
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <label class="form-label fw-400 f-size-14px text-primary1 mb-0">Pensão Alimentícia</label>
+                        <input type="text" class="form-control ms-3" placeholder="Digite" formControlName="alimony"
+                        mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <label class="form-label fw-400 f-size-14px text-primary1 mb-0">Benefícios sociais</label>
+                        <input type="text" class="form-control ms-3" placeholder="Digite" formControlName="socialBenefits"
+                        mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
+                    </div>
+
+                    <hr class="mb-3" />
+
+                    <div *ngIf="calculatedIncomeSM !== null && calculatedIncome !== null" class="my-3 text-primary">
+                        <p class="fw-400 f-size-14px text-primary1">Sua renda familiar é de <span
+                                class="fw-700 f-size-14px special-color">{{ calculatedIncomeSM }}</span>
+                            salários mínimos per capita. Isso corresponde a
+                            <span class="fw-700 f-size-14px special-color"> R$ {{ calculatedIncome | number:'1.2-2'
+                                }}</span> por pessoa.
+                        </p>
+                        <p class="fw-400 f-size-14px text-primary1" [innerHTML]="resultMessage"></p>
+                    </div>
+
+                    <button (click)="calculate()" [disabled]="isCalculateButtonDisabled()"
+                        class="mt-5 button d-flex align-items-center justify-content-center cursor-pointer w-100">
+
+                        <span class="white f-size-21px fw-600">Calcular</span>
+
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

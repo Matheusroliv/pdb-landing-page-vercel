@@ -1,0 +1,49 @@
+input[type='file'] {
+    display: none
+}
+
+.card-acessos {
+    box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+$brand-primary: #ffffff;
+$white-secundary: #f8f8f8;
+$placeholder-color: #d4CEC6;
+$mark-text: #215068;
+$primary-text: #4c4c4c;
+$yellow-text: #FFC645;
+$support-gray: #767676;
+$link-color: #299BDB;
+
+.color-back {
+    background-color: $brand-primary;
+}
+
+button {
+    border: none;
+}
+
+textarea {
+    border-radius: 20px;
+    border: 1px solid #D4CEC6;
+    height: 130px;
+    resize: none;
+}
+
+textarea::placeholder,
+input::placeholder {
+    color: #D4CEC6;
+    resize: none;
+}
+
+input {
+    border-radius: 16px;
+    border: 1px solid #D4CEC6;
+    height: 40px;
+}
+
+button {
+    &:disabled {
+        cursor: none;
+    }
+}

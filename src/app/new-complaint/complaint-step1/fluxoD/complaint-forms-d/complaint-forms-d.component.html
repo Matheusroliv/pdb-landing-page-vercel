@@ -1,0 +1,234 @@
+<div style="min-height: calc(100vh - 334px);" class="fade-in bg-white">
+    <header class="container">
+      <div class="d-flex justify-content-between align-items-center pt-5 pb-4">
+        <img [routerLink]="['/new-complaint-step1']" class="cursor-pointer" src="./assets/icons/arrow-back.svg">
+        <h6 class="fw-400 text-primary1 font-size-21">
+          {{ isEditMode ? 'Editar denúncia' : 'Nova denúncia' }}
+        </h6>
+        <div></div>
+      </div>
+      <div class="w-100 d-flex container p-0 mb-4">
+        <div style="width: 50%; height: 4px; background-color: #5994a9;">
+  
+        </div>
+        <div style="width: 50%; height: 4px; background-color: #d4cec6;">
+  
+        </div>
+      </div>
+      <div *ngIf="!isEditMode" class="progress-container">
+        <div class="progress-bar" style="width: 50%"></div>
+      </div>
+    </header>
+  
+    <div class="container pb-5">
+      <form [formGroup]="form" id="form">
+        <div class="mb-3">
+          <p class="fw-700 font-size-13-4 text-primary1 mb-2">Os estudantes bolsistas e pagantes frequentam os mesmos espaços?</p>
+          <div>
+  
+            <div class="d-flex gap-2">
+    
+              <div (click)="markRadio1('Sim')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio1 == 'Sim'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Sim</span>
+  
+            </div>
+  
+            <div class="d-flex gap-2 mt-2">
+  
+              <div (click)="markRadio1('Não')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio1 == 'Não'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Não</span>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <p class="fw-700 font-size-13-4 text-primary1 mb-2">O uniforme de bolsistas e pagantes é diferente?</p>
+          <div>
+  
+            <div class="d-flex gap-2">
+    
+              <div (click)="markRadio2('Sim')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio2 == 'Sim'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Sim</span>
+  
+            </div>
+  
+            <div class="d-flex gap-2 mt-2">
+  
+              <div (click)="markRadio2('Não')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio2 == 'Não'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Não</span>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <p class="fw-700 font-size-13-4 text-primary1 mb-2">O turno de estudo entre bolsistas e pagantes é o mesmo (ex.: bolsistas à noite e pagantes de manhã)?</p>
+          <div>
+  
+            <div class="d-flex gap-2">
+    
+              <div (click)="markRadio3('Sim')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio3 == 'Sim'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Sim</span>
+  
+            </div>
+  
+            <div class="d-flex gap-2 mt-2">
+  
+              <div (click)="markRadio3('Não')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio3 == 'Não'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Não</span>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <p class="fw-700 font-size-13-4 text-primary1 mb-2">Os bolsistas e pagantes têm acesso aos mesmos equipamentos na escola (acesso a quadras, piscina, biblioteca, etc)?</p>
+          <div>
+  
+            <div class="d-flex gap-2">
+    
+              <div (click)="markRadio4('Sim')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio4 == 'Sim'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Sim</span>
+  
+            </div>
+  
+            <div class="d-flex gap-2 mt-2">
+  
+              <div (click)="markRadio4('Não')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio4 == 'Não'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Não</span>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <p class="fw-700 font-size-13-4 text-primary1 mb-2">Existe algum tratamento diferenciado entre bolsistas pretos e bolsistas brancos?</p>
+          <div>
+  
+            <div class="d-flex gap-2">
+    
+              <div (click)="markRadio5('Sim')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio5 == 'Sim'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Sim</span>
+  
+            </div>
+  
+            <div class="d-flex gap-2 mt-2">
+  
+              <div (click)="markRadio5('Não')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio5 == 'Não'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Não</span>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <p class="fw-700 font-size-13-4 text-primary1 mb-2">Estudantes bolsistas são obrigados a manter nota média maior que a dos estudantes pagantes?</p>
+          <div>
+  
+            <div class="d-flex gap-2">
+    
+              <div (click)="markRadio6('Sim')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio6 == 'Sim'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Sim</span>
+  
+            </div>
+  
+            <div class="d-flex gap-2 mt-2">
+  
+              <div (click)="markRadio6('Não')" class="input-radio d-flex rounded-circle justify-content-center align-items-center cursor-pointer">
+  
+                <div *ngIf="radio6 == 'Não'" class="rounded-circle input-radio-in"></div>
+    
+              </div>
+  
+              <span>Não</span>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <div *ngIf="radio6 == 'Sim'" class="mb-3">
+          <label for="textarea" class="form-label fw-700 font-size-13-4 text-primary1">Qual a diferença de nota?</label>
+          <textarea formControlName="textareaRadio6Sim" id="textarea" rows="5" class="d-block w-100 px-3" placeholder="Digite"></textarea>
+        </div>
+  
+        <div *ngIf="radio6 != ''" class="mb-3" id="textarea">
+          <label for="textarea" class="form-label fw-700 font-size-13-4 text-primary1">Faça um breve relato das diferenças no tratamento entre bolsistas e pagantes:</label>
+          <textarea formControlName="textarea" rows="5" class="d-block w-100 px-3" placeholder="Digite"></textarea>
+        </div>
+  
+        <div *ngIf="formInvalid()" class="walk d-flex align-items-center justify-content-center w-100 mt-4">
+  
+          <span class="white fw-600 f-size-16px letter-spacing-10">Avançar</span>
+  
+        </div>
+  
+        <div [routerLink]="['/new-complaint-step2']" *ngIf="!formInvalid()" class="walk ok d-flex align-items-center justify-content-center w-100 mt-4 cursor-pointer">
+  
+          <span class="white fw-600 f-size-16px letter-spacing-10">Avançar</span>
+  
+        </div>
+      </form>
+    </div>
+  </div>

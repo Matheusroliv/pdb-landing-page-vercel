@@ -1,0 +1,31 @@
+.bg-footer {
+    background-image: url('../../../public/assets/imgs/footer.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-footer-cellphone {
+    background-image: url('../../../public/assets/imgs/footer-cellphone.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.letter-spacing-footer {
+    letter-spacing: 0.03em;
+}
+
+@media screen and (max-width: 991px) {
+    .no-computer {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .no-cellphone {
+        display: none;
+    }
+}
+
+.shadow {
+    box-shadow: 0px -5px 10px 0px #0000006F !important
+}

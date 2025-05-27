@@ -1,0 +1,264 @@
+<section class="bg-white-secundary h-min" style="margin-bottom: -18px">
+  <div class="toCellphone">
+    <div class="d-flex justify-content-center">
+      <div class="position-absolute" style="top: 30%">
+        <app-modal-download></app-modal-download>
+      </div>
+    </div>
+    <app-menu-mobile></app-menu-mobile>
+    <div
+      *ngIf="openMenu"
+      (click)="closeMenu()"
+      class="position-absolute menuIsOpen"
+      style="top: 0px; left: 0px; z-index: 1000"
+    ></div>
+    <div
+      (click)="changeModalDownloadApp(false)"
+      *ngIf="openModalDownloadApp"
+      class="position-absolute modal-download-app w-100"
+      style="top: 0px; left: 0px; z-index: 1004"
+    ></div>
+  </div>
+
+  <div class="w-100 d-flex justify-content-center">
+    <app-institution-profile
+      *ngIf="openModalInstitutionProfile"
+      class="position-absolute"
+      style="top: 2%; z-index: 1015"
+      [institutionId]="selectedInstitutionId"
+      (closeModal)="changeModalInstitutionProfile(false)"
+    >
+    </app-institution-profile>
+  </div>
+
+  <div
+    (click)="changeModalInstitutionProfile(false)"
+    *ngIf="openModalInstitutionProfile"
+    class="position-absolute bg-modal w-100"
+    style="height: 100%; z-index: 1014"
+  ></div>
+
+  <div class="container" style="padding-top: 32px">
+    <div class="d-flex gap-3 pb-3 row">
+      <div class="d-flex gap-4 col-lg-10">
+        <div
+          class="position-relative d-flex align-items-center"
+          style="width: 95%"
+        >
+          <img
+            *ngIf="(searchText && searchText.length > 2) || hasActiveFilters()"
+            src="./assets/icons/reset_button.png"
+            class="position-absolute cursor-pointer"
+            style="left: 12px; width: 16px; height: 16px"
+            (click)="resetSearch()"
+            alt="Limpar pesquisa"
+            [ngbTooltip]="activeFilterCount + ' filtro(s) ativo(s)'"
+          />
+          <input
+            type="text"
+            class="height40px border-of-search-box w-100 ps-5"
+            [placeholder]="
+              hasActiveFilters()
+                ? activeFilterCount + ' filtro(s) ativo(s)'
+                : 'Buscar por cidade'
+            "
+            [(ngModel)]="searchText"
+            (keyup.enter)="onSearchChange()"
+          />
+          <img
+            src="./assets/icons/search.svg"
+            class="position-absolute cursor-pointer"
+            style="right: 36px"
+            (click)="onSearchChange()"
+          />
+        </div>
+        <div
+          (click)="showFilterModal()"
+          class="position-relative d-flex align-items-center justify-content-center height40px border-of-search-box bg-white cursor-pointer"
+          style="width: 38px"
+        >
+          <img src="./assets/icons/filter.svg" />
+        </div>
+      </div>
+      <div
+        [routerLink]="['/list']"
+        class="margin-see-list height40px radius12px bg-white d-flex justify-content-center align-items-center shadow-of-see-map cursor-pointer col"
+        style="max-width: 190px !important"
+      >
+        <span class="fw-400 mark-text f-size-14px letter-spacing-3"
+          >Ver Lista</span
+        >
+      </div>
+    </div>
+
+    <!-- Mapa principal -->
+    <div class="pb-4">
+      <div id="map" class="radius8px" style="width: 100%; height: 400px"></div>
+    </div>
+
+    <div class="pt-2">
+      <span class="f-size-16px fw-400 black ms-4"
+        >Instituições de ensino na região</span
+      >
+
+      <!-- Cards em Desktop -->
+      <div
+        class="d-flex gap-3 align-items-center position-relative mt-1 pb-5 toComputer"
+      >
+        <img
+          (click)="backInstitution()"
+          src="./assets/icons/arrow-left-gray.svg"
+          class="position-absolute pt-2 cursor-pointer"
+          [class.display-none]="indexLastInstitution <= 2"
+          style="left: -28px"
+        />
+        <img
+          (click)="walkInstitution()"
+          src="./assets/icons/arrow-right-gray.svg"
+          class="position-absolute pt-2 cursor-pointer"
+          [class.display-none]="
+            filteredInstitutions.length <= 2 ||
+            indexLastInstitution >= filteredInstitutions.length - 1
+          "
+          style="right: -28px"
+        />
+
+        <div
+          (click)="changeModalInstitutionProfile(true, institution.id)"
+          *ngFor="
+            let institution of filteredInstitutions.slice(
+              indexFirstInstitution,
+              indexLastInstitution + 1
+            )
+          "
+          class="p-2 bg-white radius10px mt-2 shadow-sm d-flex align-items-center"
+          style="width: 33%; min-height: 100px"
+        >
+          <div class="w-100">
+            <div class="d-flex gap-3 align-items-center">
+              <div
+                class="bg-yellow-text d-flex w-fit-content gap-1 radius8px justify-content-center align-items-center h-fit-content position-relative accessibility-icons"
+                style="padding: 2px 2px; width: 48px"
+              >
+                <img
+                  src="./assets/icons/wheelchair-user.svg"
+                  width="9px"
+                  height="12px"
+                />
+                <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+              </div>
+
+              <span class="fw-600 primary-text f-size-16px institution-name">
+                {{ institution.name }}
+              </span>
+            </div>
+            <div class="d-flex gap-3" style="padding-top: 2px">
+              <div
+                class="random-icon-container d-flex align-items-center justify-content-center"
+              >
+                <img
+                  [src]="institution.randomIcon"
+                  class="random-icon"
+                  alt="ícone aleatório da instituição"
+                  style="width: 40px; height: 40px"
+                  (error)="
+                    institution.randomIcon = 'assets/icons/fallback-icon.png'
+                  "
+                />
+              </div>
+              <div style="width: calc(100% - 64px)">
+                <span class="fw-400 f-size-14px support-gray institution-name">
+                  {{ institution.characteristics }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards em Mobile -->
+      <div
+        class="d-flex gap-5 align-items-center position-relative mt-1 toCellphone"
+        style="padding-bottom: 50px"
+      >
+        <img
+          (click)="backInstitutionMobile()"
+          src="./assets/icons/arrow-left-gray.svg"
+          class="position-absolute pt-2 cursor-pointer"
+          [class.display-none]="
+            filteredInstitutions.length <= 1 || indexFirstInstitution < 1
+          "
+          style="left: -5px"
+        />
+        <img
+          (click)="walkInstitutionMobile()"
+          src="./assets/icons/arrow-right-gray.svg"
+          class="position-absolute pt-2 cursor-pointer"
+          [class.display-none]="
+            filteredInstitutions.length <= 1 ||
+            indexFirstInstitution >= filteredInstitutions.length - 1
+          "
+          style="right: -5px"
+        />
+        <div class="w-100 centraliza">
+          <div
+            [routerLink]="['/institution-profile', institution.id]"
+            *ngFor="
+              let institution of filteredInstitutions.slice(
+                indexFirstInstitution,
+                indexFirstInstitution + 1
+              )
+            "
+            class="p-3 bg-white radius10px mt-2 shadow-sm d-flex align-items-center"
+            style="width: 90%; min-height: 120px"
+          >
+            <div class="w-100">
+              <div class="d-flex gap-3 align-items-center">
+                <div
+                  class="bg-yellow-text d-flex w-fit-content gap-1 radius8px justify-content-center align-items-center h-fit-content position-relative accessibility-icons"
+                  style="padding: 2px 2px; width: 48px"
+                >
+                  <img
+                    src="./assets/icons/wheelchair-user.svg"
+                    width="9px"
+                    height="12px"
+                  />
+                  <img
+                    src="./assets/icons/hand.svg"
+                    width="9px"
+                    height="12px"
+                  />
+                </div>
+                <span class="fw-600 primary-text f-size-16px institution-name">
+                  {{ institution.name }}
+                </span>
+              </div>
+              <div class="d-flex gap-3" style="padding-top: 2px">
+                <div
+                  class="random-icon-container d-flex align-items-center justify-content-center"
+                >
+                  <img
+                    [src]="institution.randomIcon"
+                    class="random-icon"
+                    alt="ícone aleatório da instituição"
+                    style="width: 40px; height: 40px"
+                    (error)="
+                      institution.randomIcon = 'assets/icons/fallback-icon.png'
+                    "
+                  />
+                </div>
+                <div style="width: calc(100% - 64px)">
+                  <span
+                    class="fw-400 f-size-14px support-gray institution-characteristics"
+                  >
+                    {{ institution.characteristics }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

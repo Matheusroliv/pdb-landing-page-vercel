@@ -1,0 +1,93 @@
+.centraliza {
+  display: flex;
+  justify-content: center;
+}
+
+#map,
+#map-mobile {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.h-map {
+  height: 300px;
+  width: 100%;
+}
+
+.map-container {
+  width: 100%;
+  height: 400px;
+}
+
+@media screen and (min-width: 768px) {
+  .h-map {
+    height: 400px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .margin-see-list {
+    margin-left: 12px;
+  }
+
+  .h-min {
+    min-height: calc(100vh - 71px) !important;
+  }
+}
+
+.h-min {
+  min-height: calc(100vh - 334px);
+}
+
+.random-icon {
+  opacity: 0.5 !important;
+}
+
+.random-icon-container {
+  padding: 4px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+}
+
+.institution-name-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* Ensure overflow is hidden */
+}
+
+.institution-name {
+  display: inline-block;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+  max-width: 100% !important; /* Adjust based on the width of the accessibility icons */
+}
+
+.institution-characteristics {
+  display: -webkit-box; /* Habilita o modo de layout flexível (multilinha) */
+  -webkit-line-clamp: 2; /* Define o máximo de 2 linhas */
+  line-clamp: 2; /* Standard property for compatibility */
+  -webkit-box-orient: vertical; /* Orientação vertical para o texto */
+  overflow: hidden; /* Esconde o conteúdo que ultrapassar */
+  text-overflow: ellipsis; /* Adiciona "..." no final se houver overflow */
+  white-space: normal; /* Permite quebra de linha */
+  word-break: break-word; /* Quebra palavras longas se necessário */
+  max-width: 100%; /* Garante que respeite o container pai */
+}
+
+.accessibility-icons {
+  display: inline-flex; /* Keep icons inline */
+}
+
+/* Hide accessibility icons when the name overflows */
+.institution-name-wrapper:hover .accessibility-icons,
+.institution-name:not(:hover) .accessibility-icons {
+  display: none; /* Hide icons if the text overflows */
+}
+
+.div-name {
+  max-width: 100%;
+  overflow: hidden;
+}

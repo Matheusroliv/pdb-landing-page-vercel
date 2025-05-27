@@ -1,0 +1,65 @@
+<div class="fade-in bg-white" style="min-height: calc(100vh - 334px);">
+  <header class="container">
+    <div class="d-flex justify-content-between align-items-center pt-5 pb-4">
+      <img [routerLink]="['/new-complaint-step1']" class="cursor-pointer" src="./assets/icons/arrow-back.svg">
+      <h6 class="fw-400 text-primary1 font-size-21">
+        Nova denúncia
+      </h6>
+      <div></div>
+    </div>
+    <div class="w-100 d-flex container p-0 mb-4">
+      <div style="width: 75%; height: 4px; background-color: #5994a9;">
+
+      </div>
+      <div style="width: 50%; height: 4px; background-color: #d4cec6;">
+
+      </div>
+    </div>
+  </header>
+  
+    <div class="container mt-3">
+      <p class="fw-400 font-size-14 text-secondary">
+        Obrigado por compartilhar estas informações. Ao enviar, nossa equipe irá analisar sua denúncia e poderá entrar em
+        contato com você para demais esclarecimentos. <br> Antes de finalizar, queremos saber o que <b>você quer que
+        seja feito em relação a denúncia</b> e qual o <b>resultado esperado.</b>
+      </p>
+  
+      <div class="line w-100 mb-3"></div>
+  
+      <form [formGroup]="form">
+        <div class="mb-3">
+          <label for="textarea" class="form-label fw-700 font-size-13-4 text-primary1">
+            Qual seria a solução ou medida que você espera que seja tomada?
+          </label>
+          <div class="input-container py-0 px-0 w-100 d-block position-relative">
+            <textarea formControlName="textarea" rows="5" class="d-block w-100 px-3" id="textarea" placeholder="Digite"></textarea>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="textarea2" class="form-label fw-700 font-size-13-4 text-primary1">
+            Gostaria de acrescentar alguma informação adicional? (Opcional)
+          </label>
+          <div class="input-container py-0 px-0 w-100 d-block position-relative">
+            <textarea formControlName="textarea2" rows="5" class="d-block w-100 px-3" id="textarea2" placeholder="Digite"></textarea>
+          </div>
+        </div>
+  
+        <div *ngIf="formInvalid()" class="walk d-flex align-items-center justify-content-center w-100 mt-4">
+  
+          <span class="white fw-600 f-size-16px letter-spacing-10">Avançar</span>
+  
+        </div>
+  
+        <div [routerLink]="['/new-complaint-step3']" *ngIf="!formInvalid()" class="walk ok d-flex align-items-center justify-content-center w-100 mt-4 cursor-pointer">
+  
+          <span class="white fw-600 f-size-16px letter-spacing-10">Avançar</span>
+  
+        </div>
+
+        <div class="pb-5"></div>
+  
+      </form>
+    </div>
+  
+  </div>

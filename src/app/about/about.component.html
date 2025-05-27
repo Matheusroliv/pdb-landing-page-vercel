@@ -1,0 +1,275 @@
+<section class="bg-white-secundary" [class.noscroll]="openMenu || openModalDownloadApp">
+
+	<div class="d-flex justify-content-center">
+
+		<div class="position-absolute position-modal-download">
+
+			<app-modal-download></app-modal-download>
+
+		</div>
+
+	</div>
+
+	<app-menu-mobile></app-menu-mobile>
+
+	<!-- <div class="d-flex container justify-content-end position-relative no-show" style="bottom: 28px;">
+
+		<div (click)="scrollToTop(); changeModalDownloadApp(true)"
+			class="install-app2 d-flex align-items-center justify-content-center py-2 px-3 cursor-pointer text-center position-fixed"
+			style="width: 170px; z-index: 1003; bottom: 60px;">
+
+			<span class="fw-600 white letter-spacing-10 f-size-14px">Baixe o app</span>
+
+		</div>
+
+	</div> -->
+
+	<!--escurecem tela quando menu está aberto-->
+	<div *ngIf="openMenu" (click)="closeMenu(); changeModalDownloadApp(false)" class="position-absolute menuIsOpen"
+		style="top:0px; left: 0px; z-index: 1000;">
+	</div>
+	<!--para mobile: escurecem tela quando modal de download está aberto-->
+	<!-- <div (click)="closeModal()" *ngIf="openModalDownloadApp"
+		class="position-absolute modal-download-app w-100 dont-show" style="top:0px; left: 0px; z-index: 1004;">
+	</div> -->
+	<!--para pc: escurecem tela quando modal de download está aberto-->
+	<div (click)="changeModalDownloadApp(false)" *ngIf="openModalDownloadApp"
+		class="position-absolute modal-download-app w-100 no-show" style="top:0px; left: 0px; z-index: 1004;">
+	</div>
+
+	<div (click)="closeMenu()">
+
+		<!-- 1 -->
+		<div class="bg-half-white-black">
+    		<div class="container px-4">
+				<p class="m-0 mark-text fw-500 f-size-30px py-4">Sobre o Portal</p>
+       		<div class="row gx-lg-5"> 
+
+           		 <!-- Vídeo -->
+           		 <div class="col-md-6 order-2 order-md-1 mb-4 mb-md-0"> 
+               		 <div class="video-responsive-container">
+                   		 <iframe src="https://www.youtube.com/embed/CvYsXm0XGe8" 
+							class="video-responsive"
+                            title="Portal do Bolsista - Vídeo Instituticional" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen>
+                   		 </iframe>                        
+              		  </div>
+            		</div>
+            
+          		  <!-- Texto -->
+           		 <div class="col-md-6 order-1 order-md-2">
+					<div class="h-100 d-flex flex-column justify-content-center position-relative" style="top: -15px">
+                 		<p class="primary-text fw-400 f-size-text mb-4 ms-md-3 mt-md-2">
+                     	   O Portal do Bolsista é uma plataforma completa para conquistar e
+						   manter sua bolsa de estudo. Aqui, você encontra oportunidades
+						   e suporte contínuo para garantir que sua jornada acadêmica
+						   seja bem-sucedida, desde o ingresso até a formatura.
+                    	</p>
+            	 	</div>
+       		</div>
+        	</div>
+    	</div>
+	</div>
+
+		<!-- 2 -->
+		<div class="position-relative bg-yellow" style="padding-bottom: 64px; padding-top: 32px; z-index: 1;">
+			<div class="container px-4">
+				<div class="row">
+					<div class="text-justify col-md-6 d-flex align-items-center">
+						<p class="primary-text fw-400 f-size-text pb-2">
+							Experimente o App Portal do Bolsista, sua melhor conexão com os
+							recursos do Portal. Com ele, você pode interagir com outros
+							estudantes bolsistas, avaliar instituições, fazer denúncias e
+							conversar com a Vitória, nosso chatbot informativo. Junte-se a
+							nós na luta pela melhoria das políticas de bolsas de estudo no
+							Brasil!
+						</p>
+					</div>
+					<div class="col-md-6">
+						<div class="d-flex justify-content-center">
+							<img src="./assets/imgs/app-group.svg" class="img-fluid" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<img src="./assets/imgs/detail-about-1.svg" class="position-absolute img-fluid detail-1"
+				style="bottom: 0px; left: 0px; z-index: 0 !important;" />
+		</div>
+
+		<!-- 3 -->
+		<div class="position-relative d-flex flex-column justify-content-evenly" style="height: 700px;">
+			<div class="timeline-container container">
+				<h2>História da luta</h2>
+				<div class="d-flex justify-content-center container p-0">
+					<p class="primary-text fw-400 f-size-text text-center px-4">
+						Conheça alguns marcos históricos da luta por bolsas de estudos e inclusão educacional.<br>
+						Clique no ano para saber mais.
+					</p>
+				</div>
+
+
+			</div>
+			<div class="timeline pb-5">
+				<button class="timeline-button" (click)="prevPage()" [disabled]="currentPage === 0">◀</button>
+
+				<div class="timeline-events m-0">
+					<div class="event"
+						*ngFor="let event of events.slice(currentPage * pageSize, (currentPage + 1) * pageSize); let i = index">
+						<div class="title-label">
+							<span>{{ event.title }}</span>
+						</div>
+						<div class="circle" [ngClass]="{ selected: selectedEventIndex === currentPage * pageSize + i }"
+							(click)="togglePopover(currentPage * pageSize + i)">
+							<span>{{ event.year }}</span>
+							<div class="popover" *ngIf="selectedEventIndex === currentPage * pageSize + i">
+								<div class="d-flex justify-content-center">
+									<img src="./assets/imgs/detail-line.svg" class="detail-line" width="200px"
+										height="50px" style="margin-top: -30px;" />
+								</div>
+								<p class="fw-700 f-size-14px">{{ event.fullText }}</p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+
+				<button class="timeline-button" (click)="nextPage()"
+					[disabled]="currentPage === totalPages - 1">▶</button>
+			</div>
+			<div>
+			</div>
+			<div>
+			</div>
+			<img src="./assets/imgs/detail-about-2.svg" class="position-absolute img-fluid detail-2"
+				style="bottom: 0px; right: 0px; z-index: 0 !important;" />
+		</div>
+
+		<!-- 4 -->
+		<div class="position-relative bg-photo-green" style="padding: 64px 0px; z-index: 1;">
+
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-6 order-2 order-md-1">
+						<div>
+							<img src="./assets/imgs/app-group-1.svg" class="img-fluid">
+						</div>
+					</div>
+					<div class="text-justify col-md-6 d-flex flex-column order-1 order-md-2">
+						<p class="m-0 fw-500 f-size-title mark-text pb-4 text-end">Construindo pontes, conectando
+							sonhos!</p>
+						<p class="primary-text fw-400 f-size-text text-end">Com suas raízes formadas na escravidão, o
+							Brasil é um dos
+							países
+							mais desiguais do mundo. Enquanto a educação de qualidade for um privilégio exclusivo à
+							pessoas brancas e
+							ricas, essa desigualdade se manterá. O acesso igualitário a educação, com espaços onde todos
+							sejam iguais,
+							não é só uma questão de justiça, mas é alicerce de um projeto de país que constrói pontes e
+							conecta sonhos,
+							rompendo com a histórica desigualdade e proporcionando meios para que todos os brasileiros
+							possam prosperar,
+							independente de cor ou classe social.</p>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- 5 -->
+		<div class="position-relative bg-white" style="padding: 64px 0px; z-index: 1;">
+
+			<div class="container px-4">
+
+				<div class="row">
+
+					<div class="text-justify col-md-6 d-flex flex-column">
+						<div class="row">
+							<div class="mb-3 mt-5">
+								<p class="m-0 fw-500 f-size-title mark-text">Realizadores</p>
+							</div>
+							<p class="primary-text fw-400 f-size-text">Conheça as organizações por trás do Portal do
+								Bolsista. Ponteduca
+								e
+								EDUCAFRO Brasil unem forças para promover a igualdade de acesso à educação, defendendo
+								os direitos dos
+								estudantes e lutando por uma sociedade mais justa. Clique na logo da instituição para
+								saber mais.</p>
+							<div class="d-flex justify-content-between">
+								<a style="color: aliceblue;" href="http://www.ponteduca.org/" target="_blank"><img
+										src="./assets/imgs/r-detail-1.svg" class="col-12"></a> <!--PONTEDUCA-->
+
+								<a style="color: aliceblue;" href="http://www.educafro.org.br/" target="_blank"><img
+										src="./assets/imgs/r-detail-2.svg" class="col-12"></a> <!--EDUCAFRO-->
+								<div class="p-1"></div>
+							</div>
+
+							<div class="mb-3 mt-5">
+								<p class="m-0 fw-500 f-size-title mark-text">Financiadores</p>
+							</div>
+
+							<div class="d-flex justify-content-between mt-3">
+								<img src="./assets/imgs/r-detail-3.svg" class="col-lg-3 col-2">
+								<img src="./assets/imgs/r-detail-4.svg" class="col-lg-6 col-5 ms-4">
+								<img src="./assets/imgs/tabata.svg" class="tabata col-lg-8 col-5" >
+								<div class="p-1">
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6 d-flex justify-content-center align-items-center mt-0">
+						<div class="d-flex justify-content-center">
+							<a href="https://pratccar.softr.app/detalhes-do-projeto?recordId=reckltKm16QkCFRVi" target="_blank"> <img
+								 src="./assets/imgs/r-detail-5.svg" class="img-fluid cursor-pointer mb-5"></a>
+						<!-- --	ABRA UM PORTAL -->
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<img src="./assets/imgs/detail-about-3.svg" class="position-absolute img-fluid detail-3"
+				style="top: 0px; left: 0px; z-index: 0 !important;">
+			<img src="./assets/imgs/detail-about-4.svg" class="position-absolute img-fluid detail-3"
+				style="top: 0px; right: 0px; z-index: 0 !important;">
+			<img src="./assets/imgs/detail-about-5.svg" class="position-absolute img-fluid detail-4"
+				style="bottom: 0px; right: 0px; z-index: 0 !important;">
+
+		</div>
+
+		<div style="background-color: #D9D9D9;">
+
+			<div class="px-4 container">
+				<div class="pt-4 w-100 apoio">
+					Apoio
+				</div>
+	
+				<div class="row mx-0 d-flex justify-content-between">
+						<img src="./assets/imgs/black-lions.svg" class="col-lg-2 col-3 col-sm-6">
+					
+						<img src="./assets/imgs/pratccar.svg" class=" col-lg-3 col-3 col-sm-6">
+					
+						<img src="./assets/imgs/mulheres-pela-justica.svg" class="mulheres col-lg-1 col-3 col-sm-2">
+					
+						<img src="./assets/imgs/mr-garvey.svg" class="col-lg-4 col-3 col-sm-6">
+				</div>
+			</div>
+			
+			
+            
+		</div>
+
+	</div>
+
+
+</section>

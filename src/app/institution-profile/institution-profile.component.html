@@ -1,0 +1,346 @@
+<div class="d-flex justify-content-center">
+  <section id="computer" class="bg-white-tertiary radius16px py-2 toComputer">
+    <div style="padding: 0px 32px">
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="fw-400 primary-text f-size-22px m-0">Perfil da instituição</p>
+        <img (click)="changeModalInstitutionProfile(false)" src="./assets/icons/x-red.svg"
+          class="position-relative cursor-pointer" style="bottom: 4px" />
+      </div>
+
+      <div class="w-100 position-relative mt-3" *ngIf="institution">
+        <carousel [interval]="0" [showIndicators]="true" *ngIf="photos.length > 0">
+          <!-- Mostrar o mapa apenas se showMap for true -->
+          <slide *ngIf="institution.showMap">
+            <div #mapContainer style="height: 300px; width: 100%; border-radius: 8px"></div>
+          </slide>
+          <!-- Slide da imagem -->
+          <slide *ngFor="let photo of photos">
+            <img [src]="photo" alt="Institution Photo" style="
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                border-radius: 8px;
+              " onerror="this.src='https://via.placeholder.com/300x200?text=Institution+Photo'" />
+          </slide>
+        </carousel>
+      </div>
+
+      <div class="mt-4" *ngIf="institution">
+        <div class="d-flex justify-content-between align-items-center borda-1">
+          <div class="d-flex gap-1 align-items-center borda-2">
+            <p class="fw-600 primary-text f-size-16px text-decoration-underline m-0">
+              {{ institution.name.toUpperCase() }}
+            </p>
+            <div
+              class="bg-yellow-text d-flex gap-1 radius8px d-flex justify-content-center align-items-center h-fit-content borda-3"
+              style="width: 50px; height: 16px">
+              <img src="./assets/icons/wheelchair-user.svg" width="9px" height="12px" />
+              <img *ngIf="institution.inep || institution.emec" src="/assets/imgs/book.png" width="10px"
+                alt="ícone de livro" />
+              <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+              <img src="./assets/icons/verified.svg" width="9px" height="12px" />
+            </div>
+          </div>
+
+          <img (click)="copyLink()" class="cursor-pointer" src="./assets/icons/to-forward.svg" />
+        </div>
+
+        <div class="d-flex gap-2 mt-2" *ngIf="institution">
+          <div class="d-flex gap-1">
+            <ng-container *ngFor="let star of [].constructor(5); let i = index">
+              <img src="{{i < rating ? './assets/icons/star.svg' : './assets/icons/gray-star.png'}}" width="16px"
+                height="16px" class="mt-1">
+            </ng-container>
+          </div>
+          <span class="support-gray fw-300 f-size-14px position-relative" style="padding-top: 2px">
+            ({{ reviews.length !== 0 ? reviews.length + ' avaliações' : 'Nenhuma avaliação' }})
+          </span>
+        </div>
+
+        <p class="fw-400 f-size-14px support-gray m-0 mt-2">
+          {{ institution.description }}
+        </p>
+
+        <div class="d-flex gap-1 mt-3">
+          <p class="primary-text fw-600 f-size-14px m-0">Matriz:</p>
+          <p class="m-0 support-gray f-size-14px fw-300">
+            {{ institution.location }}
+          </p>
+        </div>
+
+        <div class="d-flex gap-1">
+          <span class="primary-text fw-600 f-size-14px m-0">Características:</span>
+          <span class="m-0 support-gray f-size-14px fw-300">
+            {{ institution.characteristic }}
+          </span>
+        </div>
+        <div class="d-flex gap-1">
+          <span class="primary-text fw-600 f-size-14px m-0">Atividades:</span>
+          <span class="m-0 support-gray f-size-14px fw-300">
+            {{ institution.activities || "Não informado" }}
+          </span>
+        </div>
+
+        <div class="d-flex gap-1">
+          <span class="primary-text fw-600 f-size-14px m-0">Endereço:</span>
+          <span class="m-0 support-gray f-size-14px fw-300">
+            {{ institution.address || "Não informado" }}
+          </span>
+        </div>
+
+        <div class="bolsa-estudo">
+          <div class="col-6 bolsa">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <span class="primary-text fw-600 f-size-14px m-0">Bolsas disponíveis:</span>
+                  <span class="support-gray f-size-14px fw-300 ps-1">{{
+                    institution.scholarships.amount
+                    }}</span>
+                </div>
+                <span class="f-size-12px fw-300 link-color text-decoration-underline m-lg-2">Ver edital</span>
+              </div>
+            </div>
+
+            <div *ngFor="let course of institution.scholarships.forCourse" class="mb-1">
+              <span class="fw-400 primary-text f-size-12px">{{ course.course }}:</span>
+              <span class="fw-400 primary-text f-size-12px ps-1">{{
+                course.amount
+                }}</span>
+            </div>
+          </div>
+
+          <div class="col-6 infra">
+            <p class="primary-text fw-600 f-size-14px mt-3 mb-2 letter-spacing-3">
+              Infraestrutura e capacidade
+            </p>
+
+            <div *ngFor="let infrastructure of institution.infrastructure" class="mb-1">
+              <span class="fw-400 primary-text f-size-12px">{{ infrastructure.name }}:</span>
+              <span class="fw-400 primary-text f-size-12px ps-1">{{
+                infrastructure.value
+                }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-6">
+            <p class="primary-text fw-600 f-size-14px mb-2 letter-spacing-3">
+              Contato
+            </p>
+            <div class="mb-2">
+              <div class="d-flex gap-2 align-items-center">
+                <img src="./assets/icons/phone.svg" width="16px" height="16px" />
+                <span class="fw-400 f-size-12px primary-text">{{
+                  institution.contact.phone
+                  }}</span>
+              </div>
+            </div>
+            <div class="mb-2">
+              <div class="d-flex gap-2 align-items-center">
+                <img src="./assets/icons/site.svg" width="16px" height="16px" />
+                <span class="fw-400 f-size-12px link-color text-decoration-underline">
+                  {{ institution.contact.site }}
+                </span>
+              </div>
+            </div>
+            <div>
+              <div class="d-flex gap-2 align-items-center">
+                <img src="./assets/icons/email-dark.svg" width="16px" height="16px" />
+                <span class="fw-400 f-size-12px link-color text-decoration-underline">
+                  {{ institution.contact.email }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <p class="primary-text fw-600 f-size-14px mb-2 letter-spacing-3">
+              Informações
+            </p>
+            <div class="mb-1">
+              <span class="fw-400 primary-text f-size-12px">CNPJ:</span>
+              <span class="fw-400 primary-text f-size-12px ps-1">{{
+                institution.cnpj
+                }}</span>
+            </div>
+            <div class="mb-1">
+              <span class="fw-400 primary-text f-size-12px">Fundação:</span>
+              <span class="fw-400 primary-text f-size-12px ps-1">{{
+                institution.foundation
+                }}</span>
+            </div>
+            <div>
+              <span class="fw-400 primary-text f-size-12px">Códigos IES:</span>
+              <span class="fw-400 primary-text f-size-12px ps-1">{{
+                institution.ies
+                }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="toCellphone bg-white-tertiary py-4 w-100" *ngIf="!loading">
+    <app-menu-mobile></app-menu-mobile>
+    <div *ngIf="openMenu" (click)="closeMenu()" class="position-absolute menuIsOpen"
+      style="top: 0px; left: 0px; z-index: 1000"></div>
+    <div class="px-3">
+      <div class="d-flex justify-content-between">
+        <img *ngIf="lastPage == 'list'" [routerLink]="['/list']" src="./assets/icons/arrow2-left-gray.svg" />
+        <img *ngIf="lastPage != 'list'" [routerLink]="['/map']" src="./assets/icons/arrow2-left-gray.svg" />
+        <p class="fw-400 primary-text f-size-22px m-0">Perfil da instituição</p>
+        <img (click)="copyLink()" src="./assets/icons/to-forward.svg" />
+      </div>
+      <div class="d-flex justify-content-center pt-3 position-relative">
+        <carousel [interval]="0" [showIndicators]="true" *ngIf="photos.length > 0">
+          <!-- Mostrar o mapa apenas se showMap for true -->
+          <slide *ngIf="institution.showMap">
+            <div #mapContainer style="height: 300px; width: 100%; border-radius: 8px"></div>
+          </slide>
+          <!-- Slide da imagem -->
+          <slide *ngFor="let photo of photos">
+            <img [src]="photo" alt="Institution Photo" style="
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                border-radius: 8px;
+              " onerror="this.src='https://via.placeholder.com/300x200?text=Institution+Photo'" />
+          </slide>
+        </carousel>
+      </div>
+
+      <div class="d-flex gap-3 pt-4">
+        <p class="fw-600 primary-text f-size-16px text-decoration-underline m-0">
+          {{ institution.name.toUpperCase() }}
+        </p>
+
+        <div class="d-flex align-items-center">
+          <div
+            class="bg-yellow-text d-flex gap-1 radius8px d-flex justify-content-center align-items-center h-fit-content"
+            style="width: 50px; height: 16px">
+            <img src="./assets/icons/wheelchair-user.svg" width="9px" height="12px" />
+            <img src="./assets/icons/hand.svg" width="9px" height="12px" />
+            <img src="./assets/icons/verified.svg" width="9px" height="12px" />
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-3">
+        <div class="d-flex gap-1">
+          <ng-container *ngFor="let star of [].constructor(5); let i = index">
+            <img src="{{i < rating ? './assets/icons/star.svg' : './assets/icons/gray-star.png'}}" width="16px"
+              height="16px" class="mt-1">
+          </ng-container>
+        </div>
+
+        <span class="support-gray fw-300 f-size-14px position-relative" style="padding-top: 5px">
+          ({{ reviews.length !== 0 ? reviews.length + ' avaliações' : 'Nenhuma avaliação' }})
+        </span>
+      </div>
+
+      <p class="fw-400 f-size-14px support-gray m-0 py-1">
+        {{ institution.description }}
+      </p>
+
+      <div class="d-flex gap-1 pt-3">
+        <p class="primary-text fw-600 f-size-14px m-0">Matriz:</p>
+        <p class="m-0 support-gray f-size-14px fw-300">
+          {{ institution.location }}
+        </p>
+      </div>
+
+      <span class="primary-text fw-600 f-size-14px m-0">Características:</span>
+      <span class="m-0 support-gray f-size-14px fw-300 ps-1">{{
+        institution.characteristic
+        }}</span>
+
+      <div class="d-flex justify-content-between">
+        <div class="mb-1">
+          <span class="primary-text fw-600 f-size-16px m-0">Bolsas disponíveis:</span>
+          <span class="m-0 support-gray f-size-16px fw-300 ps-1">{{
+            institution.scholarships.amount
+            }}</span>
+        </div>
+
+        <span class="ps-4 f-size-12px fw-300 link-color text-decoration-underline position-relative" style="top: 2px">
+          Ver edital
+        </span>
+      </div>
+
+      <div *ngFor="let course of institution.scholarships.forCourse">
+        <span class="fw-400 primary-text f-size-12px">{{ course.course }}:</span>
+        <span class="fw-400 primary-text f-size-12px ps-1">{{
+          course.amount
+          }}</span>
+      </div>
+
+      <div class="mt-2">
+        <span class="primary-text fw-600 f-size-16px m-0">Infraestrutura e capacidade</span>
+      </div>
+
+      <div *ngFor="let infrastructure of institution.infrastructure">
+        <span class="fw-400 primary-text f-size-12px">{{ infrastructure.name }}:</span>
+        <span class="fw-400 primary-text f-size-12px ps-1">{{
+          infrastructure.value
+          }}</span>
+      </div>
+
+      <div class="d-flex pt-2">
+        <div style="margin-bottom: 30px; width: 50%">
+          <p class="primary-text fw-600 f-size-16px" style="margin-bottom: 8px">
+            Contato
+          </p>
+
+          <div class="d-flex gap-2 mb-1">
+            <img src="./assets/icons/phone.svg" />
+            <span class="fw-400 f-size-12px primary-text">{{
+              institution.contact.phone
+              }}</span>
+          </div>
+
+          <div class="d-flex gap-2 mb-1">
+            <img src="./assets/icons/site.svg" />
+            <span class="fw-400 f-size-12px link-color text-decoration-underline">
+              {{ institution.contact.site }}
+            </span>
+          </div>
+
+          <div class="d-flex gap-2">
+            <img src="./assets/icons/email-dark.svg" />
+            <span class="fw-400 f-size-12px link-color text-decoration-underline">
+              {{ institution.contact.email }}
+            </span>
+          </div>
+        </div>
+
+        <div style="width: 50%">
+          <p class="primary-text fw-600 f-size-16px mb-1">Informações</p>
+
+          <div class="mb-1">
+            <span class="fw-400 primary-text f-size-12px">CNPJ:</span>
+            <span class="fw-400 primary-text f-size-12px ps-1">{{
+              institution.cnpj
+              }}</span>
+          </div>
+
+          <div class="mb-1">
+            <span class="fw-400 primary-text f-size-12px">Fundação:</span>
+            <span class="fw-400 primary-text f-size-12px ps-1">{{
+              institution.foundation
+              }}</span>
+          </div>
+
+          <div>
+            <span class="fw-400 primary-text f-size-12px">Códigos IES:</span>
+            <span class="fw-400 primary-text f-size-12px ps-1">{{
+              institution.ies
+              }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

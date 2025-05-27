@@ -1,0 +1,152 @@
+.modal-container {
+  background-color: #F8F8F8;
+  width: 700px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: none !important;
+}
+
+.label-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4C4C4C;
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #215068;
+}
+
+.socials-text {
+  font-size: 21px;
+  font-weight: 500;
+  color: #767676;
+}
+
+.modal-close {
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 8px 36px 8px 12px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-group label {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-enviar {
+  width: 100%;
+  padding: 10px 0;
+  background-color: #5a9fb5;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-enviar:disabled {
+  background-color: #a8cfdc;
+  cursor: not-allowed;
+}
+
+.socials-border {
+  border: 1px solid #E8E9F1;
+  border-radius: 5px;
+}
+
+.social-icons {
+  width: 24px;
+  height: 24px;
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+  .modal-container {
+    width: 500px !important;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .modal-container {
+    width: 326px !important;
+  }
+}
+
+@media screen and (max-width: 653px) {
+  .modal-container {
+    padding: 70px;
+  }
+
+  .detail-img {
+    height: 100px;
+  }
+
+  .modal-title {
+    font-size: 22px;
+  }
+  
+  .socials-text {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 448px) {
+  .modal-container {
+    padding: 50px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+  
+  .socials-text {
+    font-size: 14px;
+  }
+}

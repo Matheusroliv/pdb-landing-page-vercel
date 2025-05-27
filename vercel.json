@@ -1,0 +1,5 @@
+{
+  "installCommand": "yarn install --ignore-platform",
+  "buildCommand": "yarn run build",
+  "outputDirectory": "dist/portal-landing-page"
+}

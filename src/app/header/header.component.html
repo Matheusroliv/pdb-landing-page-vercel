@@ -1,0 +1,113 @@
+<section class="header-shadow toComputer">
+
+    <div *ngIf="someFullModalIsOpen" class="position-absolute w-100 bg-modal" style="height: 100%;">
+    </div>
+
+    <div class="header-height container d-flex align-items-center justify-content-between px-4">
+
+        <div class="cursor-pointer">
+
+            <img [routerLink]="['/home']" src="./assets/imgs/logo.svg" alt="logo">
+
+        </div>
+
+        <div class="d-flex gap-3">
+
+            <div [routerLink]="['/home']" class="boxes-home d-flex align-items-center justify-content-center"
+                style="margin-right: -10px;">
+
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                    [class.text-decoration-underline]="currentPage == 'home'">Home</span>
+
+            </div>
+
+            <div [routerLink]="['/map']" class="boxes-home d-flex align-items-center justify-content-center">
+
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                    [class.text-decoration-underline]="currentPage == 'map' || currentPage == 'list'">Mapa</span>
+
+            </div>
+
+            <div (click)="changeOpenKnowMore()" class="boxes-home d-flex align-items-center justify-content-center position-relative cursor-pointer">
+
+                <!-- <select (change)="goToKnowMore($event)" [class.text-decoration-underline]="currentPage == 'know more'"
+                class="form-select border-0 fw-400 f-size-16px shadow-none bg-none white form-select border-brand form-select-sm cursor-pointer ps-3" aria-label="Small select example">
+                    <option selected>Saiba mais</option>
+                    <option value="Estudantes">Estudantes</option>
+                    <option value="Instituições">Instituições</option>
+                </select> -->
+
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                    [class.text-decoration-underline]="currentPage == 'know more'">Saiba mais</span>
+
+                <img class="position-absolute position-arrow-bottom" [class.rotation-to-top]="openKnowMore"
+                    src="./assets/icons/arrow-bottom-white.svg">
+
+                <div *ngIf="openKnowMore" class="select-saiba-mais position-absolute shadow4px" style="bottom:-35px;">
+
+                    <div (click)="goToKnowMore('Estudantes')"
+                        class="d-flex align-items-center justify-content-center cursor-pointer" style="height: 21px;">
+
+                        <span class="brand-primary fw-400 f-size-12px">Estudantes</span>
+
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-center" style="height: 0.5px;">
+
+                        <div class="h-100" style="background-color: #5994A9; width: 88%;"></div>
+
+                    </div>
+
+                    <div (click)="goToKnowMore('Instituições')"
+                        class="d-flex align-items-center justify-content-center cursor-pointer" style="height: 21px;">
+
+                        <span class="brand-primary fw-400 f-size-12px">Instituições</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div [routerLink]="['/about']" class="boxe-about-home d-flex align-items-center justify-content-center">
+
+                <span class="fw-400 f-size-16px white cursor-pointer"
+                    [class.text-decoration-underline]="currentPage == 'about'">Sobre o Portal</span>
+
+            </div>
+
+            <div class="goInto d-flex align-items-center justify-content-center py-2 ms-5 btn-send-width cursor-pointer"
+                (click)="openPreRegistrationModal()">
+
+                <span class="fw-600 brand-primary letter-spacing-10">Pré-cadastro</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="toCellphone px-4 header-shadow py-3">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div class="cursor-pointer">
+
+            <img [routerLink]="['/home']" src="./assets/imgs/logo.svg" alt="logo" width="158px" height="39px">
+
+        </div>
+
+        <div (click)="changeMenu(true)" class="cursor-pointer">
+
+            <img src="./assets/icons/menu.svg" alt="menu-icone">
+
+        </div>
+
+    </div>
+
+
+
+</section>
