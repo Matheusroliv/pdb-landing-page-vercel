@@ -1,18 +1,12 @@
 {
   "installCommand": "yarn install --ignore-platform",
   "buildCommand": "yarn run build",
-  "outputDirectory": "dist/portal-landing-page",
+
+  "outputDirectory": "dist/portal-landing-page/browser",
+
   "routes": [
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/",
-      "dest": "/browser/index.html"
-    },
-    {
-      "src": "/[^./]+(?:/[^./]+)*",
-      "dest": "/browser/index.html"
-    }
+    { "handle": "filesystem" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/[^./]+(?:/[^./]+)*", "dest": "/index.html" }
   ]
 }
