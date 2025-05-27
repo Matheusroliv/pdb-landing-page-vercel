@@ -3,9 +3,7 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/portal-landing-page"
-      }
+      "config": { "distDir": "dist/portal-landing-page" }
     }
   ],
 
