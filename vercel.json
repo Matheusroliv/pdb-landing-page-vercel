@@ -2,18 +2,10 @@
   "installCommand": "yarn install --ignore-platform",
   "buildCommand": "yarn run build",
 
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/portal-landing-page/browser"
-      }
-    }
-  ],
+  "outputDirectory": "dist/portal-landing-page",
 
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/[^\\.#?]+(?:/[^\\.#?]+)*", "dest": "/index.html" }
+    { "src": "/[^./]+(?:/[^./]+)*", "dest": "/browser/index.html" }
   ]
 }
