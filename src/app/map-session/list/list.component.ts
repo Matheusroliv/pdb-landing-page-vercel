@@ -14,23 +14,24 @@ import { PreRegistrationModalComponent } from '../../pre-registration-modal/pre-
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstitutionQuery, sortType } from '../interface-query';
 import { SomeFullModalIsOpenService } from '../../service/someFullModalIsOpen.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-list',
-    templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss'],
-    animations: [
-        trigger('fadeInOut', [
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate('300ms ease-in', style({ opacity: 1 })),
-            ]),
-            transition(':leave', [
-                animate('300ms ease-out', style({ opacity: 0 })),
-            ]),
-        ]),
-    ],
-    standalone: false
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms ease-in', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
+  standalone: false
 })
 export class ListInstitutionsComponent implements OnInit {
   openModalDownloadApp = false;
@@ -46,6 +47,7 @@ export class ListInstitutionsComponent implements OnInit {
   showPreRegistrationModal = false;
   private preRegistrationModalSubscription: Subscription | undefined;
 
+  isLoading: boolean = false;
   query: InstitutionQuery = {};
   page: number = 1;
   limit: number = 15;
@@ -69,7 +71,8 @@ export class ListInstitutionsComponent implements OnInit {
     private openPreRegistrationModalService: OpenPreRegistrationModalService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -101,21 +104,27 @@ export class ListInstitutionsComponent implements OnInit {
 
       this.searchText = processedParams['name'] || processedParams['cnpj'] || processedParams['zipCode'] || '';
       this.query = {
-        name: processedParams['name'] || '',
-        cnpj: processedParams['cnpj'] || '',
-        zipCode: processedParams['zipCode'] || '',
-        city: processedParams['city'] || '',
-        address: processedParams['address'] || '',
-        state: processedParams['state'] || '',
-        offeredEducationStagesAndModalities: processedParams['educationLevelSource'] === 'emec' ? [] : (processedParams['offeredEducationStagesAndModalities'] ? (Array.isArray(processedParams['offeredEducationStagesAndModalities']) ? processedParams['offeredEducationStagesAndModalities'] : processedParams['offeredEducationStagesAndModalities'].split(',')) : []),
-        juridicName: processedParams['juridicName'] || '',
-        type: processedParams['type'] || '',
-        academicOrganization: processedParams['academicOrganization'] || '',
-        openingdateBegin: processedParams['openingdateBegin'] || '',
-        openingdateEnd: processedParams['openingdateEnd'] || '',
-        rating: processedParams['rating'] ? +processedParams['rating'] : undefined,
-        coordinates: processedParams['coordinates'] ? JSON.parse(processedParams['coordinates']) : undefined,
+        name: processedParams['name'] || undefined,
+        cnpj: processedParams['cnpj'] || undefined,
+        zipCode: processedParams['zipCode'] || undefined,
+        city: processedParams['city'] || undefined,
+        address: processedParams['address'] || undefined,
+        state: processedParams['state'] || undefined,
+        juridicName: processedParams['juridicName'] || undefined,
+        type: processedParams['type'] || undefined,
+        academicOrganization: processedParams['academicOrganization'] || undefined,
+        openingdateBegin: processedParams['openingdateBegin'] || undefined,
+        openingdateEnd: processedParams['openingdateEnd'] || undefined,
+        rating: processedParams['rating'] ? Number(processedParams['rating']) : undefined,
+        coordinates: processedParams['coordinates']
+          ? (processedParams['coordinates'].split(',').map(Number) as [number, number])
+          : undefined,
         educationLevelSource: processedParams['educationLevelSource'] || undefined,
+        acessibility: processedParams['acessibility'] ? processedParams['acessibility'].split(',') : undefined,
+        phone: processedParams['phone'] === 'true' ? true : undefined,
+        email: processedParams['email'] === 'true' ? true : undefined,
+        site: processedParams['site'] === 'true' ? true : undefined,
+        scholarshipPolicy: processedParams['scholarshipPolicy'] || undefined,
       };
       this.sort = processedParams['sort'] === 'Z-A' ? sortType.Z_A : sortType.A_Z;
       this.page = processedParams['page'] ? +processedParams['page'] : 1;
@@ -161,72 +170,80 @@ export class ListInstitutionsComponent implements OnInit {
   }
 
   async requestGeolocation(): Promise<void> {
-    if (this.sort !== sortType.NEXT_LOCATION) {
-      this.query.coordinates = undefined;
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { coordinates: null },
-        queryParamsHandling: 'merge',
-      });
-      this.listAllInstitutions();
-      return;
-    }
+    return new Promise((resolve) => {
+      if (this.sort !== sortType.NEXT_LOCATION) {
+        this.query.coordinates = undefined;
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { coordinates: null },
+          queryParamsHandling: 'merge',
+        });
+        this.listAllInstitutions();
+        resolve();
+        return;
+      }
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          this.query.coordinates = [position.coords.longitude, position.coords.latitude];
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: {
-              coordinates: this.query.coordinates ? JSON.stringify(this.query.coordinates) : null,
-            },
-            queryParamsHandling: 'merge',
-          });
-          this.listAllInstitutions();
-        },
-        error => {
-          console.warn('Geolocation access denied or unavailable:', error);
-          this.query.coordinates = undefined;
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { coordinates: null },
-            queryParamsHandling: 'merge',
-          });
-          if (this.query.zipCode) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const longitude = position.coords.longitude;
+            const latitude = position.coords.latitude;
+            if (longitude >= -180 && longitude <= 180 && latitude >= -90 && latitude <= 90) {
+              this.query.coordinates = [longitude, latitude];
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: { coordinates: JSON.stringify(this.query.coordinates) },
+                queryParamsHandling: 'merge',
+              });
+            } else {
+              console.warn('Invalid coordinates received:', [longitude, latitude]);
+              this.query.coordinates = undefined;
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: { coordinates: null },
+                queryParamsHandling: 'merge',
+              });
+            }
             this.listAllInstitutions();
-          } else {
+            resolve();
+          },
+          error => {
+            console.warn('Geolocation access denied or unavailable:', error);
+            this.query.coordinates = undefined;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { coordinates: null },
+              queryParamsHandling: 'merge',
+            });
             this.sort = sortType.A_Z;
             this.router.navigate([], {
               relativeTo: this.route,
               queryParams: { sort: this.sort },
               queryParamsHandling: 'merge',
             });
-            alert('Proximidade não disponível (geolocalização negada e sem CEP). Ordenando por A-Z.');
+            alert('Proximidade não disponível (geolocalização negada). Ordenando por A-Z.');
             this.listAllInstitutions();
+            resolve();
           }
-        }
-      );
-    } else {
-      this.query.coordinates = undefined;
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { coordinates: null },
-        queryParamsHandling: 'merge',
-      });
-      if (this.query.zipCode) {
-        this.listAllInstitutions();
+        );
       } else {
+        this.query.coordinates = undefined;
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { coordinates: null },
+          queryParamsHandling: 'merge',
+        });
         this.sort = sortType.A_Z;
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { sort: this.sort },
           queryParamsHandling: 'merge',
         });
-        alert('Proximidade não disponível (sem geolocalização ou CEP). Ordenando por A-Z.');
+        alert('Proximidade não disponível (sem geolocalização). Ordenando por A-Z.');
         this.listAllInstitutions();
+        resolve();
       }
-    }
+    });
   }
 
   resetSearch(): void {
@@ -236,21 +253,25 @@ export class ListInstitutionsComponent implements OnInit {
 
     this.searchText = '';
     this.query = {
-      name: '',
-      cnpj: '',
-      zipCode: '',
-      address: '',
-      city: '',
-      state: '',
-      offeredEducationStagesAndModalities: [],
-      juridicName: '',
-      type: '',
-      academicOrganization: '',
-      openingdateBegin: '',
-      openingdateEnd: '',
+      name: undefined,
+      cnpj: undefined,
+      zipCode: undefined,
+      city: undefined,
+      address: undefined,
+      state: undefined,
+      juridicName: undefined,
+      type: undefined,
+      academicOrganization: undefined,
+      openingdateBegin: undefined,
+      openingdateEnd: undefined,
       rating: undefined,
       coordinates: undefined,
       educationLevelSource: undefined,
+      acessibility: undefined,
+      phone: undefined,
+      email: undefined,
+      site: undefined,
+      scholarshipPolicy: undefined,
     };
 
     this.sort = sortType.A_Z;
@@ -270,20 +291,26 @@ export class ListInstitutionsComponent implements OnInit {
 
   hasActiveFilters(): boolean {
     const hasFilters = !!(
-      this.query.name ||
-      this.query.city ||
-      this.query.state ||
-      this.query.address ||
-      this.query.offeredEducationStagesAndModalities?.length ||
+      this.query.name?.trim() ||
+      this.query.cnpj?.trim() ||
+      this.query.zipCode?.trim() ||
+      this.query.city?.trim() ||
+      this.query.address?.trim() ||
+      this.query.state?.trim() ||
+      this.query.juridicName?.trim() ||
+      this.query.type?.trim() ||
+      this.query.academicOrganization?.trim() ||
+      this.query.openingdateBegin?.trim() ||
+      this.query.openingdateEnd?.trim() ||
+      this.query.rating !== undefined ||
+      this.query.coordinates ||
       this.query.educationLevelSource ||
-      this.query.zipCode ||
-      this.query.cnpj ||
-      this.query.juridicName ||
-      this.query.type ||
-      this.query.academicOrganization?.length ||
-      this.query.openingdateBegin ||
-      this.query.openingdateEnd ||
-      this.query.rating);
+      (this.query.acessibility && this.query.acessibility.length > 0) ||
+      this.query.phone === true ||
+      this.query.email === true ||
+      this.query.site === true ||
+      this.query.scholarshipPolicy?.trim()
+    );
     this.updateActiveFilterCount();
     return hasFilters;
   }
@@ -291,77 +318,42 @@ export class ListInstitutionsComponent implements OnInit {
   updateActiveFilterCount(): void {
     this.activeFilterCount = 0;
     const filterFields = [
-      this.query.name,
-      this.query.city,
-      this.query.state,
-      this.query.address,
-      this.query.offeredEducationStagesAndModalities?.length ? true : false,
+      this.query.name?.trim(),
+      this.query.cnpj?.trim(),
+      this.query.zipCode?.trim(),
+      this.query.city?.trim(),
+      this.query.address?.trim(),
+      this.query.state?.trim(),
+      this.query.juridicName?.trim(),
+      this.query.type?.trim(),
+      this.query.academicOrganization?.trim(),
+      this.query.openingdateBegin?.trim(),
+      this.query.openingdateEnd?.trim(),
+      this.query.rating !== undefined ? this.query.rating : null,
+      this.query.coordinates,
       this.query.educationLevelSource,
-      this.query.zipCode,
-      this.query.cnpj,
-      this.query.juridicName,
-      this.query.type,
-      this.query.academicOrganization,
-      this.query.openingdateBegin,
-      this.query.openingdateEnd,
-      this.query.rating,
+      (this.query.acessibility && this.query.acessibility.length > 0) ? this.query.acessibility : null,
+      this.query.phone === true ? true : null,
+      this.query.email === true ? true : null,
+      this.query.site === true ? true : null,
+      this.query.scholarshipPolicy?.trim(),
     ];
     this.activeFilterCount = filterFields.filter(Boolean).length;
   }
 
   onSearchChange(): void {
     const trimmedSearchText = (this.searchText || '').trim();
-    const newQuery = { ...this.query };
 
-    if (!trimmedSearchText) {
-      newQuery.name = '';
-      newQuery.cnpj = '';
-      newQuery.zipCode = '';
-      newQuery.address = '';
-      newQuery.city = '';
-    } else {
-      let searchType: string;
-      if (/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(trimmedSearchText)) {
-        searchType = 'cnpj';
-        newQuery.cnpj = trimmedSearchText;
-        newQuery.name = '';
-        newQuery.zipCode = '';
-        newQuery.address = '';
-        newQuery.city = '';
-      } else if (/^\d{5}-\d{3}$/.test(trimmedSearchText)) {
-        searchType = 'zipCode';
-        newQuery.zipCode = trimmedSearchText;
-        newQuery.name = '';
-        newQuery.cnpj = '';
-        newQuery.address = '';
-        newQuery.city = '';
-      } else if (trimmedSearchText.includes(',') || trimmedSearchText.length > 3) {
-        searchType = 'city';
-        newQuery.city = trimmedSearchText;
-        newQuery.name = '';
-        newQuery.cnpj = '';
-        newQuery.zipCode = '';
-        newQuery.address = '';
-      } else if (trimmedSearchText.length > 5) {
-        searchType = 'address';
-        newQuery.address = trimmedSearchText;
-        newQuery.name = '';
-        newQuery.cnpj = '';
-        newQuery.zipCode = '';
-        newQuery.city = '';
-      } else {
-        searchType = 'name';
-        newQuery.name = trimmedSearchText;
-        newQuery.cnpj = '';
-        newQuery.zipCode = '';
-        newQuery.address = '';
-        newQuery.city = '';
-      }
-    }
+    const newQuery = {
+      ...this.query,
+      name: trimmedSearchText || undefined,
+      cnpj: this.query.cnpj || undefined,
+      zipCode: this.query.zipCode || undefined || '',
+      city: this.query.city || undefined,
+      address: this.query.address || undefined,
+    };
 
     this.query = newQuery;
-    this.page = 1;
-    this.currentPaginator = 1;
 
     const queryParams: any = {
       page: this.page,
@@ -376,14 +368,17 @@ export class ListInstitutionsComponent implements OnInit {
         value !== '' &&
         (!Array.isArray(value) || value.length > 0)
       ) {
-        queryParams[key] = Array.isArray(value) ? value.join(',') : value;
+        queryParams[key] = Array.isArray(value) && key !== 'coordinates' ? value.join(',') : key === 'coordinates' ? JSON.stringify(value) : String(value);
       }
     }
+
+    console.log('Search query params to URL:', queryParams);
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
       queryParamsHandling: 'merge',
+      replaceUrl: true,
     });
 
     this.updateActiveFilterCount();
@@ -391,31 +386,50 @@ export class ListInstitutionsComponent implements OnInit {
   }
 
   listAllInstitutions() {
-    if (this.query.educationLevelSource === 'emec') {
-      this.query.offeredEducationStagesAndModalities = [];
-    }
-    if (this.query.offeredEducationStagesAndModalities && !Array.isArray(this.query.offeredEducationStagesAndModalities)) {
-      this.query.offeredEducationStagesAndModalities = [this.query.offeredEducationStagesAndModalities];
-    }
+    if (this.isLoading) return;
+    console.log('Query object before request:', this.query);
+    this.isLoading = true;
     this.spinner.show();
     this.institutionsService.listInstitutions(this.page, this.limit, this.sort, this.query).subscribe({
       next: (response: any) => {
-        this.institutions = response.data.map((institution: any) => ({
-          ...institution,
-          name: this.getInstitutionName(institution),
-          characteristics: this.getCharacteristics(institution),
-          cleanAddress: this.getCleanAddress(institution),
-          randomIcon: this.institutionIconService.getRandomIcon(),
-        }));
+        this.institutions = response.data.map((institution: any) => {
+          const register = institution.registerInstitution || {};
+          const inep = institution.inep || {};
+          const emec = institution.emec || {};
+
+          const isVerified = register && register.status === 'APPROVED' ? true : false;
+          const isFist = this.getIsFist(institution);
+          const isInstitution = (register && Object.keys(register).length > 0) ||
+            (inep && Object.keys(inep).length > 0) ||
+            (emec && Object.keys(emec).length > 0) ? true : false;
+          const hasAccessibility = this.getHasAccessibility(institution);
+
+          return {
+            ...institution,
+            name: this.getInstitutionName(institution),
+            characteristics: this.getCharacteristics(institution),
+            cleanAddress: this.getCleanAddress(institution),
+            randomIcon: this.institutionIconService.getRandomIcon(),
+            educationLevel: this.getEducationLevel(institution),
+            isVerified,
+            isFist,
+            isInstitution,
+            hasAccessibility
+          };
+        });
         this.totalItems = response.totalCount || response.data.length;
         this.qtdOfPaginators();
         this.putOnPagesOfMiddle();
+        this.isLoading = false;
         this.spinner.hide();
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
-        console.error('ListInstitutionsComponent - Erro ao carregar instituições:', err);
+        console.error('Error loading institutions:', err);
+        this.toastr.error('Failed to load institutions. Please check your filters or try again later.');
         this.institutions = [];
         this.totalItems = 0;
+        this.isLoading = false;
         this.spinner.hide();
       },
     });
@@ -430,7 +444,6 @@ export class ListInstitutionsComponent implements OnInit {
       city: filters.city || '',
       address: filters.address || '',
       state: filters.state || '',
-      offeredEducationStagesAndModalities: filters.educationLevelSource === 'emec' ? [] : (filters.offeredEducationStagesAndModalities || []),
       juridicName: filters.juridicName || '',
       type: filters.type || '',
       academicOrganization: filters.academicOrganization || '',
@@ -439,6 +452,11 @@ export class ListInstitutionsComponent implements OnInit {
       rating: filters.rating || undefined,
       coordinates: filters.coordinates || this.query.coordinates,
       educationLevelSource: filters.educationLevelSource || undefined,
+      acessibility: filters.acessibility || undefined,
+      phone: filters.phone || undefined,
+      email: filters.email || undefined,
+      site: filters.site || undefined,
+      scholarshipPolicy: filters.scholarshipPolicy || '',
     };
 
     const queryParams: any = {
@@ -460,9 +478,7 @@ export class ListInstitutionsComponent implements OnInit {
 
     if (this.query.name) queryParams.name = this.query.name;
     if (this.query.cnpj) queryParams.cnpj = this.query.cnpj;
-    if (this.query.offeredEducationStagesAndModalities?.length && this.query.educationLevelSource !== 'emec') {
-      queryParams.offeredEducationStagesAndModalities = this.query.offeredEducationStagesAndModalities.join(',');
-    }
+    if (this.query.educationLevelSource) queryParams.educationLevelSource = this.query.educationLevelSource;
     if (this.query.juridicName) queryParams.juridicName = this.query.juridicName;
     if (this.query.type) queryParams.type = this.query.type;
     if (this.query.academicOrganization) {
@@ -471,7 +487,12 @@ export class ListInstitutionsComponent implements OnInit {
     if (this.query.openingdateBegin) queryParams.openingdateBegin = this.query.openingdateBegin;
     if (this.query.openingdateEnd) queryParams.openingdateEnd = this.query.openingdateEnd;
     if (this.query.coordinates) queryParams.coordinates = JSON.stringify(this.query.coordinates);
-    if (this.query.educationLevelSource) queryParams.educationLevelSource = this.query.educationLevelSource;
+    if (this.query.rating) queryParams.rating = this.query.rating.toString();
+    if (this.query.acessibility) queryParams.acessibility = this.query.acessibility.join(',');
+    queryParams.phone = this.query.phone === true ? 'true' : null;
+    queryParams.email = this.query.email === true ? 'true' : null;
+    queryParams.site = this.query.site === true ? 'true' : null;
+    if (this.query.scholarshipPolicy) queryParams.scholarshipPolicy = this.query.scholarshipPolicy;
 
     this.router.navigate([], {
       relativeTo: this.route,
@@ -480,6 +501,7 @@ export class ListInstitutionsComponent implements OnInit {
       replaceUrl: true,
     });
 
+    console.log('Updated query after filters:', this.query);
     this.listAllInstitutions();
   }
 
@@ -494,59 +516,136 @@ export class ListInstitutionsComponent implements OnInit {
     });
   }
 
-  onSortChange(event: Event): void {
+  async onSortChange(event: Event): Promise<void> {
     const selectElement = event.target as HTMLSelectElement;
     const selectedSort = selectElement.value as sortType;
 
     this.sort = selectedSort;
-    this.requestGeolocation();
+    if (selectedSort === sortType.NEXT_LOCATION) {
+      await this.requestGeolocation();
+    } else {
+      this.query.coordinates = undefined;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { coordinates: null },
+        queryParamsHandling: 'merge',
+      });
+    }
     this.listAllInstitutions();
   }
 
   getInstitutionName(institution: any): string {
+    const fiscal = institution.fiscal || {};
+    const cebas = institution.cebas || {};
     const emec = institution.emec || {};
     const inep = institution.inep || {};
-    const cebas = institution.cebas || {};
-    const fiscal = institution.fiscal || {};
+    const register = institution.registerInstitution || {};
 
-    if (emec.iesName) {
-      return emec.iesName;
-    } else if (inep.school) {
-      return inep.school;
-    } else if (cebas.maintainersName) {
-      return cebas.maintainersName;
-    } else if (fiscal.fantasyName) {
-      return fiscal.fantasyName;
-    } else if (fiscal.socialReason) {
-      return fiscal.socialReason;
+    let name = 'Nome não disponível';
+    if (register.institutionName) name = register.institutionName;
+    else if (emec.iesName) name = emec.iesName;
+    else if (inep.school) name = inep.school;
+    else if (cebas.maintainersName) name = cebas.maintainersName;
+    else if (fiscal.fantasyName) name = fiscal.fantasyName;
+    else if (fiscal.socialReason) name = fiscal.socialReason;
+
+    return name;
+  }
+
+  getIsFist(institution: any): boolean {
+    const register = institution.registerInstitution || {};
+    let isFist = false;
+    if (register.scholarships && register.scholarships.quotas_offered) {
+      isFist = register.scholarships.quotas_offered.some(
+        (quota: any) => quota.quotas_type === 'Cotas raciais'
+      );
     }
-    return 'Nome não disponível';
+    return isFist;
+  }
+
+  getHasAccessibility(institution: any): boolean {
+    const register = institution.registerInstitution || {};
+    let hasAccessibility = false;
+    if (register.scholarships && register.scholarships.quotas_offered) {
+      hasAccessibility = register.scholarships.quotas_offered.some(
+        (quota: any) => quota.quotas_type === 'Cotas PCD'
+      );
+    } else if (institution.inep?.attendanceRestriction === 'ESCOLA ATENDE EXCLUSIVAMENTE ALUNOS COM DEFICIÊNCIA') {
+      hasAccessibility = true;
+    }
+    return hasAccessibility;
   }
 
   getCharacteristics(institution: any): string {
     const fiscal = institution.fiscal || {};
-    const emec = institution.emec || {};
     const inep = institution.inep || {};
+    const emec = institution.emec || {};
+    const cebas = institution.cebas || {};
+    const register = institution.registerInstitution || {};
 
+    const characteristics: string[] = [];
+
+    // 1. fiscal.juridicName
     if (fiscal.juridicName) {
-      return fiscal.juridicName;
-    } else if (fiscal.type) {
-      return fiscal.type;
-    } else if (emec.academicOrganization) {
-      return emec.academicOrganization;
-    } else if (inep.privateSchoolCategory) {
-      return `Escola ${inep.privateSchoolCategory}`;
-    } else if (inep.administrativeCategory) {
-      return `Escola ${inep.administrativeCategory}`;
-    } else {
-      return 'Não disponível';
+      characteristics.push(fiscal.juridicName);
     }
+
+    // 2. register.institution_type ou institutionfiscal.type
+    if (register.institution_type) {
+      characteristics.push(register.institution_type === 'Matriz' || register.institution_type === 'MATRIX' ? 'Matriz' : 'Filial');
+    } else if (fiscal.type) {
+      characteristics.push(fiscal.type);
+    }
+
+    // 3. institutionemec.academicorganization
+    if (emec.academicorganization) {
+      characteristics.push(emec.academicorganization);
+    }
+
+    // 4. "Escola" institutioninep.privateschoolCategory
+    if (inep.privateschoolCategory) {
+      characteristics.push(`Escola ${inep.privateschoolCategory}`);
+    }
+
+    // 5. emec.accreditationType
+    if (emec.accreditationType) {
+      characteristics.push(emec.accreditationType);
+    }
+
+    // 6. register.administrative_category ou emec.administrativeCategory ou inep.administrativeCategory
+    if (register.administrative_category) {
+      characteristics.push(
+        register.administrative_category === 'PRIVATE_NON_PROFIT' || register.administrative_category === 'Sem fins lucrativos'
+          ? 'Sem fins lucrativos'
+          : 'Com fins lucrativos'
+      );
+    } else if (emec.administrativeCategory) {
+      characteristics.push(
+        emec.administrativeCategory === 'PRIVATE_NON_PROFIT' || emec.administrativeCategory === 'Sem fins lucrativos'
+          ? 'Sem fins lucrativos'
+          : 'Com fins lucrativos'
+      );
+    } else if (inep.administrativeCategory) {
+      characteristics.push(
+        inep.administrativeCategory === 'PRIVATE_NON_PROFIT' || inep.administrativeCategory === 'Sem fins lucrativos'
+          ? 'Sem fins lucrativos'
+          : 'Com fins lucrativos'
+      );
+    }
+
+    if (cebas.ordinance && cebas.ordinance !== '' && cebas.ordinance !== '----') {
+      characteristics.push(`CEBAS (${cebas.ordinance})`);
+    }
+
+
+    return characteristics.length > 0 ? characteristics.join(', ') : 'Não informado';
   }
 
   getCleanAddress(institution: any): string {
     const fiscal = institution.fiscal || {};
     const emec = institution.emec || {};
     const inep = institution.inep || {};
+    const register = institution.registerInstitution || {};
 
     let address = '';
     if (inep.address?.address) {
@@ -555,17 +654,63 @@ export class ListInstitutionsComponent implements OnInit {
       address = emec.address.address;
     } else if (fiscal.address?.address) {
       address = fiscal.address.address;
+    } else if (register.address?.address) {
+      const street = register.address.address || '';
+      const number = register.address.number ? String(register.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
     } else {
       return 'Endereço não disponível';
     }
 
-    const socialReason = fiscal.socialReason || '';
-    if (socialReason && address.includes(socialReason)) {
-      address = address.replace(socialReason, '').trim();
+    if (register.address?.address) {
+      const street = register.address.address || '';
+      const number = register.address.number ? String(register.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else if (fiscal.address?.address) {
+      const street = fiscal.address.address || '';
+      const number = fiscal.address.number ? String(fiscal.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else if (inep.address?.address) {
+      const street = inep.address.address || '';
+      const number = inep.address.number ? String(inep.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else if (emec.address?.address) {
+      const street = emec.address.address || '';
+      const number = emec.address.number ? String(emec.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else {
+      return 'Endereço não disponível';
     }
 
-    return address || 'Endereço não disponível';
+    return address.trim();
   }
+
+  getEducationLevel(institution: any): string {
+    const register = institution.registerInstitution || {};
+    const inep = institution.inep || {};
+
+    let educationLevelArr: string[] = [];
+
+    if (register.education_level) {
+      if (Array.isArray(register.education_level)) {
+        educationLevelArr = register.education_level;
+      } else if (typeof register.education_level === 'string') {
+        educationLevelArr = [register.education_level];
+      }
+    } else if (institution.emec && institution.emec > 0) {
+      educationLevelArr = ['Graduação'];
+    } else if (inep.offeredEducationStagesAndModalities) {
+      if (Array.isArray(inep.offeredEducationStagesAndModalities)) {
+        educationLevelArr = inep.offeredEducationStagesAndModalities;
+      } else if (typeof inep.offeredEducationStagesAndModalities === 'string') {
+        educationLevelArr = [inep.offeredEducationStagesAndModalities];
+      }
+    }
+
+    return educationLevelArr.length > 0 ? educationLevelArr.join(', ') : '';
+  }
+
+
 
   qtdOfPaginators() {
     this.totalPaginators = Math.ceil(this.totalItems / this.limit);
@@ -606,24 +751,24 @@ export class ListInstitutionsComponent implements OnInit {
       sort: this.sort,
     };
 
-    for (const [key, value] of Object.entries(this.query)) {
+    Object.entries(this.query).forEach(([key, value]) => {
       if (
         value !== undefined &&
         value !== null &&
-        value !== '' &&
+        (typeof value !== 'string' || value.trim() !== '') &&
         (!Array.isArray(value) || value.length > 0)
       ) {
-        if (key === 'offeredEducationStagesAndModalities' && this.query.educationLevelSource === 'emec') {
-          continue;
-        }
-        queryParams[key] = Array.isArray(value) ? value.join(',') : (key === 'rating' ? value.toString() : value);
+        queryParams[key] = Array.isArray(value) && key !== 'coordinates' ? value.join(',') : key === 'coordinates' ? JSON.stringify(value) : String(value);
       }
-    }
+    });
+
+    console.log('Updating URL with query params:', queryParams);
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
       queryParamsHandling: 'merge',
+      replaceUrl: true,
     });
   }
 

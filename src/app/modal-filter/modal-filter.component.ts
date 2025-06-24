@@ -2,16 +2,17 @@ import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angu
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { getAddressByCepService } from '../service/getAddressByCep.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { InstitutionQuery } from '../map-session/interface-query';
+import { EducationLevelEnum, InstitutionQuery } from '../map-session/interface-query';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { InstitutionsService } from '../service/institutions.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-modal-filter',
-    templateUrl: './modal-filter.component.html',
-    styleUrls: ['./modal-filter.component.scss'],
-    standalone: false
+  selector: 'app-modal-filter',
+  templateUrl: './modal-filter.component.html',
+  styleUrls: ['./modal-filter.component.scss'],
+  standalone: false
 })
 export class ModalFilterComponent implements OnInit, OnDestroy {
   @Output() applyFilters = new EventEmitter<any>();
@@ -26,14 +27,73 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
   showSelectPlaceholder2: boolean = false;
   showSelectPlaceholder3: boolean = false;
   avaliacao: number | undefined = undefined;
-  coordinates: [number, number] | null = null;
+  coordinates: [number, number] | undefined = undefined;
   private destroy$ = new Subject<void>();
+
+  // State map with all Brazilian states (full name or abbreviation to abbreviation)
+  private stateMap: { [key: string]: string } = {
+    'Acre': 'AC',
+    'AC': 'AC',
+    'Alagoas': 'AL',
+    'AL': 'AL',
+    'Amapá': 'AP',
+    'AP': 'AP',
+    'Amazonas': 'AM',
+    'AM': 'AM',
+    'Bahia': 'BA',
+    'BA': 'BA',
+    'Ceará': 'CE',
+    'CE': 'CE',
+    'Distrito Federal': 'DF',
+    'DF': 'DF',
+    'Espírito Santo': 'ES',
+    'ES': 'ES',
+    'Goiás': 'GO',
+    'GO': 'GO',
+    'Maranhão': 'MA',
+    'MA': 'MA',
+    'Mato Grosso': 'MT',
+    'MT': 'MT',
+    'Mato Grosso do Sul': 'MS',
+    'MS': 'MS',
+    'Minas Gerais': 'MG',
+    'MG': 'MG',
+    'Pará': 'PA',
+    'PA': 'PA',
+    'Paraíba': 'PB',
+    'PB': 'PB',
+    'Paraná': 'PR',
+    'PR': 'PR',
+    'Pernambuco': 'PE',
+    'PE': 'PE',
+    'Piauí': 'PI',
+    'PI': 'PI',
+    'Rio de Janeiro': 'RJ',
+    'RJ': 'RJ',
+    'Rio Grande do Norte': 'RN',
+    'RN': 'RN',
+    'Rio Grande do Sul': 'RS',
+    'RS': 'RS',
+    'Rondônia': 'RO',
+    'RO': 'RO',
+    'Roraima': 'RR',
+    'RR': 'RR',
+    'Santa Catarina': 'SC',
+    'SC': 'SC',
+    'São Paulo': 'SP',
+    'SP': 'SP',
+    'Sergipe': 'SE',
+    'SE': 'SE',
+    'Tocantins': 'TO',
+    'TO': 'TO'
+  };
 
   constructor(
     private fb: FormBuilder,
     private getAddressByCep: getAddressByCepService,
     private modalService: NgbModal,
-    private institutionsService: InstitutionsService
+    private institutionsService: InstitutionsService,
+    private toastr: ToastrService
   ) {
     this.formLocation = this.fb.group({
       zipCode: [''],
@@ -49,7 +109,11 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
       juridicName: [''],
       institutionType: [''],
       academicOrganization: [''],
-      type: [''],
+      acessibility: [undefined],
+      phone: [false],
+      email: [false],
+      site: [false],
+      scholarshipPolicy: [''],
       rating: ['']
     });
   }
@@ -91,11 +155,8 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
 
   formatDateInput(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
-
-    let value = input.value.replace(/\D/g, ''); // Remove non-digits
+    let value = input.value.replace(/\D/g, '');
     if (value.length > 8) value = value.slice(0, 8);
-
-    // Format as DD/MM/YYYY
 
     if (value.length >= 4) {
       value = value.replace(/^(\d{2})(\d{2})(\d{0,4})/, '$1/$2/$3');
@@ -107,7 +168,7 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
   }
 
   initializeFilters(): void {
-    if (this.currentFilters) {
+    if (this.currentFilters && Object.keys(this.currentFilters).length > 0) {
       this.formLocation.patchValue({
         zipCode: this.currentFilters.zipCode || '',
         city: this.currentFilters.city || '',
@@ -116,29 +177,60 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
       });
 
       this.formInstitution.patchValue({
-        educationLevel: this.currentFilters.offeredEducationStagesAndModalities?.[0] || '',
+        educationLevel: this.currentFilters.educationLevelSource || '',
         juridicName: this.currentFilters.juridicName || '',
         institutionType: this.currentFilters.type || '',
         academicOrganization: this.currentFilters.academicOrganization || '',
+        scholarshipPolicy: this.currentFilters.scholarshipPolicy || '',
+        rating: this.currentFilters.rating || '',
         dataBegin: this.currentFilters.openingdateBegin || '',
-        dataEnd: this.currentFilters.openingdateEnd || '',
-        rating: this.currentFilters.rating || ''
-      });
+        dataEnd: this.currentFilters.openingdateEnd || ''
+      }, { emitEvent: false });
+
+      const safeAccessibility = Array.isArray(this.currentFilters.acessibility) && this.currentFilters.acessibility.length > 0
+        ? this.currentFilters.acessibility
+        : undefined;
+      this.formInstitution.get('acessibility')?.setValue(safeAccessibility, { emitEvent: false });
+
+      this.formInstitution.patchValue({
+        phone: this.currentFilters.phone === true,
+        email: this.currentFilters.email === true,
+        site: this.currentFilters.site === true
+      }, { emitEvent: false });
 
       this.avaliacao = this.currentFilters.rating;
-
-      this.coordinates = this.currentFilters.coordinates || null;
-
-      this.showSelectPlaceholder1 = !!this.formLocation.get('zipCode')?.value ||
-        !!this.formLocation.get('city')?.value ||
-        !!this.formLocation.get('address')?.value;
-
-      this.showSelectPlaceholder2 = !!this.formInstitution.get('educationLevel')?.value;
-
-      this.showSelectPlaceholder3 = !!this.formInstitution.get('juridicName')?.value ||
-        !!this.formInstitution.get('institutionType')?.value ||
-        !!this.formInstitution.get('academicOrganization')?.value;
+      this.coordinates = this.currentFilters.coordinates || undefined;
+    } else {
+      this.formInstitution.patchValue({
+        educationLevel: '',
+        juridicName: '',
+        institutionType: '',
+        academicOrganization: '',
+        scholarshipPolicy: '',
+        rating: '',
+        dataBegin: '',
+        dataEnd: '',
+        acessibility: undefined,
+        phone: false,
+        email: false,
+        site: false
+      }, { emitEvent: false });
     }
+
+    this.showSelectPlaceholder1 = !!this.formLocation.get('zipCode')?.value ||
+      !!this.formLocation.get('city')?.value ||
+      !!this.formLocation.get('address')?.value;
+
+    this.showSelectPlaceholder2 = !!this.formInstitution.get('educationLevel')?.value ||
+      !!this.formInstitution.get('scholarshipPolicy')?.value;
+
+    this.showSelectPlaceholder3 = !!this.formInstitution.get('juridicName')?.value ||
+      !!this.formInstitution.get('institutionType')?.value ||
+      !!this.formInstitution.get('academicOrganization')?.value ||
+      (this.formInstitution.get('acessibility')?.value && this.formInstitution.get('acessibility')?.value.length > 0) ||
+      this.formInstitution.get('phone')?.value ||
+      this.formInstitution.get('email')?.value ||
+      this.formInstitution.get('site')?.value;
   }
 
   setupZipCodeDebounce(): void {
@@ -166,7 +258,6 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
 
   async consultarCep(zipCode: string = '') {
     const cleanZipCode = zipCode.replace(/\D/g, '');
-
     if (cleanZipCode.length === 8) {
       this.getAddressByCep.buscarCep(cleanZipCode).subscribe(
         (dados) => {
@@ -176,36 +267,34 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
               city: '',
               address: ''
             });
-            alert('CEP inválido. Por favor, verifique e tente novamente.');
+            this.toastr.error('CEP inválido.');
+            this.showSelectPlaceholder1 = false;
           } else {
+            // Normalize state to abbreviation
+            let normalizedState = dados.estado || '';
+            normalizedState = this.stateMap[normalizedState] || normalizedState.toUpperCase();
+
             this.endereco = dados;
             this.formLocation.patchValue({
-              state: dados.estado || '',
+              state: normalizedState,
               city: dados.localidade || '',
               address: dados.logradouro || ''
             });
             this.showSelectPlaceholder1 = true;
           }
         },
-        (erro) => {
-          console.error('Erro ao buscar CEP', erro);
+        (error) => {
+          console.error('Erro ao buscar CEP:', error);
           this.formLocation.patchValue({
             state: '',
             city: '',
             address: ''
           });
-          alert('Erro ao buscar CEP. Por favor, tente novamente.');
+          this.toastr.error('Erro ao buscar CEP.');
           this.showSelectPlaceholder1 = false;
         }
       );
-    } else if (cleanZipCode.length > 0 && cleanZipCode.length < 8) {
-      this.formLocation.patchValue({
-        state: '',
-        city: '',
-        address: ''
-      });
-      this.showSelectPlaceholder1 = false;
-    } else if (cleanZipCode.length === 0) {
+    } else {
       this.formLocation.patchValue({
         state: '',
         city: '',
@@ -218,95 +307,116 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
   apply(): void {
     const dataBegin = this.formInstitution.get('dataBegin')?.value;
     const dataEnd = this.formInstitution.get('dataEnd')?.value;
+    const acessibility = this.formInstitution.get('acessibility')?.value || [];
+    const phone = this.formInstitution.get('phone')?.value ?? false;
+    const email = this.formInstitution.get('email')?.value ?? false;
+    const site = this.formInstitution.get('site')?.value ?? false;
+    const scholarshipPolicy = this.formInstitution.get('scholarshipPolicy')?.value;
 
-    const formatDate = (date: string): string => {
-      if (!date) return '';
-      const [day, month, year] = date.split('/');
-      return `${day}/${month}/${year}`;
-
+    const formatDateToISO = (date: string): string | undefined => {
+      if (!date) return undefined;
+      const cleanDate = date.replace(/\D/g, '');
+      if (cleanDate.length !== 8) return undefined;
+      const day = cleanDate.slice(0, 2);
+      const month = cleanDate.slice(2, 4);
+      const year = cleanDate.slice(4);
+      return `${year}-${month}-${day}`;
     };
 
-    const formattedDataBegin = formatDate(dataBegin);
-    const formattedDataEnd = formatDate(dataEnd);
+    const formattedDataBegin = formatDateToISO(dataBegin);
+    const formattedDataEnd = formatDateToISO(dataEnd);
 
     if (formattedDataBegin && formattedDataEnd) {
-      const beginDate = new Date(formattedDataBegin.split('/').reverse().join('-'));
-      const endDate = new Date(formattedDataEnd.split('/').reverse().join('-'));
-
+      const beginDate = new Date(formattedDataBegin);
+      const endDate = new Date(formattedDataEnd);
       if (beginDate > endDate) {
-        alert('A data de início não pode ser posterior à data de fim.');
+        this.toastr.error('A data de início não pode ser posterior à data de fim.');
         return;
       }
     }
 
     const educationLevel = this.formInstitution.get('educationLevel')?.value;
-    let educationLevelSource: 'inep' | 'emec' | undefined;
-
-    switch (educationLevel) {
-      case 'GRADUATION':
-        educationLevelSource = 'emec';
-        break;
-      case 'INFANT':
-      case 'PRIMARY':
-      case 'SECONDARY':
-      case 'YOUNG_ADULTS':
-      case 'PROFESSIONAL':
-        educationLevelSource = 'inep';
-        break;
-      default:
-        educationLevelSource = undefined;
-        break;
-    }
-
-    const ratingValue = this.avaliacao !== undefined && this.avaliacao > 0 && this.avaliacao <= 5 ? this.avaliacao : undefined;
-
+    const educationLevelSource = educationLevel ? educationLevel as EducationLevelEnum : undefined;
+    const ratingValue = this.avaliacao !== undefined && this.avaliacao >= 0 && this.avaliacao <= 5 ? this.avaliacao : undefined;
     const zipCode = this.formLocation.get('zipCode')?.value || '';
+
+    let coordinates: [number, number] | undefined = this.coordinates ?? undefined;
 
     const applyFiltersAsync = new Promise<void>((resolve) => {
       if (zipCode && zipCode.replace(/\D/g, '').length === 8) {
-        this.institutionsService.getCoordinatesFromZipCode(zipCode).then(coordinates => {
-          this.coordinates = coordinates;
+        this.institutionsService.getCoordinatesFromZipCode(zipCode).then(coords => {
+          coordinates = coords === null ? undefined : coords;
+          resolve();
+        }).catch(() => {
+          coordinates = undefined;
           resolve();
         });
       } else {
+        coordinates = undefined;
         resolve();
       }
     });
 
     applyFiltersAsync.then(() => {
-      const academicOrgValue = this.formInstitution.get('academicOrganization')?.value;
       const filters: InstitutionQuery = {
-        zipCode: zipCode || undefined,
-        city: zipCode ? undefined : this.formLocation.get('city')?.value || undefined,
-        address: zipCode ? undefined : this.formLocation.get('address')?.value || undefined,
-        state: zipCode ? undefined : this.formLocation.get('state')?.value || undefined,
-        coordinates: this.coordinates || undefined,
-        juridicName: this.formInstitution.get('juridicName')?.value || undefined,
-        type: this.formInstitution.get('institutionType')?.value || undefined,
-        academicOrganization: academicOrgValue || undefined,
-        offeredEducationStagesAndModalities: educationLevel && educationLevelSource !== 'emec' ? [educationLevel] : undefined,
-        openingdateBegin: formattedDataBegin || undefined,
-        openingdateEnd: formattedDataEnd || undefined,
+        zipCode: zipCode && zipCode.trim() !== '' ? zipCode : undefined,
+        city: zipCode ? undefined : (this.formLocation.get('city')?.value?.trim() || undefined),
+        address: zipCode ? undefined : (this.formLocation.get('address')?.value?.trim() || undefined),
+        state: zipCode ? undefined : (this.formLocation.get('state')?.value?.trim() || undefined),
+        coordinates: coordinates, // Enviar coordenadas obtidas do CEP
+        juridicName: this.formInstitution.get('juridicName')?.value?.trim() || undefined,
+        type: this.formInstitution.get('institutionType')?.value?.trim() || undefined,
+        academicOrganization: this.formInstitution.get('academicOrganization')?.value?.trim() || undefined,
+        openingdateBegin: formattedDataBegin,
+        openingdateEnd: formattedDataEnd,
         rating: ratingValue,
         educationLevelSource: educationLevelSource,
+        acessibility: Array.isArray(acessibility) && acessibility.length > 0 ? acessibility : undefined,
+        phone: phone,
+        email: email,
+        site: site,
+        scholarshipPolicy: scholarshipPolicy?.trim() || undefined,
       };
 
       this.applyFilters.emit(filters);
       this.closeModal();
     });
   }
-
   resetFilters(): void {
     this.formLocation.reset();
     this.formInstitution.reset();
-    this.formInstitution.get('academicOrganization')?.setValue('');
-    this.formInstitution.get('dataBegin')?.setValue('');
-    this.formInstitution.get('dataEnd')?.setValue('');
+    this.formInstitution.patchValue({
+      academicOrganization: '',
+      dataBegin: '',
+      dataEnd: '',
+      acessibility: undefined,
+      phone: false,
+      email: false,
+      site: false,
+      scholarshipPolicy: '',
+    });
     this.showSelectPlaceholder1 = false;
     this.showSelectPlaceholder2 = false;
     this.showSelectPlaceholder3 = false;
     this.avaliacao = undefined;
-    this.coordinates = null;
+    this.coordinates = undefined;
+  }
+
+  updateAccessibility(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const option = input.value;
+    let currentAccessibility = this.formInstitution.get('acessibility')?.value || [];
+
+    if (input.checked) {
+      if (!currentAccessibility.includes(option)) {
+        currentAccessibility = [...currentAccessibility, option];
+      }
+    } else {
+      currentAccessibility = currentAccessibility.filter((item: string) => item !== option);
+    }
+
+    this.formInstitution.get('acessibility')?.setValue(currentAccessibility.length > 0 ? currentAccessibility : undefined);
+    this.updateShowSelectPlaceholder3();
   }
 
   updateShowSelectPlaceholder1(): void {
@@ -316,13 +426,18 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
   }
 
   updateShowSelectPlaceholder2(): void {
-    this.showSelectPlaceholder2 = !!this.formInstitution.get('educationLevel')?.value;
+    this.showSelectPlaceholder2 = !!this.formInstitution.get('educationLevel')?.value ||
+      !!this.formInstitution.get('scholarshipPolicy')?.value;
   }
 
   updateShowSelectPlaceholder3(): void {
     this.showSelectPlaceholder3 = !!this.formInstitution.get('juridicName')?.value ||
       !!this.formInstitution.get('institutionType')?.value ||
-      !!this.formInstitution.get('academicOrganization')?.value;
+      !!this.formInstitution.get('academicOrganization')?.value ||
+      (this.formInstitution.get('acessibility')?.value && this.formInstitution.get('acessibility')?.value.length > 0) ||
+      this.formInstitution.get('phone')?.value ||
+      this.formInstitution.get('email')?.value ||
+      this.formInstitution.get('site')?.value;
   }
 
   changeAvaliacao(event: MouseEvent) {
@@ -335,5 +450,10 @@ export class ModalFilterComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.dismissAll();
+  }
+
+  isAccessibilitySelected(option: string): boolean {
+    const value = this.formInstitution.get('acessibility')?.value;
+    return Array.isArray(value) && value.includes(option);
   }
 }

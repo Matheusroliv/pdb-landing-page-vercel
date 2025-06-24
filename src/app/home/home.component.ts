@@ -17,10 +17,10 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/
 import { Student } from '../map-session/interface-query';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
   selectWasChanged: boolean = false;
@@ -218,20 +218,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       queryParams.city = this.selectedCity;
     }
 
-    switch (this.selectedEducationLevel) {
-      case 'GRADUATION':
-        queryParams.educationLevelSource = 'emec';
-        break;
-      case 'INFANT':
-      case 'PRIMARY':
-      case 'SECONDARY':
-      case 'YOUNG_ADULTS':
-      case 'PROFESSIONAL':
-        queryParams.educationLevelSource = 'inep';
-        break;
-      default:
-        queryParams.educationLevelSource = undefined;
-        break;
+    // Directly assign the selected education level to educationLevelSource
+    if (this.selectedEducationLevel) {
+      queryParams.educationLevelSource = this.selectedEducationLevel;
     }
 
     this.router.navigate(['/list'], { queryParams }).catch(err => {

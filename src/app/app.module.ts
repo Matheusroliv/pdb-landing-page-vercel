@@ -4,13 +4,13 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router'; // Added RouterModule
 import { IonicModule } from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ToastrModule } from 'ngx-toastr';
-import { RouterModule } from '@angular/router'; // Added RouterModule
 import { AboutComponent } from './about/about.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +34,7 @@ import { ComplaintFormsDComponent } from './new-complaint/complaint-step1/fluxoD
 import { ComplaintFormsEComponent } from './new-complaint/complaint-step1/fluxoE/complaint-forms-e/complaint-forms-e.component';
 import { ComplaintStep2Component } from './new-complaint/complaint-step2/complaint-step2.component';
 import { ComplaintStep3Component } from './new-complaint/complaint-step3/complaint-step3.component';
+import { PpModalComponent } from './pp-modal/pp-modal.component';
 import { PreRegistrationModalComponent } from './pre-registration-modal/pre-registration-modal.component';
 import { currentPageService } from './service/currentPage.service';
 import { getAddressByCepService } from './service/getAddressByCep.service';
@@ -41,11 +42,11 @@ import { hideFooterService } from './service/hide-footer.service';
 import { InstitutionIconService } from './service/institution-icon.service';
 import { InstitutionsService } from './service/institutions.service';
 import { MenuMobileService } from './service/menu-download.service';
-import { SomeFullModalIsOpenService } from './service/someFullModalIsOpen.service';
-import { UserService } from './service/user.service';
-import { PpModalComponent } from './pp-modal/pp-modal.component';
 import { OpenPreRegistrationModalService } from './service/open-pre-registration-modal.service';
 import { ReviewsService } from './service/reviews.service';
+import { SomeFullModalIsOpenService } from './service/someFullModalIsOpen.service';
+import { UserService } from './service/user.service';
+import { ModalLocationPromptComponent } from './modal-location-prompt/modal-location-prompt.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { ReviewsService } from './service/reviews.service';
     InstitutionProfileComponent,
     ModalFilterComponent,
     CalculatorComponent,
-    PpModalComponent
+    PpModalComponent,
+    ModalLocationPromptComponent
   ],
   imports: [
     BrowserModule,
@@ -92,6 +94,7 @@ import { ReviewsService } from './service/reviews.service';
       type: 'ball-scale-multiple'
     }),
     RouterModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

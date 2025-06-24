@@ -1,13 +1,13 @@
-import { NoPreloading, RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
-import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
+import { NoPreloading, RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
+import { CalculatorComponent } from './calculator/calculator.component';
+import { HomeComponent } from './home/home.component';
+import { InstitutionProfileComponent } from './institution-profile/institution-profile.component';
+import { KnowMoreInstitutionComponent } from './know-more-institution/know-more-institution.component';
+import { KnowMoreComponent } from './know-more/know-more.component';
 import { ListInstitutionsComponent } from './map-session/list/list.component';
 import { MapComponent } from './map-session/map/map.component';
-import { InstitutionProfileComponent } from './institution-profile/institution-profile.component';
-import { KnowMoreComponent } from './know-more/know-more.component';
-import { KnowMoreInstitutionComponent } from './know-more-institution/know-more-institution.component';
 import { ComplaintStep1Component } from './new-complaint/complaint-step1/complaint-step1.component';
 import { ComplaintFormsAComponent } from './new-complaint/complaint-step1/fluxoA/complaint-forms-a/complaint-forms-a.component';
 import { ComplaintFormsBComponent } from './new-complaint/complaint-step1/fluxoB/complaint-forms-b/complaint-forms-b.component';
@@ -16,11 +16,9 @@ import { ComplaintFormsDComponent } from './new-complaint/complaint-step1/fluxoD
 import { ComplaintFormsEComponent } from './new-complaint/complaint-step1/fluxoE/complaint-forms-e/complaint-forms-e.component';
 import { ComplaintStep2Component } from './new-complaint/complaint-step2/complaint-step2.component';
 import { ComplaintStep3Component } from './new-complaint/complaint-step3/complaint-step3.component';
-import { ModalFilterComponent } from './modal-filter/modal-filter.component';
-import { CalculatorComponent } from './calculator/calculator.component';
 import { PpModalComponent } from './pp-modal/pp-modal.component';
-import { TermosModalComponentComponent } from './termos-modal-component/termos-modal-component.component';
 import { SegurancaModalComponent } from './seguranca-modal/seguranca-modal.component';
+import { TermosModalComponentComponent } from './termos-modal-component/termos-modal-component.component';
 
 const routes: Routes = [
   {
@@ -103,7 +101,7 @@ const routes: Routes = [
     path: "seguranca-modal-component",
     component: SegurancaModalComponent
   },
-  
+
 
 ];
 

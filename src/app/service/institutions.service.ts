@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment.dev';
 import { BaseService } from './base.service';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { InstitutionQuery, sortType } from '../map-session/interface-query';
 
 @Injectable({
@@ -20,7 +20,11 @@ export class InstitutionsService extends BaseService {
     limit: number,
     sort: sortType,
     query: InstitutionQuery
-  ): Observable<{ data: any[]; totalCount: number; hasMore: boolean }> {
+  ): Observable<{
+    data: any[];
+    totalCount: number;
+    hasMore: boolean
+  }> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString())
@@ -38,56 +42,44 @@ export class InstitutionsService extends BaseService {
 
       switch (key) {
         case 'name':
-          params = params.set('name', value as string);
-          break;
         case 'cnpj':
-          params = params.set('cnpj', value as string);
-          break;
         case 'zipCode':
-          params = params.set('zipCode', value as string);
-          break;
         case 'city':
-          params = params.set('city', value as string);
-          break;
         case 'address':
-          params = params.set('address', value as string);
-          break;
         case 'state':
-          params = params.set('state', value as string);
-          break;
-        case 'offeredEducationStagesAndModalities':
-          (value as string[]).forEach(val => {
-            params = params.append('offeredEducationStagesAndModalities', val);
-          });
-          break;
         case 'juridicName':
-          params = params.set('juridicName', value as string);
-          break;
         case 'type':
-          params = params.set('type', value as string);
-          break;
         case 'academicOrganization':
-          params = params.set('academicOrganization', value as string);
-          break;
         case 'openingdateBegin':
-          params = params.set('openingdateBegin', value as string); // Ensure included
-          break;
         case 'openingdateEnd':
-          params = params.set('openingdateEnd', value as string); // Ensure included
+        case 'educationLevelSource':
+        case 'scholarshipPolicy':
+          params = params.set(key, String(value));
           break;
         case 'rating':
-          params = params.set('rating', value.toString());
+          params = params.set(key, Number(value).toString());
           break;
         case 'coordinates':
-          params = params.set('coordinates', JSON.stringify(value));
+          try {
+            params = params.set(key, JSON.stringify(value));
+          } catch (e) {
+            console.warn(`Invalid coordinates format: ${value}`);
+          }
           break;
-        case 'educationLevelSource':
-          params = params.set('educationLevelSource', value as string);
+        case 'acessibility':
+          params = params.set(key, (value as string[]).join(','));
           break;
+        case 'phone':
+        case 'email':
+        case 'site':
+          if (value === true) params = params.set(key, 'true');
+          break;
+        default:
+          console.warn(`Unknown query parameter: ${key}`);
       }
     }
-    console.log(params.toString());
 
+    console.log('Query params sent:', params.toString());
 
     return this.httpClient
       .get<{ data: any[]; totalCount: number }>(`${this.api}/institutions`, {
@@ -96,16 +88,18 @@ export class InstitutionsService extends BaseService {
       })
       .pipe(
         map(response => {
-
           const data = this.extractData(response).data;
           const totalCount = this.extractData(response).totalCount;
           const hasMore = page * limit < totalCount;
           return { data, totalCount, hasMore };
-
         }),
         catchError(err => {
-          console.error('Error loading institutions:', err);
-          throw new Error('Failed to load institutions. Please try again later.');
+          console.error('Error loading institutions:', {
+            status: err.status,
+            message: err.message,
+            error: err.error,
+          });
+          return throwError(() => new Error('Failed to load institutions'));
         })
       );
   }
@@ -163,10 +157,9 @@ export class InstitutionsService extends BaseService {
         if (attempt === 3) {
           return null;
         }
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
     return null;
   }
 }
-

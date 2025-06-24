@@ -10,11 +10,13 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize, Subject, Subscription } from 'rxjs';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { ModalFilterComponent } from '../../modal-filter/modal-filter.component';
+import { ModalLocationPromptComponent } from '../../modal-location-prompt/modal-location-prompt.component';
 import { PreRegistrationModalComponent } from '../../pre-registration-modal/pre-registration-modal.component';
 import { currentPageService } from '../../service/currentPage.service';
 import { hideFooterService } from '../../service/hide-footer.service';
 import { InstitutionIconService } from '../../service/institution-icon.service';
 import { InstitutionsService } from '../../service/institutions.service';
+import { MarkerClusterService } from '../../service/marker-cluster.service';
 import { MenuMobileService } from '../../service/menu-download.service';
 import { OpenPreRegistrationModalService } from '../../service/open-pre-registration-modal.service';
 import { ShareInstitutionService } from '../../service/share-institution.service';
@@ -72,7 +74,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     private breakPointObserver: BreakpointObserver,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private markerClusterService: MarkerClusterService
   ) { }
 
   ngOnInit(): void {
@@ -140,21 +143,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.route.queryParams.subscribe(params => {
       this.query = {
-        name: params['name'] || '',
-        cnpj: params['cnpj'] || '',
-        zipCode: params['zipCode'] || '',
-        city: params['city'] || '',
-        address: params['address'] || '',
-        state: params['state'] || '',
-        offeredEducationStagesAndModalities: params['offeredEducationStagesAndModalities'] ? (Array.isArray(params['offeredEducationStagesAndModalities']) ? params['offeredEducationStagesAndModalities'] : params['offeredEducationStagesAndModalities'].split(',')) : [],
-        juridicName: params['juridicName'] || '',
-        type: params['type'] || '',
-        academicOrganization: params['academicOrganization'] || '',
-        openingdateBegin: params['openingdateBegin'] || '',
-        openingdateEnd: params['openingdateEnd'] || '',
-        rating: params['rating'] ? +params['rating'] : undefined,
-        coordinates: params['coordinates'] ? JSON.parse(params['coordinates']) : undefined,
+        name: params['name'] || undefined,
+        cnpj: params['cnpj'] || undefined,
+        zipCode: params['zipCode'] || undefined,
+        city: params['city'] || undefined,
+        address: params['address'] || undefined,
+        state: params['state'] || undefined,
+        juridicName: params['juridicName'] || undefined,
+        type: params['type'] || undefined,
+        academicOrganization: params['academicOrganization'] || undefined,
+        openingdateBegin: params['openingdateBegin'] || undefined,
+        openingdateEnd: params['openingdateEnd'] || undefined,
+        rating: params['rating'] ? Number(params['rating']) : undefined,
+        coordinates: params['coordinates']
+          ? (params['coordinates'].split(',').map(Number) as [number, number])
+          : undefined,
         educationLevelSource: params['educationLevelSource'] || undefined,
+        acessibility: params['acessibility'] ? params['acessibility'].split(',') : undefined,
+        phone: params['phone'] === 'true' ? true : undefined,
+        email: params['email'] === 'true' ? true : undefined,
+        site: params['site'] === 'true' ? true : undefined,
+        scholarshipPolicy: params['scholarshipPolicy'] || undefined,
         minLat: undefined,
         maxLat: undefined,
         minLon: undefined,
@@ -185,8 +194,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.requestUserLocation();
-    this.injectTooltipStyles(); // Inject styles after map initialization
+    this.injectTooltipStyles();
   }
 
   ngOnDestroy(): void {
@@ -209,15 +217,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.map = L.map('map').setView([-23.5505, -46.6333], 11);
+    this.map = L.map('map', {
+      worldCopyJump: false,
+      maxBounds: [[-90, -180], [90, 180]],
+      maxBoundsViscosity: 1.0
+    }).setView([-23.5505, -46.6333], 15);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    this.markerClusterGroup = L.markerClusterGroup({
-      maxClusterRadius: 50,
-      disableClusteringAtZoom: 15,
-    });
+    this.markerClusterGroup = this.markerClusterService.getMarkerClusterGroup();
     this.map.addLayer(this.markerClusterGroup);
 
     this.map.invalidateSize();
@@ -233,53 +243,264 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private requestUserLocation(): void {
-    if (!navigator.geolocation) {
-      console.warn('Navegador não suporta geolocalização');
-      this.loadAllInstitutions();
-      return;
-    }
+  private requestUserLocation(): Promise<void> {
+    return new Promise((resolve) => {
+      if (!this.mapInitialized) {
+        console.warn('Mapa não inicializado, adiando solicitação de geolocalização');
+        resolve();
+        return;
+      }
 
-    if (!this.mapInitialized) {
-      console.warn('Mapa não inicializado, adiando solicitação de geolocalização');
-      return;
-    }
+      if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+          if (permissionStatus.state === 'granted') {
+            navigator.geolocation.getCurrentPosition(
+              position => {
+                const userLat = position.coords.latitude;
+                const userLon = position.coords.longitude;
+                if (userLon >= -180 && userLon <= 180 && userLat >= -90 && userLat <= 90) {
+                  this.query.coordinates = [userLon, userLat];
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: { coordinates: JSON.stringify(this.query.coordinates) },
+                    queryParamsHandling: 'merge',
+                  });
+                } else {
+                  console.warn('Invalid coordinates received:', [userLat, userLon]);
+                  this.query.coordinates = undefined;
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: { coordinates: null },
+                    queryParamsHandling: 'merge',
+                  });
+                }
+                resolve();
+              },
+              error => {
+                console.error('Geolocalização falhou após permissão concedida:', error);
+                this.query.coordinates = undefined;
+                this.router.navigate([], {
+                  relativeTo: this.route,
+                  queryParams: { coordinates: null },
+                  queryParamsHandling: 'merge',
+                });
+                resolve();
+              },
+              {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 0
+              }
+            );
+          } else {
+            const modalRef = this.modalService.open(ModalLocationPromptComponent, {
+              centered: true,
+              size: 'md',
+            });
 
-    navigator.permissions.query({ name: 'geolocation' }).then(status => {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const userLat = position.coords.latitude;
-          const userLon = position.coords.longitude;
-          this.map.setView([userLat, userLon], 11);
-          this.query.coordinates = [userLon, userLat];
-          this.loadAllInstitutions();
-        },
-        error => {
-          console.error('Geolocalização falhou:', {
-            code: error.code,
-            message: error.message,
-            permissionState: status.state
-          });
-          this.toastr.warning(`Geolocalização não disponível: ${error.message}`);
-          this.loadAllInstitutions();
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
+            modalRef.result.then(
+              (result) => {
+                if (result === true) {
+                  if (!navigator.geolocation) {
+                    console.warn('Navegador não suporta geolocalização');
+                    this.toastr.warning('Seu navegador não suporta geolocalização.');
+                    this.query.coordinates = undefined;
+                    this.router.navigate([], {
+                      relativeTo: this.route,
+                      queryParams: { coordinates: null },
+                      queryParamsHandling: 'merge',
+                    });
+                    resolve();
+                    return;
+                  }
+
+                  navigator.geolocation.getCurrentPosition(
+                    position => {
+                      const userLat = position.coords.latitude;
+                      const userLon = position.coords.longitude;
+                      if (userLon >= -180 && userLon <= 180 && userLat >= -90 && userLat <= 90) {
+                        this.query.coordinates = [userLon, userLat];
+                        this.router.navigate([], {
+                          relativeTo: this.route,
+                          queryParams: { coordinates: JSON.stringify(this.query.coordinates) },
+                          queryParamsHandling: 'merge',
+                        });
+                      } else {
+                        console.warn('Invalid coordinates received:', [userLat, userLon]);
+                        this.query.coordinates = undefined;
+                        this.router.navigate([], {
+                          relativeTo: this.route,
+                          queryParams: { coordinates: null },
+                          queryParamsHandling: 'merge',
+                        });
+                      }
+                      resolve();
+                    },
+                    error => {
+                      console.error('Geolocalização falhou:', error);
+                      this.query.coordinates = undefined;
+                      this.router.navigate([], {
+                        relativeTo: this.route,
+                        queryParams: { coordinates: null },
+                        queryParamsHandling: 'merge',
+                      });
+                      resolve();
+                    },
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 20000,
+                      maximumAge: 0
+                    }
+                  );
+                } else {
+                  console.log('User denied location access via modal');
+                  this.query.coordinates = undefined;
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: { coordinates: null },
+                    queryParamsHandling: 'merge',
+                  });
+                  resolve();
+                }
+              },
+              () => {
+                console.log('Location prompt modal dismissed');
+                this.query.coordinates = undefined;
+                this.router.navigate([], {
+                  relativeTo: this.route,
+                  queryParams: { coordinates: null },
+                  queryParamsHandling: 'merge',
+                });
+                resolve();
+              }
+            );
+          }
+
+          permissionStatus.onchange = () => {
+            console.log('Permissão de geolocalização alterada para:', permissionStatus.state);
+          };
+        });
+      } else {
+        const modalRef = this.modalService.open(ModalLocationPromptComponent, {
+          centered: true,
+          size: 'md',
+        });
+
+        modalRef.result.then(
+          (result) => {
+            if (result === true) {
+              if (!navigator.geolocation) {
+                console.warn('Navegador não suporta geolocalização');
+                this.toastr.warning('Seu navegador não suporta geolocalização.');
+                this.query.coordinates = undefined;
+                this.router.navigate([], {
+                  relativeTo: this.route,
+                  queryParams: { coordinates: null },
+                  queryParamsHandling: 'merge',
+                });
+                resolve();
+                return;
+              }
+
+              navigator.geolocation.getCurrentPosition(
+                position => {
+                  const userLat = position.coords.latitude;
+                  const userLon = position.coords.longitude;
+                  if (userLon >= -180 && userLon <= 180 && userLat >= -90 && userLat <= 90) {
+                    this.query.coordinates = [userLon, userLat];
+                    this.router.navigate([], {
+                      relativeTo: this.route,
+                      queryParams: { coordinates: JSON.stringify(this.query.coordinates) },
+                      queryParamsHandling: 'merge',
+                    });
+                  } else {
+                    console.warn('Invalid coordinates received:', [userLat, userLon]);
+                    this.query.coordinates = undefined;
+                    this.router.navigate([], {
+                      relativeTo: this.route,
+                      queryParams: { coordinates: null },
+                      queryParamsHandling: 'merge',
+                    });
+                  }
+                  resolve();
+                },
+                error => {
+                  console.error('Geolocalização falhou:', error);
+                  this.query.coordinates = undefined;
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: { coordinates: null },
+                    queryParamsHandling: 'merge',
+                  });
+                  resolve();
+                },
+                {
+                  enableHighAccuracy: true,
+                  timeout: 20000,
+                  maximumAge: 0
+                }
+              );
+            } else {
+              console.log('User denied location access via modal');
+              this.query.coordinates = undefined;
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: { coordinates: null },
+                queryParamsHandling: 'merge',
+              });
+              resolve();
+            }
+          },
+          () => {
+            console.log('Location prompt modal dismissed');
+            this.query.coordinates = undefined;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { coordinates: null },
+              queryParamsHandling: 'merge',
+            });
+            resolve();
+          }
+        );
+      }
     });
+  }
+
+  updateSort(sort: string): void {
+    this.query.sort = sort as sortType;
+    const queryParams: any = { sort: this.query.sort };
+
+    if (this.query.sort === sortType.NEXT_LOCATION && (!this.query.coordinates || this.query.coordinates.length !== 2 || !this.query.coordinates.every(coord => typeof coord === 'number' && !isNaN(coord)))) {
+      this.requestUserLocation().then(() => {
+        if (this.query.coordinates && this.query.coordinates.length === 2 && this.query.coordinates.every(coord => typeof coord === 'number' && !isNaN(coord))) {
+          queryParams.coordinates = JSON.stringify(this.query.coordinates);
+        } else {
+          this.query.coordinates = undefined;
+          queryParams.coordinates = null;
+        }
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams,
+          queryParamsHandling: 'merge',
+        });
+        this.loadAllInstitutions();
+      });
+    } else {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams,
+        queryParamsHandling: 'merge',
+      });
+      this.loadAllInstitutions();
+    }
   }
 
   private injectTooltipStyles(): void {
     const styleId = 'tooltip-styles';
     if (document.getElementById(styleId)) return;
-
     const styleElement = document.createElement('style');
     styleElement.id = styleId;
     styleElement.textContent = `
-      /* Override Leaflet Tooltip Defaults */
       .leaflet-tooltip.custom-tooltip {
         background: transparent !important;
         border: none !important;
@@ -289,12 +510,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         width: auto !important;
         height: auto !important;
       }
+
       .leaflet-tooltip.custom-tooltip:before {
         border-right-color: #fff !important;
-        margin-top: -5px !important; /* Adjust arrow position */
+        margin-top: -5px !important;
       }
 
-      /* Custom Tooltip Styles */
       .custom-tooltip-content {
         background: #fff;
         border-radius: 8px;
@@ -336,7 +557,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         margin-bottom: 5px;
       }
 
-
       .tooltip-text {
         display: flex;
         flex-direction: column;
@@ -373,7 +593,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         -webkit-box-orient: vertical;
       }
     `;
+
     document.head.appendChild(styleElement);
+
+    console.log('Tooltip styles injected');
+
   }
 
   private updateMaxLimit(): void {
@@ -385,10 +609,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const dynamicLimit = baseLimit * multiplier;
 
     this.maxLimit = Math.min(dynamicLimit, this.totalItems || 18000);
-    console.log(`Updated maxLimit to ${this.maxLimit} at zoom level ${zoomLevel}`);
   }
-
-
 
   loadAllInstitutions(): void {
     if (this.isLoading || !this.hasMore) return;
@@ -396,12 +617,50 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     this.spinner.show();
 
-    const sort = sortType.NEXT_LOCATION;
+    const sort = this.query.coordinates && Array.isArray(this.query.coordinates) && this.query.coordinates.length === 2 && this.query.coordinates.every(coord => typeof coord === 'number' && !isNaN(coord)) ? sortType.NEXT_LOCATION : sortType.A_Z;
     const queryWithoutBounds: InstitutionQuery = { ...this.query };
     delete queryWithoutBounds.minLat;
     delete queryWithoutBounds.maxLat;
     delete queryWithoutBounds.minLon;
     delete queryWithoutBounds.maxLon;
+
+    if (sort === sortType.NEXT_LOCATION && !queryWithoutBounds.coordinates) {
+      this.requestUserLocation().then(() => {
+        const updatedSort = this.query.coordinates && Array.isArray(this.query.coordinates) && this.query.coordinates.length === 2 && this.query.coordinates.every(coord => typeof coord === 'number' && !isNaN(coord)) ? sortType.NEXT_LOCATION : sortType.A_Z;
+        this.institutionsService.listInstitutions(this.page, this.limit, updatedSort, queryWithoutBounds)
+          .pipe(finalize(() => {
+            this.isLoading = false;
+            this.spinner.hide();
+          }))
+          .subscribe({
+            next: (response: { data: any[]; totalCount: number; hasMore: boolean }) => {
+              console.log("List of institutions: ", response.data, response.totalCount, response.hasMore)
+              const newData = Array.isArray(response.data) ? response.data : [];
+              const mappedData = newData.map((item: any) => this.mapInstitutionData(item));
+              this.institutions = [...this.institutions, ...mappedData];
+              this.totalItems = response.totalCount;
+              this.hasMore = response.hasMore;
+              this.page += 1;
+
+              if (this.mapInitialized && this.institutions.length > 0) {
+                this.updateMaxLimit();
+                this.plotVisibleMarkers();
+              }
+
+              if (this.hasMore && this.institutions.length < this.maxLimit) {
+                this.loadAllInstitutions();
+              }
+            },
+            error: (err: any) => {
+              console.error('Erro ao listar instituições:', err);
+              this.toastr.error('Erro ao carregar instituições. Tente novamente.');
+              this.isLoading = false;
+              this.spinner.hide();
+            }
+          });
+      });
+      return;
+    }
 
     this.institutionsService.listInstitutions(this.page, this.limit, sort, queryWithoutBounds)
       .pipe(finalize(() => {
@@ -417,9 +676,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hasMore = response.hasMore;
           this.page += 1;
 
-          console.log(`Loaded ${this.institutions.length} of ${this.totalItems} institutions`);
-
-          if (this.mapInitialized) {
+          if (this.mapInitialized && this.institutions.length > 0) {
             this.updateMaxLimit();
             this.plotVisibleMarkers();
           }
@@ -455,10 +712,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       maxLon: bounds.getEast(),
     };
 
+    const sort = this.query.coordinates && Array.isArray(this.query.coordinates) && this.query.coordinates.length === 2 && this.query.coordinates.every(coord => typeof coord === 'number' && !isNaN(coord)) ? sortType.NEXT_LOCATION : sortType.A_Z;
+
     this.isLoading = true;
     this.spinner.show();
 
-    this.institutionsService.listInstitutions(this.page, this.limit, sortType.NEXT_LOCATION, queryWithBounds)
+    this.institutionsService.listInstitutions(this.page, this.limit, sort, queryWithBounds)
       .pipe(finalize(() => {
         this.isLoading = false;
         this.spinner.hide();
@@ -472,15 +731,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hasMore = response.hasMore;
           this.page += 1;
 
-          console.log(`Fetched ${newData.length} institutions by bounds, total now: ${this.institutions.length}`);
-
           if (!this.lastFetchedBounds) {
             this.lastFetchedBounds = bounds;
           } else {
             this.lastFetchedBounds = this.lastFetchedBounds.extend(bounds);
           }
 
-          if (this.mapInitialized) {
+          if (this.mapInitialized && this.institutions.length > 0) {
             this.updateMaxLimit();
             this.plotVisibleMarkers();
           }
@@ -501,61 +758,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const inep = data.inep || {};
     const register = data.registerInstitution || {};
 
-    let markerColor = '/assets/icons/FFBB4F.png';
-    console.log('Processing institution:', data._id, 'Register:', register, 'EMEC:', emec, 'INEP:', inep);
-
-    if (register.education_level) {
-      switch (register.education_level) {
-        case 'Ensino Infantil':
-        case 'Ensino Fundamental':
-        case 'Educação de Jovens e Adultos':
-        case 'Ensino Médio':
-          markerColor = '/assets/icons/F46F0B.png';
-          console.log(`Set markerColor to F46F0B.png for education_level: ${register.education_level}`);
-          break;
-        case 'Graduação':
-        case 'Pós-Graduação':
-          markerColor = '/assets/icons/5994A9.png';
-          console.log(`Set markerColor to 5994A9.png for education_level: ${register.education_level}`);
-          break;
-        case 'Cursinho':
-          markerColor = '/assets/icons/AFC441.png';
-          console.log(`Set markerColor to AFC441.png for education_level: ${register.education_level}`);
-          break;
-        default:
-          console.log(`No match for education_level: ${register.education_level}, keeping default color`);
-          break;
-      }
-    } else {
-      console.log('No education_level found, starting with default color');
-    }
-
-    if (markerColor === '/assets/icons/FFBB4F.png') {
-      let fallbackCondition = '';
-      if (emec && emec.iesName) {
-        fallbackCondition = 'emec';
-      } else if (inep && inep.school) {
-        fallbackCondition = 'inep';
-      } else {
-        fallbackCondition = 'default';
-      }
-
-      switch (fallbackCondition) {
-        case 'emec':
-          markerColor = '/assets/icons/F46F0B.png';
-          console.log('Set markerColor to F46F0B.png because emec.iesName exists:', emec.iesName);
-          break;
-        case 'inep':
-          markerColor = '/assets/icons/5994A9.png';
-          console.log('Set markerColor to 5994A9.png because inep.school exists:', inep.school);
-          break;
-        case 'default':
-          markerColor = '/assets/icons/FFBB4F.png';
-          console.log('Set markerColor to default FFBB4F.png');
-          break;
-      }
-    }
-
     let name = 'Nome não disponível';
     if (emec.iesName) name = emec.iesName;
     else if (inep.school) name = inep.school;
@@ -566,69 +768,110 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let lat: number | undefined;
     let lng: number | undefined;
+    let locationSource: any = null;
 
-    if (inep.address?.location?.coordinates) {
+    if (register.address?.location?.coordinates && Array.isArray(register.address.location.coordinates) && register.address.location.coordinates.length === 2) {
+      [lng, lat] = register.address.location.coordinates;
+      locationSource = 'register';
+    } else if (inep.address?.location?.coordinates && Array.isArray(inep.address.location.coordinates) && inep.address.location.coordinates.length === 2) {
       [lat, lng] = inep.address.location.coordinates;
-    } else if (emec.address?.location?.coordinates) {
+      locationSource = 'inep';
+    } else if (emec.address?.location?.coordinates && Array.isArray(emec.address.location.coordinates) && emec.address.location.coordinates.length === 2) {
       [lat, lng] = emec.address.location.coordinates;
-    } else if (fiscal.address?.location?.coordinates) {
-      [lat, lng] = fiscal.address.location.coordinates;
-    } else if (cebas.address?.location?.coordinates) {
-      [lat, lng] = cebas.address.location.coordinates;
-    } else if (register.location?.coordinates) {
-      [lat, lng] = register.location.coordinates;
+      locationSource = 'emec';
+    } else if (data.location?.coordinates && Array.isArray(data.location.coordinates) && data.location.coordinates.length === 2) {
+      [lat, lng] = data.location.coordinates;
+      locationSource = 'data.location';
     }
+
+    const coordinates = lat !== undefined && lng !== undefined && lat !== 0 && lng !== 0
+      ? { lat, lng }
+      : null;
+
+    const showMap = coordinates !== null;
+
+    const isValidLat = lat != null && !isNaN(lat) && lat >= -90 && lat <= 90 && lat !== 0;
+    const isValidLng = lng != null && !isNaN(lng) && lng >= -180 && lng <= 180 && lng !== 0;
+    const hasValidCoordinates = isValidLat && isValidLng;
+
+    if (!hasValidCoordinates) {
+      console.warn(`Institution ${name} excluded from map due to invalid coordinates: [lat: ${lat}, lng: ${lng}]`);
+    }
+
+    const institutionImages = register.institution_images && Array.isArray(register.institution_images) && register.institution_images.length > 0
+      ? register.institution_images
+      : '';
+
+    let photo = data.photo || institutionImages[0];
 
     const randomIcon = this.institutionIconService.getRandomIcon();
-
-    let characteristics = [
-      fiscal.juridicName ?? '',
-      fiscal.type ?? '',
-      emec.academicOrganization ? `Escola ${emec.academicOrganization}` : '',
-      inep.privateSchoolCategory ? `Escola ${inep.privateSchoolCategory}` : '',
-      inep.administrativeCategory ?? '',
-      register.institutionType ? `${register.institutionType}, ${register.administrative_category}, ${register.education_level}` : '',
-    ]
-      .filter(item => item && item.trim() !== '')
-      .join(', ');
-
-    if (!characteristics) {
-      characteristics = 'Não disponível';
-    }
-
-    let photo;
-    if (data.photo) {
-      photo = data.photo;
-    } else if (register.institution_images && register.institution_images.length > 0) {
-      photo = register.institution_images[0];
-    } else {
-      photo = '/assets/imgs/institution-photo.svg';
-    }
-
     const quotasType = register.quotas_offered?.quotas_type || '';
     const institutionInep = inep || {};
     const rating = data.review?.rating || 0;
+
+    const isVerified = register && register.status === 'APPROVED' ? true : false;
+    const isFist = register.scholarships?.quotas_offered?.some(
+      (quota: { quotas_type: string }) => quota.quotas_type === 'Cotas raciais'
+    ) || false;
+    const isInstitution = register || inep || emec ? true : false;
+    const hasAccessibility =
+      register.scholarships?.quotas_offered?.some(
+        (quota: any) => quota.quotas_type === 'Cotas PCD'
+      ) ||
+      inep.attendanceRestriction === 'ESCOLA ATENDE EXCLUSIVAMENTE ALUNOS COM DEFICIÊNCIA';
 
     return {
       id: data._id,
       photo,
       name,
+      characteristics: this.getCharacteristics(data),
       city: inep.address?.city || emec.address?.city || fiscal.address?.city || cebas.address?.city || register.address?.city || '',
       fiscal,
       emec,
       inep,
       cebas,
       register,
+      isVerified,
+      isFist,
+      isInstitution,
+      hasAccessibility,
       latitude: lat,
       longitude: lng,
-      hasValidCoordinates: lat !== undefined && lng !== undefined,
-      randomIcon: randomIcon,
-      markerColor,
-      characteristics,
+      hasValidCoordinates,
+      randomIcon,
       quotasType,
       institutionInep,
-      rating
+      rating,
+      educationLevel: this.getEducationLevel(data),
+      locationSource,
+      coordinates,
+      showMap
     };
+  }
+
+  getEducationLevel(institution: any): string {
+    const register = institution.registerInstitution || {};
+    const inep = institution.inep || {};
+
+    let educationLevelArr: string[] = [];
+
+    if (register.education_level) {
+      if (Array.isArray(register.education_level)) {
+        educationLevelArr = register.education_level;
+      } else if (typeof register.education_level === 'string') {
+        educationLevelArr = [register.education_level];
+      }
+    } else if (institution.emec && institution.emec > 0) {
+      educationLevelArr = ['Graduação'];
+    } else if (inep.offeredEducationStagesAndModalities) {
+      if (Array.isArray(inep.offeredEducationStagesAndModalities)) {
+        educationLevelArr = inep.offeredEducationStagesAndModalities;
+      } else if (typeof inep.offeredEducationStagesAndModalities === 'string') {
+        educationLevelArr = [inep.offeredEducationStagesAndModalities];
+      }
+    }
+
+    return educationLevelArr.length > 0 ? educationLevelArr.join(', ') : '';
   }
 
   private checkAndFetchMoreInstitutions(): void {
@@ -646,10 +889,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const minVisibleThreshold = zoomLevel > 12 ? 1000 : 500;
 
     if (visibleInstitutions.length < minVisibleThreshold && this.hasMore && (!this.lastBounds || !this.lastBounds.equals(bounds))) {
-      console.log(`Fetching more institutions: ${visibleInstitutions.length} visible, threshold: ${minVisibleThreshold}`);
       this.fetchEventSubject.next();
     } else if (visibleInstitutions.length >= minVisibleThreshold && this.institutions.length < this.maxLimit && this.hasMore) {
-      console.log(`Fetching more due to nearing plotting limit: ${visibleInstitutions.length} visible, maxLimit: ${this.maxLimit}`);
       this.fetchEventSubject.next();
     } else {
       console.log('No additional fetch needed:', {
@@ -661,81 +902,70 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private plotVisibleMarkers(): void {
-    if (!this.map || !this.markerClusterGroup) {
-      console.error('Map or marker cluster group not initialized, cannot plot markers');
+    if (!this.map || !this.markerClusterGroup || !this.institutions.length) {
+      console.warn('Map, marker cluster group, or institutions not initialized');
       return;
     }
 
-    this.markerClusterGroup.clearLayers();
+    this.markerClusterService.clearMarkers();
 
     const bounds = this.map.getBounds();
-    const zoomLevel = this.map.getZoom();
+    const visibleInstitutions = this.institutions.filter(inst =>
+      inst.hasValidCoordinates && inst.latitude && inst.longitude && bounds.contains([inst.latitude, inst.longitude])
+    );
 
-    const visibleInstitutions = this.institutions.filter(inst => {
-      if (!inst.hasValidCoordinates) return false;
-      return bounds.contains([inst.latitude, inst.longitude]);
+    const customIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      iconSize: [20, 25],
+      iconAnchor: [10, 25],
+      popupAnchor: [0, -25]
     });
 
-    const baseMaxMarkers = 2000;
-    const zoomMultiplier = Math.max(1, Math.floor(zoomLevel / 2));
-    const maxMarkers = Math.min(baseMaxMarkers * zoomMultiplier, visibleInstitutions.length);
-
-    const institutionsToPlot = visibleInstitutions.slice(0, maxMarkers);
-
-    institutionsToPlot.forEach(institution => {
-      const customIcon = L.icon({
-        iconUrl: institution.markerColor,
-        iconSize: [31, 31],
-        iconAnchor: [15.5, 15.5],
-        popupAnchor: [0, -15.5]
-      });
-
-      const rating = institution.review?.rating || 0;
+    visibleInstitutions.forEach(institution => {
+      const marker = L.marker([institution.latitude, institution.longitude], { icon: customIcon });
+      const rating = institution.rating || 0;
+      const characteristics = institution.characteristics || 'Não informado';
+      const educationLevel = institution.educationLevel || '';
+      const associationType = institution.register?.institution_type === 'Matriz' || institution.register?.institution_type === 'MATRIX'
+        ? 'Matriz'
+        : institution.register?.institution_type || institution.fiscal?.type || 'Filial';
+      const isVerified = institution.isVerified ? 'Verificado' : '';
+      const randomIcon = institution.randomIcon || '/assets/icons/fallback-logo.png';
       const address = this.getCleanAddress(institution) || 'Endereço não disponível';
-      const details = institution.characteristics || 'Sem detalhes';
-      const randomIcon = this.institutionIconService.getRandomIcon();
-
-
-      const tooltipContent = `
-        <div class="custom-tooltip-content">
+      const tooltipContent =
+        `<div class="custom-tooltip-content">
           <div class="tooltip-body">
-            <div class="tooltip-logo">
-              <img src="${randomIcon}" alt="Logo" class="tooltip-logo-img" onerror="this.src='/assets/icons/fallback-logo.png'" />
+           <div class="tooltip-logo">
+             <img src="${randomIcon}" alt="Logo" class="tooltip-logo-img" onerror="this.src='/assets/icons/fallback-logo.png'" />
+           </div>
+          <div class="tooltip-text">
+            <div class="tooltip-header">
+              <strong>${institution.name || 'Nome não disponível'}</strong>
+              <span>${rating} ★</span>
             </div>
-            <div class="tooltip-text">
-              <div class="tooltip-header">
-               <strong>${institution.name || 'Nome não disponível'}</strong>
-               <span>${rating} ★</span>
-              </div>
-              <p>${address}</p>
-              <p>${details}</p>
-            </div>
+           <p>${address}</p>
+            <p>${characteristics}</p>
+            <p>${associationType}, ${educationLevel} ${isVerified ? `| ${isVerified}` : ''}</p>
           </div>
         </div>
-      `;
+      </div>`;
 
-      const marker = L.marker([institution.latitude, institution.longitude], {
-        icon: customIcon,
-        zIndexOffset: 1000
-      })
-        .bindPopup(institution.name)
-        .bindTooltip(tooltipContent, {
-          direction: 'right',
-          offset: [0, -20],
-          className: 'custom-tooltip',
-          permanent: false
-        })
-        .on('click', () => this.navigateToProfile(institution.id));
+      marker.bindTooltip(tooltipContent, {
+        className: 'custom-tooltip'
+      }).on('click', (e) => {
+        const target = e.target as L.Marker;
+        if (target.getTooltip()?.isOpen()) {
+          target.closeTooltip();
+          this.navigateToProfile(institution.id);
+        } else {
+          target.openTooltip();
+        }
+      });
 
-      this.markerClusterGroup.addLayer(marker);
+      this.markerClusterService.addMarker(marker);
     });
 
-    this.filteredInstitutions = institutionsToPlot;
-    console.log(`Plotted ${institutionsToPlot.length} markers out of ${visibleInstitutions.length} visible institutions (max: ${maxMarkers})`);
-
-    if (institutionsToPlot.length === 0) {
-      console.warn('No visible markers to plot in the current map bounds');
-    }
+    this.filteredInstitutions = visibleInstitutions;
   }
 
   private navigateToProfile(institutionId: string): void {
@@ -755,11 +985,68 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.someFullModalIsOpenService.setCurrentData(b);
   }
 
+  getCharacteristics(data: any): string {
+    const fiscal = data.fiscal || {};
+    const inep = data.inep || {};
+    const emec = data.emec || {};
+    const cebas = data.cebas || {};
+    const register = data.registerInstitution || {};
+
+    const characteristics: string[] = [];
+
+    if (fiscal.juridicName) {
+      characteristics.push(fiscal.juridicName);
+    }
+
+    if (register.institution_type) {
+      characteristics.push(register.institution_type === 'Matriz' || register.institution_type === 'MATRIX' ? 'Matriz' : 'Filial');
+    } else if (fiscal.type) {
+      characteristics.push(fiscal.type);
+    }
+
+    if (emec.academicorganization) {
+      characteristics.push(emec.academicorganization);
+    }
+
+    if (inep.privateschoolCategory) {
+      characteristics.push(`Escola ${inep.privateschoolCategory}`);
+    }
+
+    if (emec.accreditationType) {
+      characteristics.push(emec.accreditationType);
+    }
+
+    if (register.administrative_category) {
+      characteristics.push(
+        register.administrative_category === 'PRIVATE_NON_PROFIT' || register.administrative_category === 'Sem fins lucrativos'
+          ? 'Sem fins lucrativos'
+          : 'Com fins lucrativos'
+      );
+    } else if (emec.administrativeCategory) {
+      characteristics.push(
+        emec.administrativeCategory === 'PRIVATE_NON_PROFIT' || emec.administrativeCategory === 'Sem fins lucrativos'
+          ? 'Sem fins lucrativos'
+          : 'Com fins lucrativos'
+      );
+    } else if (inep.administrativeCategory) {
+      characteristics.push(
+        inep.administrativeCategory === 'PRIVATE_NON_PROFIT' || inep.administrativeCategory === 'Sem fins lucrativos'
+          ? 'Sem fins lucrativos'
+          : 'Com fins lucrativos'
+      );
+    }
+
+    if (cebas.ordinance && cebas.ordinance !== '' && cebas.ordinance !== '----') {
+      characteristics.push(`CEBAS (${cebas.ordinance})`);
+    }
+
+    return characteristics.length > 0 ? characteristics.join(', ') : 'Não informado';
+  }
+
   getCleanAddress(data: any): string {
     const fiscal = data.fiscal || {};
     const emec = data.emec || {};
     const inep = data.inep || {};
-    const cebas = data.cebas || {};
     const register = data.registerInstitution || {};
 
     let address = '';
@@ -769,10 +1056,30 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       address = emec.address.address;
     } else if (fiscal.address?.address) {
       address = fiscal.address.address;
-    } else if (cebas.address?.address) {
-      address = cebas.address.address;
     } else if (register.address?.address) {
-      address = register.address.address;
+      const street = register.address.address || '';
+      const number = register.address.number ? String(register.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else {
+      return 'Endereço não disponível';
+    }
+
+    if (register.address?.address) {
+      const street = register.address.address || '';
+      const number = register.address.number ? String(register.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else if (fiscal.address?.address) {
+      const street = fiscal.address.address || '';
+      const number = fiscal.address.number ? String(fiscal.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else if (inep.address?.address) {
+      const street = inep.address.address || '';
+      const number = inep.address.number ? String(inep.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
+    } else if (emec.address?.address) {
+      const street = emec.address.address || '';
+      const number = emec.address.number ? String(emec.address.number) : '';
+      address = number ? `${street}, ${number}` : street;
     } else {
       return 'Endereço não disponível';
     }
@@ -826,7 +1133,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       delete updatedQuery.maxLat;
       delete updatedQuery.minLon;
       delete updatedQuery.maxLon;
-      delete updatedQuery.coordinates;
 
       if (filters.rating === 0 || filters.rating === undefined) {
         delete updatedQuery.rating;
@@ -847,10 +1153,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (
           value !== undefined &&
           value !== null &&
-          value !== '' &&
+          (typeof value !== 'string' || value.trim() !== '') &&
           (!Array.isArray(value) || value.length > 0)
         ) {
-          queryParams[key] = Array.isArray(value) ? value.join(',') : (key === 'coordinates' ? JSON.stringify(value) : value);
+          if (['phone', 'email', 'site'].includes(key)) {
+            queryParams[key] = value === true ? 'true' : null;
+          } else {
+            queryParams[key] = Array.isArray(value) ? value.join(',') : value.toString();
+          }
         }
       }
 
@@ -873,21 +1183,25 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.searchText = '';
     this.query = {
-      name: '',
-      cnpj: '',
-      zipCode: '',
-      address: '',
-      city: '',
-      state: '',
-      offeredEducationStagesAndModalities: [],
-      juridicName: '',
-      type: '',
-      academicOrganization: '',
-      openingdateBegin: '',
-      openingdateEnd: '',
+      name: undefined,
+      cnpj: undefined,
+      zipCode: undefined,
+      city: undefined,
+      address: undefined,
+      state: undefined,
+      juridicName: undefined,
+      type: undefined,
+      academicOrganization: undefined,
+      openingdateBegin: undefined,
+      openingdateEnd: undefined,
       rating: undefined,
       coordinates: undefined,
       educationLevelSource: undefined,
+      acessibility: undefined,
+      phone: undefined,
+      email: undefined,
+      site: undefined,
+      scholarshipPolicy: undefined,
       minLat: undefined,
       maxLat: undefined,
       minLon: undefined,
@@ -914,44 +1228,53 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasActiveFilters(): boolean {
     const hasFilters = !!(
-      this.query.name ||
-      this.query.city ||
-      this.query.state ||
-      this.query.address ||
-      this.query.offeredEducationStagesAndModalities?.length ||
+      this.query.name?.trim() ||
+      this.query.cnpj?.trim() ||
+      this.query.zipCode?.trim() ||
+      this.query.city?.trim() ||
+      this.query.address?.trim() ||
+      this.query.state?.trim() ||
+      this.query.juridicName?.trim() ||
+      this.query.type?.trim() ||
+      this.query.academicOrganization?.trim() ||
+      this.query.openingdateBegin?.trim() ||
+      this.query.openingdateEnd?.trim() ||
+      this.query.rating !== undefined ||
+      this.query.coordinates ||
       this.query.educationLevelSource ||
-      this.query.zipCode ||
-      this.query.cnpj ||
-      this.query.juridicName ||
-      this.query.type ||
-      this.query.academicOrganization?.length ||
-      this.query.openingdateBegin ||
-      this.query.openingdateEnd ||
-      this.query.rating
+      (this.query.acessibility && this.query.acessibility.length > 0) ||
+      this.query.phone === true ||
+      this.query.email === true ||
+      this.query.site === true ||
+      this.query.scholarshipPolicy?.trim()
     );
     this.updateActiveFilterCount();
     return hasFilters;
   }
 
   updateActiveFilterCount(): void {
-    this.activeFilterCount = 0;
     const filterFields = [
-      this.query.name,
-      this.query.city,
-      this.query.state,
-      this.query.address,
-      this.query.offeredEducationStagesAndModalities?.length ? true : false,
+      this.query.name?.trim(),
+      this.query.cnpj?.trim(),
+      this.query.zipCode?.trim(),
+      this.query.city?.trim(),
+      this.query.address?.trim(),
+      this.query.state?.trim(),
+      this.query.juridicName?.trim(),
+      this.query.type?.trim(),
+      this.query.academicOrganization?.trim(),
+      this.query.openingdateBegin?.trim(),
+      this.query.openingdateEnd?.trim(),
+      this.query.rating !== undefined ? this.query.rating : null,
+      this.query.coordinates,
       this.query.educationLevelSource,
-      this.query.zipCode,
-      this.query.cnpj,
-      this.query.juridicName,
-      this.query.type,
-      this.query.academicOrganization,
-      this.query.openingdateBegin,
-      this.query.openingdateEnd,
-      this.query.rating,
+      (this.query.acessibility && this.query.acessibility.length > 0) ? this.query.acessibility : null,
+      this.query.phone === true ? true : null,
+      this.query.email === true ? true : null,
+      this.query.site === true ? true : null,
+      this.query.scholarshipPolicy?.trim(),
     ];
-    this.activeFilterCount = filterFields.filter(Boolean).length;
+    this.activeFilterCount = filterFields.filter((field) => field !== null && field !== undefined).length;
   }
 
   onSearchChange(): void {
@@ -962,7 +1285,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         (coordinates: [number, number] | null) => {
           if (coordinates) {
             this.map.setView(coordinates, 11);
-            this.checkAndFetchMoreInstitutions();
+            this.query.city = trimmedSearchText;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { city: trimmedSearchText },
+              queryParamsHandling: 'merge',
+              replaceUrl: true,
+            });
+            this.loadAllInstitutions();
           } else {
             this.toastr.warning('Cidade não encontrada.');
           }
@@ -981,6 +1311,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         queryParamsHandling: 'merge',
         replaceUrl: true,
       });
+      this.loadAllInstitutions();
     }
 
     this.updateActiveFilterCount();

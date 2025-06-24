@@ -1,0 +1,85 @@
+.modal-container {
+  max-width: 430px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.modal-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #215068;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.close-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+.btn-primary {
+  background-color: #5994a9;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  min-width: 120px;
+
+  &:hover {
+    background-color: #31b0d5;
+  }
+}
+
+.btn-secondary {
+  background-color: #ffe5b4;
+  color: #d68b00;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  min-width: 120px;
+
+  &:hover {
+    background-color: #ffd396;
+  }
+}
+
+/* Faz os botões diminuírem juntos conforme a tela for estreitando */
+@media (max-width: 480px) {
+  .btn-primary, .btn-secondary {
+    font-size: 0.9rem;
+    min-width: 100px;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}

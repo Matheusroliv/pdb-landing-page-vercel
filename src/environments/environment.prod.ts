@@ -7,5 +7,4 @@ export const environment = {
   },
 
   encrypt_key: '43247d04-d921-419f-992b-6df7c0a27350',
-
 };

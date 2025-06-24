@@ -15,7 +15,7 @@ export default class LocalStorageUtil {
   public static remove(key: LocalStorageKeys) {
     localStorage.removeItem(key);
   }
-  
+
 }
 export enum LocalStorageKeys {
   user = 'user'

@@ -1,0 +1,21 @@
+<div class="modal-container px-3 py-4 position-relative mx-auto">
+  <div class="modal-header d-flex justify-content-between align-items-center position-relative">
+    <h4 class="modal-title mb-0">Permitir Localização</h4>
+    <img src="assets/icons/x-red.svg" class="close-icon position-absolute end-0 me-3"
+      (click)="activeModal.dismiss('cancel')">
+  </div>
+
+  <div class="modal-body text-center">
+    <p class="modal-text">
+      Deseja compartilhar sua localização para centralizar o mapa na sua posição atual?
+    </p>
+  </div>
+
+  <div class="modal-footer d-flex justify-content-center gap-2 flex-wrap">
+    <button type="button" class="btn btn-secondary flex-fill" (click)="denyLocation()">Não</button>
+    <button type="button" class="btn btn-primary flex-fill" (click)="allowLocation()">Sim</button>
+  </div>
+
+  <img src="./assets/icons/detail-up-modal.svg" class="position-absolute img-fluid detail-img top-0 start-0" />
+  <img src="./assets/icons/detail-down-modal.svg" class="position-absolute img-fluid detail-img bottom-0 end-0" />
+</div>

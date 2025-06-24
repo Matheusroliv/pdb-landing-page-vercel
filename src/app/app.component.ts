@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { hideFooterService } from './service/hide-footer.service';
 import { currentPageService } from './service/currentPage.service';
+import { hideFooterService } from './service/hide-footer.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 
 export class AppComponent implements OnInit {
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     private hideFooterService: hideFooterService,
     private currentPageService: currentPageService,
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.hideFooterService.hidefooter.subscribe(data => {

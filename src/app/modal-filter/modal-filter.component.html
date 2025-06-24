@@ -1,17 +1,12 @@
 <div id="modal-filter" class="bg-white py-3 px-3">
   <div class="d-flex justify-content-between">
-    <img
-      src="./assets/icons/x-red.svg"
-      width="16px"
-      height="24px"
-      style="opacity: 0"
-    />
+    <img src="./assets/icons/x-red.png" width="16px" style="opacity: 0" />
     <p class="f-size-20px primary-text mb-0">Filtros</p>
     <img
       (click)="closeModal()"
       src="./assets/icons/x-red.svg"
       width="16px"
-      height="24px"
+      height="16px"
       class="position-relative cursor-pointer"
       style="top: 4px"
     />
@@ -87,6 +82,108 @@
 
     <form [formGroup]="formInstitution" *ngIf="institutionFilter" class="mt-3">
       <div class="mt-3">
+        <div class="d-flex flex-wrap gap-2 mt-2">
+          <label
+            class="d-flex align-items-center cursor-pointer"
+            [class.active]="isAccessibilitySelected('Cotas raciais')"
+          >
+            <input
+              type="checkbox"
+              value="Cotas raciais"
+              (change)="updateAccessibility($event)"
+            />
+            <span class="f-size-14px primary-text ms-2">Cotas raciais</span>
+          </label>
+          <label
+            class="d-flex align-items-center cursor-pointer"
+            [class.active]="isAccessibilitySelected('PCD')"
+          >
+            <input
+              type="checkbox"
+              value="PCD"
+              (change)="updateAccessibility($event)"
+            />
+            <span class="f-size-14px primary-text ms-2">PCD</span>
+          </label>
+          <label
+            class="d-flex align-items-center cursor-pointer"
+            [class.active]="isAccessibilitySelected('Verificado')"
+          >
+            <input
+              type="checkbox"
+              value="Verificado"
+              (change)="updateAccessibility($event)"
+            />
+            <span class="f-size-14px primary-text ms-2">Verificado</span>
+          </label>
+        </div>
+      </div>
+      <div class="mt-3">
+        <p class="f-size-14px primary-text fw-600 mb-0">Política de bolsas</p>
+        <div
+          class="w-100 position-relative d-flex justify-content-end align-items-center"
+        >
+          <select
+            (change)="updateShowSelectPlaceholder2()"
+            class="mt-2 w-100 px-2 cursor-pointer"
+            [class.placeholder-color]="!showSelectPlaceholder2"
+            formControlName="scholarshipPolicy"
+          >
+            <option value="" [class.d-none]="showSelectPlaceholder2">
+              Selecione
+            </option>
+            <option value="Integral">Integral</option>
+            <option value="Parcial">Parcial</option>
+            <option value="CEBAS">CEBAS</option>
+            <option value="Prouni">Prouni</option>
+            <option value="Livre iniciativa da instituição">
+              Livre iniciativa da instituição
+            </option>
+          </select>
+          <img
+            src="./assets/icons/arrow-bottom-gray.svg"
+            class="position-absolute pt-2"
+            style="right: 10px"
+          />
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-2 justify-content-between">
+          <label
+            class="d-flex align-items-center cursor-pointer"
+            [class.active]="formInstitution.get('phone')?.value"
+          >
+            <input
+              type="checkbox"
+              formControlName="phone"
+              (change)="updateShowSelectPlaceholder3()"
+            />
+            <span class="f-size-14px primary-text ms-2">Telefone</span>
+          </label>
+          <label
+            class="d-flex align-items-center cursor-pointer"
+            [class.active]="formInstitution.get('email')?.value"
+          >
+            <input
+              type="checkbox"
+              formControlName="email"
+              (change)="updateShowSelectPlaceholder3()"
+            />
+            <span class="f-size-14px primary-text ms-2">E-mail</span>
+          </label>
+          <label
+            class="d-flex align-items-center cursor-pointer"
+            [class.active]="formInstitution.get('site')?.value"
+          >
+            <input
+              type="checkbox"
+              formControlName="site"
+              (change)="updateShowSelectPlaceholder3()"
+            />
+            <span class="f-size-14px primary-text ms-2">Site</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mt-3">
         <p class="f-size-14px primary-text fw-600 mb-0">Nível de ensino</p>
         <div
           class="w-100 position-relative d-flex justify-content-end align-items-center"
@@ -100,12 +197,16 @@
             <option value="" [class.d-none]="showSelectPlaceholder2">
               Selecione
             </option>
-            <option value="INFANT">Ensino Infantil</option>
-            <option value="PRIMARY">Ensino Fundamental</option>
-            <option value="YOUNG_ADULTS">Educação de Jovens e Adultos</option>
-            <option value="SECONDARY">Ensino Médio</option>
-            <option value="PROFESSIONAL">Educação Profissional</option>
-            <option value="GRADUATION">Graduação</option>
+            <option value="Cursinho">Cursinho</option>
+            <option value="Ensino Infantil">Ensino Infantil</option>
+            <option value="Ensino Fundamental">Ensino Fundamental</option>
+            <option value="Educação de Jovens e Adultos">
+              Educação de Jovens e Adultos
+            </option>
+            <option value="Ensino Médio">Ensino Médio</option>
+            <option value="Educação Profissional">Educação Profissional</option>
+            <option value="Graduação">Graduação</option>
+            <option value="Pós-Graduação">Pós-Graduação</option>
           </select>
           <img
             src="./assets/icons/arrow-bottom-gray.svg"
@@ -212,6 +313,7 @@
                 formControlName="dataBegin"
                 (input)="formatDateInput($event, 'dataBegin')"
                 class="w-100 h-100 px-2 f-size-data"
+                placeholder="01/01/2020"
               />
               <img
                 src="./assets/icons/calendar.svg"
@@ -231,6 +333,7 @@
                 formControlName="dataEnd"
                 (input)="formatDateInput($event, 'dataEnd')"
                 class="w-100 h-100 px-2 f-size-data"
+                placeholder="01/01/2020"
               />
               <img
                 src="./assets/icons/calendar.svg"
@@ -250,7 +353,12 @@
         >
           <div
             class="rounded-circle position-absolute d-flex align-items-center justify-content-center"
-            style="width: 19px; height: 19px; background-color: #5994a9"
+            style="
+              width: 19px;
+              height: 19px;
+              background-color: #5994a9;
+              color: white;
+            "
             [class.position-avaliacao0]="avaliacao == 0"
             [class.position-avaliacao1]="avaliacao == 1"
             [class.position-avaliacao2]="avaliacao == 2"
@@ -282,6 +390,7 @@
 
   <div
     class="mt-4 button d-flex align-items-center justify-content-center w-100 cursor-pointer"
+    style="color: white"
     (click)="apply()"
   >
     <span class="white fw-600 f-size-16px">Aplicar</span>
